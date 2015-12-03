@@ -4,24 +4,26 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 #include "gl/program.h"
 #include "gl/vertexarray.h"
 #include "gl/vertexbuffer.h"
+#include "status.h"
 
 class Window {
 public:
     Window();
     ~Window();
 
-    int create();
+    Status create();
     void destroy();
 
     void init();
     void draw();
     void update();
 
-    int shouldClose();
+    Status shouldClose();
 private:
     GLFWwindow* p_window;
 

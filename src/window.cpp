@@ -3,8 +3,6 @@
 #include <iostream>
 #include <unistd.h>
 
-#include <glm/gtc/matrix_transform.hpp>
-
 #define WIDTH 640
 #define HEIGHT 480
 
@@ -38,8 +36,8 @@ void focus_callback(GLFWwindow* window, int focused)
 
 void handle_mouse(GLFWwindow* window)
 {
-    double middle_x = WIDTH/2.0;
-    double middle_y = HEIGHT/2.0;
+    double middle_x = WIDTH / 2.0;
+    double middle_y = HEIGHT / 2.0;
 
     double x, y;
     glfwGetCursorPos(window, &x, &y);
@@ -61,13 +59,13 @@ Window::~Window()
     this->destroy();
 }
 
-int Window::create()
+Status Window::create()
 {
     // Initialise GLFW
     if (!glfwInit())
     {
         std::cerr << "Failed to initialize GLFW" << std::endl;
-        return -1;
+        return STATUS_ERR;
     }
 
     glfwWindowHint(GLFW_SAMPLES, 4);                               // 4x antialiasing
@@ -81,23 +79,23 @@ int Window::create()
     {
         std::cerr << "Failed to open GLFW window." << std::endl;
         glfwTerminate();
-        return -1;
+        return STATUS_ERR;
     }
     glfwMakeContextCurrent(this->p_window);
 
     // Initialize GLEW
     glewExperimental = true;
-    if (glewInit() != GLEW_OK)
+    if (glewInit() != STATUS_OK)
     {
         std::cerr << "Failed to initialize GLEW" << std::endl;
-        return -1;
+        return STATUS_ERR;
     }
 
     glfwSetInputMode(this->p_window, GLFW_STICKY_KEYS, GL_TRUE);
     glfwSetKeyCallback(this->p_window, &key_callback);
     glfwSetWindowFocusCallback(this->p_window, &focus_callback);
 
-    return 0;
+    return STATUS_OK;
 }
 
 void Window::init()
@@ -124,7 +122,7 @@ void Window::init()
     );
     glm::mat4 m_model = glm::mat4(1.0f);
 
-    m_mvp = m_projection * m_view * m_model; // Remember, matrix multiplication is the other way around
+    m_mvp = m_projection * m_view * m_model;
 }
     
 void Window::draw()
@@ -139,7 +137,7 @@ void Window::draw()
     glEnableVertexAttribArray(0);
     vbo.bind();
     glVertexAttribPointer(
-       0,                  // attribute 0. No particular reason for 0, but must match the layout in the shader.
+       0,                  // attribute 0
        3,                  // size
        GL_FLOAT,           // type
        GL_FALSE,           // normalized?
@@ -161,9 +159,12 @@ void Window::destroy()
     glfwTerminate();
 }
 
-int Window::shouldClose()
+Status Window::shouldClose()
 {
-    return glfwWindowShouldClose(this->p_window);
+    if (glfwWindowShouldClose(this->p_window))
+        return STATUS_OK;
+    else
+        return STATUS_ERR;
 }
 
 void Window::update()
