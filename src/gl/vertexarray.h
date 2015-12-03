@@ -7,9 +7,11 @@ class VertexArray {
 public:
     VertexArray();
     ~VertexArray();
+
     void create();
     void destroy();
     void bind();
+
     GLuint getId();
 private:
     GLuint m_vao;

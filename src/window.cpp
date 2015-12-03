@@ -9,11 +9,11 @@
 #define HEIGHT 480
 
 // An array of 3 vectors which represents 3 vertices
-static const GLfloat g_vertex_buffer_data[] = {
+const std::vector<float> vertex_buffer_data({
    -1.0f, -1.0f, 0.0f,
    1.0f, -1.0f, 0.0f,
    0.0f,  1.0f, 0.0f,
-};
+});
 
 namespace {
 /* Time independent keyboard function */
@@ -122,9 +122,7 @@ void Window::init()
     this->vao.bind();
     this->vbo.create();
     this->vbo.bind();
-    glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
-    // glBufferData(GL_ARRAY_BUFFER, sizeof(float) * shapes[4].mesh.positions.size(),
-                                  // &shapes[4].mesh.positions.front(), GL_STATIC_DRAW);
+    this->vbo.setdata(GL_ARRAY_BUFFER, vertex_buffer_data, GL_STATIC_DRAW);
 
     // Belongs to some camera class or something like it.
     this->matrix = glGetUniformLocation(this->program.getId(), "mvp");

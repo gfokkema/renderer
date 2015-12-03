@@ -8,8 +8,8 @@ find_package (PkgConfig REQUIRED)
 pkg_search_module (GLFW REQUIRED glfw3)
 pkg_search_module (GLEW REQUIRED glew)
 
-include_directories (dependencies/tinyobjloader)
-add_subdirectory (dependencies/tinyobjloader)
+include_directories (external/tinyobjloader)
+add_subdirectory (external/tinyobjloader)
 add_subdirectory (gl)
 
 add_executable (renderer main.cpp window.cpp)

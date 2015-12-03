@@ -11,9 +11,11 @@ class Program {
 public:
     Program();
     ~Program();
+
     void create(std::string, std::string);
     void destroy();
     void use();
+
     GLuint getId();
 private:
     GLuint m_program;
