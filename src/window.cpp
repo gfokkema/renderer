@@ -15,9 +15,9 @@ const std::vector<float> vertex_buffer_data({
    0.0f,  1.0f, 0.0f,
 });
 
-namespace {
 /* Time independent keyboard function */
-void key_callback(GLFWwindow * window, int key, int scancode, int action, int mods) {
+void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
     switch (key) {
     case GLFW_KEY_ESCAPE:
         glfwSetWindowShouldClose(window, 1);
@@ -26,41 +26,30 @@ void key_callback(GLFWwindow * window, int key, int scancode, int action, int mo
 }
 
 /* Focus callback function */
-void focus_callback(GLFWwindow * window, int focused) {
-//    if (focused) {
-//        double middle_x = WIDTH/2.0;
-//        double middle_y = HEIGHT/2.0;
-//        glfwSetCursorPos(window, middle_x, middle_y);
-//        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-//    }
+void focus_callback(GLFWwindow* window, int focused)
+{
+    if (focused) {
+        double middle_x = WIDTH / 2.0;
+        double middle_y = HEIGHT / 2.0;
+        glfwSetCursorPos(window, middle_x, middle_y);
+        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    }
 }
 
-void handle_mouse() {
+void handle_mouse(GLFWwindow* window)
+{
     double middle_x = WIDTH/2.0;
     double middle_y = HEIGHT/2.0;
 
     double x, y;
-    // glfwGetCursorPos(window, &x, &y);
-    if (x < WIDTH && y < HEIGHT) {
+    glfwGetCursorPos(window, &x, &y);
+    if (x < WIDTH && y < HEIGHT)
+    {
         double dx = x - middle_x;
         double dy = y - middle_y;
         if (dx == 0.f && dy == 0.f) return;
     }
-    // glfwSetCursorPos(window, middle_x, middle_y);
-}
-
-/* Time dependent keyboard function */
-void handle_keyboard(float dt) {
-//    if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS) cam.strafe(-1.f, dt);
-//    if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS) cam.strafe(1.f, dt);
-//    if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) cam.move(1.f, dt);
-//    if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) cam.move(-1.f, dt);
-}
-
-void handle_input(float dt) {
-    handle_keyboard(dt);
-    handle_mouse();
-}
+    glfwSetCursorPos(window, middle_x, middle_y);
 }
 
 Window::Window()
@@ -98,7 +87,7 @@ int Window::create()
 
     // Initialize GLEW
     glewExperimental = true;
-    if (!glewInit())
+    if (glewInit() != GLEW_OK)
     {
         std::cerr << "Failed to initialize GLEW" << std::endl;
         return -1;

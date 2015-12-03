@@ -26,7 +26,7 @@ int loadobj()
 int main(int argc, char** argv) {
     Window window;
 
-    if (!window.create())
+    if (window.create() != 0)
     {
         std::cerr << "Failed to create window." << std::endl;
         return -1;

@@ -13,14 +13,18 @@ class Window {
 public:
     Window();
     ~Window();
+
     int create();
     void destroy();
+
     void init();
     void draw();
     void update();
+
     int shouldClose();
 private:
     GLFWwindow* p_window;
+
     Program program;
     VertexArray vao;
     VertexBuffer vbo;
