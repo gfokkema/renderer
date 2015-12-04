@@ -51,6 +51,7 @@ void handle_mouse(GLFWwindow* window)
 }
 
 Window::Window()
+: p_window(nullptr), matrix(0), vbo(GL_ARRAY_BUFFER)
 {
 }
 
@@ -110,7 +111,7 @@ void Window::init()
     this->vao.bind();
     this->vbo.create();
     this->vbo.bind();
-    this->vbo.setdata(GL_ARRAY_BUFFER, vertex_buffer_data, GL_STATIC_DRAW);
+    this->vbo.load(vertex_buffer_data, GL_STATIC_DRAW);
 
     // Belongs to some camera class or something like it.
     this->matrix = glGetUniformLocation(this->program.getId(), "mvp");

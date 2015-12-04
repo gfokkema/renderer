@@ -52,15 +52,15 @@ Status Shader::load(std::string path)
 
 Status Shader::compile()
 {
-    int result;
-    int log_size;
+    int result = 0;
+    int log_size = 0;
 
     std::cout << "Compiling shader." << std::endl;
     glCompileShader(this->m_shader);
     glGetShaderiv(this->m_shader, GL_COMPILE_STATUS, &result);
     glGetShaderiv(this->m_shader, GL_INFO_LOG_LENGTH, &log_size);
 
-    if (log_size > 0) {
+    if (log_size > 1) {
         std::vector<char> shader_log(log_size + 1);
 
         glGetShaderInfoLog(this->m_shader, log_size, NULL, &shader_log.front());

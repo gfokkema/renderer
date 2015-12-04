@@ -30,6 +30,7 @@ private:
     Program program;
     VertexArray vao;
     VertexBuffer vbo;
+
     GLuint matrix;
     glm::mat4 m_mvp;
 };

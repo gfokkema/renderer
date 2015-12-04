@@ -7,18 +7,22 @@
 
 Status loadobj()
 {
+    std::string err;
+
     std::vector<tinyobj::shape_t> shapes;
     std::vector<tinyobj::material_t> materials;
 
-    std::string err;
     // Load our model
-    if (!tinyobj::LoadObj(shapes, materials, err, "../altair.obj", "../")) {
+    if (!tinyobj::LoadObj(shapes, materials, err, "../altair.obj", "../"))
+    {
         std::cerr << "Failed to load obj: " << err << std::endl;
         return STATUS_ERR;
     }
     std::cout << "# shapes   : " << shapes.size() << std::endl;
     std::cout << "# materials: " << materials.size() << std::endl;
-    for (auto i = 0; i < shapes.size(); i++) {
+
+    for (auto i = 0; i < shapes.size(); i++)
+    {
         std::cout << i << " name: " << shapes[i].name << std::endl;
         std::cout << "  size: " << shapes[i].mesh.positions.size() << std::endl;
     }
@@ -26,7 +30,8 @@ Status loadobj()
     return STATUS_OK;
 }
 
-int main(int argc, char** argv) {
+int main(int argc, char** argv)
+{
     Window window;
 
     if (window.create() != STATUS_OK)

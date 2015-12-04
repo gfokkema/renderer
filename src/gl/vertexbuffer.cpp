@@ -1,7 +1,7 @@
 #include "vertexbuffer.h"
 
-VertexBuffer::VertexBuffer()
-: m_vbo(0)
+VertexBuffer::VertexBuffer(GLenum type)
+: m_vbo(0), m_type(type)
 {
 }
 
@@ -22,12 +22,12 @@ void VertexBuffer::destroy()
 
 void VertexBuffer::bind()
 {
-    glBindBuffer(GL_ARRAY_BUFFER, this->m_vbo);
+    glBindBuffer(this->m_type, this->m_vbo);
 }
 
-void VertexBuffer::setdata(GLenum target, std::vector<float> data, GLenum usage)
+void VertexBuffer::load(std::vector<float> data, GLenum usage)
 {
-    glBufferData(target, sizeof(float) * data.size(), &data[0], usage);
+    glBufferData(this->m_type, sizeof(float) * data.size(), &data.front(), usage);
 }
 
 GLuint VertexBuffer::getId()

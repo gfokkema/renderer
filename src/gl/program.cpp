@@ -49,13 +49,16 @@ Status Program::load(std::string vertex, std::string fragment)
     // Check the program
     glGetProgramiv(this->m_program, GL_LINK_STATUS, &result);
     glGetProgramiv(this->m_program, GL_INFO_LOG_LENGTH, &log_size);
-    if (log_size > 0) {
+    if (log_size > 1) {
         std::vector<char> program_log(log_size + 1);
-        glGetProgramInfoLog(this->m_program, log_size, NULL, &program_log[0]);
+        glGetProgramInfoLog(this->m_program, log_size, NULL, &program_log.front());
         std::cout << program_log[0] << std::endl;
     }
     glDetachShader(this->m_program, vertexshader.getId());
     glDetachShader(this->m_program, fragmentshader.getId());
+
+    vertexshader.destroy();
+    fragmentshader.destroy();
 
     return result == GL_TRUE ? STATUS_OK : STATUS_ERR;
 }

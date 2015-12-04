@@ -6,18 +6,19 @@
 
 class VertexBuffer {
 public:
-    VertexBuffer();
+    VertexBuffer(GLenum type);
     ~VertexBuffer();
 
     void create();
     void destroy();
 
     void bind();
-    void setdata(GLenum, std::vector<float>, GLenum);
+    void load(std::vector<float> data, GLenum usage);
 
     GLuint getId();
 private:
     GLuint m_vbo;
+    GLenum m_type;
 };
 
 #endif /* __VERTEXBUFFER_H */
