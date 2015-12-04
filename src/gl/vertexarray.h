@@ -10,6 +10,7 @@ public:
 
     void create();
     void destroy();
+
     void bind();
 
     GLuint getId();

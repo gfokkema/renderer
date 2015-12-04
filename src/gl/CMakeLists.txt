@@ -1,1 +1,1 @@
-add_library (gl loadshader.cpp program.cpp vertexarray.cpp vertexbuffer.cpp)
+add_library (gl program.cpp shader.cpp vertexarray.cpp vertexbuffer.cpp)

@@ -104,7 +104,8 @@ void Window::init()
     glDepthFunc(GL_LESS);
 
     // Belongs to some scene class or something like it.
-    this->program.create("../src/shaders/shader.vertex.c", "../src/shaders/shader.fragment.c");
+    this->program.create();
+    this->program.load("../src/shaders/shader.vertex.c", "../src/shaders/shader.fragment.c");
     this->vao.create();
     this->vao.bind();
     this->vbo.create();

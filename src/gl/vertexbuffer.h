@@ -2,7 +2,6 @@
 #define __VERTEXBUFFER_H
 
 #include <GL/glew.h>
-
 #include <vector>
 
 class VertexBuffer {
@@ -12,6 +11,7 @@ public:
 
     void create();
     void destroy();
+
     void bind();
     void setdata(GLenum, std::vector<float>, GLenum);
 

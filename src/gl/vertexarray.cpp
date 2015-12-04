@@ -1,6 +1,7 @@
 #include "vertexarray.h"
 
 VertexArray::VertexArray()
+: m_vao(0)
 {
 }
 

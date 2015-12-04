@@ -1,6 +1,7 @@
 #include "vertexbuffer.h"
 
 VertexBuffer::VertexBuffer()
+: m_vbo(0)
 {
 }
 
