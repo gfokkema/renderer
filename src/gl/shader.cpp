@@ -1,10 +1,5 @@
 #include "shader.h"
 
-#include <cstdio>
-#include <fstream>
-#include <iostream>
-#include <vector>
-
 Shader::Shader (GLenum type)
 : m_shader(0), m_type(type)
 {

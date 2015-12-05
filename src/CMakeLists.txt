@@ -10,6 +10,9 @@ pkg_search_module (GLEW REQUIRED glew)
 
 include_directories (external/tinyobjloader)
 add_subdirectory (external/tinyobjloader)
+
+include_directories (${PROJECT_SOURCE_DIR})
+
 add_subdirectory (gl)
 
 add_executable (renderer main.cpp window.cpp)

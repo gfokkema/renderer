@@ -1,10 +1,7 @@
 #ifndef __PROGRAM_H
 #define __PROGRAM_H
 
-#include <GL/glew.h>
-#include <string>
-
-#include "../status.h"
+#include "common.h"
 
 class Program {
 public:

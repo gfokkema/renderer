@@ -33,6 +33,7 @@ Status loadobj()
 int main(int argc, char** argv)
 {
     Window window;
+    Context ctx;
 
     if (window.create() != STATUS_OK)
     {
@@ -40,6 +41,7 @@ int main(int argc, char** argv)
         return STATUS_ERR;
     }
 
+    ctx.create();
     window.init();
     loadobj();
 
@@ -47,7 +49,7 @@ int main(int argc, char** argv)
     glfwSetTime(0.0);
     unsigned frames = 0;
     do {
-        window.draw();
+        window.draw(ctx);
         window.update();
 
         // Overflows after a while.
@@ -56,6 +58,7 @@ int main(int argc, char** argv)
     } while (window.shouldClose() != STATUS_OK);
 
     window.destroy();
+    ctx.destroy();
 
     return STATUS_OK;
 }

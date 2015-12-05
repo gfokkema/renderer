@@ -1,17 +1,9 @@
 #include "window.h"
 
-#include <iostream>
 #include <unistd.h>
 
 #define WIDTH 640
 #define HEIGHT 480
-
-// An array of 3 vectors which represents 3 vertices
-const std::vector<float> vertex_buffer_data({
-   -1.0f, -1.0f, 0.0f,
-   1.0f, -1.0f, 0.0f,
-   0.0f,  1.0f, 0.0f,
-});
 
 /* Time independent keyboard function */
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
@@ -51,7 +43,7 @@ void handle_mouse(GLFWwindow* window)
 }
 
 Window::Window()
-: p_window(nullptr), matrix(0), vbo(GL_ARRAY_BUFFER)
+: p_window(nullptr)
 {
 }
 
@@ -101,21 +93,7 @@ Status Window::create()
 
 void Window::init()
 {
-    glEnable(GL_DEPTH_TEST);
-    glDepthFunc(GL_LESS);
-
-    // Belongs to some scene class or something like it.
-    this->program.create();
-    this->program.load("../src/shaders/shader.vertex.c", "../src/shaders/shader.fragment.c");
-    this->vao.create();
-    this->vao.bind();
-    this->vbo.create();
-    this->vbo.bind();
-    this->vbo.load(vertex_buffer_data, GL_STATIC_DRAW);
-
     // Belongs to some camera class or something like it.
-    this->matrix = glGetUniformLocation(this->program.getId(), "mvp");
-    // Projection matrix : 45° Field of View, 4:3 ratio, display range : 0.1 unit <-> 100 units
     glm::mat4 m_projection = glm::perspective(glm::radians(45.0f), (float)WIDTH / (float)HEIGHT, 0.1f, 100.0f);
     glm::mat4 m_view = glm::lookAt(
        glm::vec3(0,0,-2), // Camera is at (0,0,-2), in World Space
@@ -127,17 +105,20 @@ void Window::init()
     m_mvp = m_projection * m_view * m_model;
 }
     
-void Window::draw()
+void Window::draw(Context& ctx)
 {
+    // This should probably not be called multiple times.
+    GLuint matrix = glGetUniformLocation(ctx.program.getId(), "mvp");
+
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    this->program.use();
+    ctx.program.use();
 
     // Send our transformation to the currently bound shader, in the "MVP" uniform
     glUniformMatrix4fv(matrix, 1, GL_FALSE, &m_mvp[0][0]);
 
     // 1st attribute buffer : vertices
     glEnableVertexAttribArray(0);
-    vbo.bind();
+    ctx.vbo.bind();
     glVertexAttribPointer(
        0,                  // attribute 0
        3,                  // size
@@ -154,10 +135,6 @@ void Window::draw()
 
 void Window::destroy()
 {
-    this->program.destroy();
-    this->vbo.destroy();
-    this->vao.destroy();
-
     glfwTerminate();
 }
 

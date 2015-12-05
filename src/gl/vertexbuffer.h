@@ -1,8 +1,7 @@
 #ifndef __VERTEXBUFFER_H
 #define __VERTEXBUFFER_H
 
-#include <GL/glew.h>
-#include <vector>
+#include "common.h"
 
 class VertexBuffer {
 public:

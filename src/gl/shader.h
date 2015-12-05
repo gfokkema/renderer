@@ -1,10 +1,7 @@
 #ifndef GL_SHADER_H_
 #define GL_SHADER_H_
 
-#include <GL/glew.h>
-#include <string>
-
-#include "../status.h"
+#include "common.h"
 
 class Shader {
 public:

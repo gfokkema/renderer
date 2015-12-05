@@ -1,7 +1,7 @@
 #ifndef __VERTEXARRAY_H
 #define __VERTEXARRAY_H
 
-#include <GL/glew.h>
+#include "common.h"
 
 class VertexArray {
 public:
