@@ -25,6 +25,11 @@ void VertexArray::bind()
     glBindVertexArray(this->m_vao);
 }
 
+void VertexArray::unbind()
+{
+    glBindVertexArray(0);
+}
+
 GLuint VertexArray::getId()
 {
     return this->m_vao;

@@ -1,6 +1,5 @@
 #include "window.h"
 
-#include <glm/glm.hpp>
 #include <unistd.h>
 
 #define WIDTH 640
@@ -64,7 +63,7 @@ Status Window::create()
     glfwWindowHint(GLFW_SAMPLES, 4);                               // 4x antialiasing
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);                 // We want OpenGL 3.3
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); //We don't want the old OpenGL
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); // We don't want the old OpenGL
 
     // Open a window and create its OpenGL context
     this->p_window = glfwCreateWindow(WIDTH, HEIGHT, "Renderer", NULL, NULL);
@@ -93,20 +92,18 @@ void Window::destroy()
 void Window::draw(Context& ctx)
 {
     // This should probably not be called this many times.
-    glm::mat4 m_model = glm::mat4(1.0f);
-    glm::mat4 m_mvp = this->m_camera.matrix() * m_model;
-    GLuint matrix = glGetUniformLocation(ctx.program.getId(), "mvp");
+    glm::mat4 model = glm::mat4(1.0f);
+    glm::mat4 mvp = this->m_camera.matrix() * model;
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    ctx.vao.bind();
     ctx.program.use();
-    // ctx.program.send(m_mvp);
+    ctx.program["mvp"].set(mvp);
 
-    // Send our transformation to the currently bound shader, in the "MVP" uniform
-    glUniformMatrix4fv(matrix, 1, GL_FALSE, &m_mvp[0][0]);
-
+    // This should probably be moved to vbo class
     // 1st attribute buffer : vertices
     glEnableVertexAttribArray(0);
-    ctx.vbo.bind();
     glVertexAttribPointer(
        0,                  // attribute 0
        3,                  // size
@@ -116,9 +113,11 @@ void Window::draw(Context& ctx)
        (void*)0            // array buffer offset
     );
 
-    // Draw the triangle !
     glDrawArrays(GL_TRIANGLES, 0, 3);
+
     glDisableVertexAttribArray(0);
+
+    ctx.vao.unbind();
 }
 
 Status Window::shouldClose()

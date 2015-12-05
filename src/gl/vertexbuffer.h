@@ -12,7 +12,8 @@ public:
     void destroy();
 
     void bind();
-    void load(std::vector<float> data, GLenum usage);
+    void load(std::vector<glm::vec3> data, GLenum usage);
+    void unbind();
 
     GLuint getId();
 private:

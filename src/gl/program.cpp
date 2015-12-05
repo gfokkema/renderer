@@ -1,13 +1,9 @@
 #include "program.h"
 
-#include <iostream>
-#include <vector>
-
-#include "shader.h"
-
 std::ostream& operator<<(std::ostream& os, const Uniform& uniform)
 {
     os << "[" << uniform.name << ", "
+       << uniform.location << ", "
        << std::hex << uniform.type << ", "
        << std::dec << uniform.size << "]";
     return os;
@@ -100,6 +96,7 @@ void Program::resolve()
 
         glGetActiveUniform(this->m_program, i, max_name_size, NULL, &uniform.size, &uniform.type, buf);
         uniform.name = std::string(buf);
+        uniform.location = glGetUniformLocation(this->m_program, uniform.name.c_str());
 
         this->m_uniforms.insert(entry(uniform.name, uniform));
     }
@@ -114,6 +111,11 @@ void Program::resolve()
 void Program::use()
 {
     glUseProgram(this->m_program);
+}
+
+Uniform Program::operator[](std::string uniform)
+{
+    return this->m_uniforms[uniform];
 }
 
 GLuint Program::getId()

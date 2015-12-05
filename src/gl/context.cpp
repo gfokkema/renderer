@@ -1,10 +1,10 @@
 #include "context.h"
 
 // An array of 3 vectors which represents 3 vertices
-const std::vector<float> vertex_buffer_data({
-   -1.0f, -1.0f, 0.0f,
-   1.0f, -1.0f, 0.0f,
-   0.0f,  1.0f, 0.0f,
+const std::vector<glm::vec3> vertex_buffer_data({
+    glm::vec3(-1.0f, -1.0f, 0.0f),
+    glm::vec3(1.0f, -1.0f, 0.0f),
+    glm::vec3(0.0f,  1.0f, 0.0f),
 });
 
 Context::Context()
@@ -32,9 +32,9 @@ Status Context::create()
 
     Shader vertexshader(GL_VERTEX_SHADER);
     Shader fragmentshader(GL_FRAGMENT_SHADER);
+
     if (vertexshader.load("../src/shaders/shader.vertex.c")) return STATUS_ERR;
     if (fragmentshader.load("../src/shaders/shader.fragment.c")) return STATUS_ERR;
-
     if (this->program.load(vertexshader, fragmentshader)) return STATUS_ERR;
 
     vertexshader.destroy();
@@ -46,6 +46,9 @@ Status Context::create()
     this->vbo.create();
     this->vbo.bind();
     this->vbo.load(vertex_buffer_data, GL_STATIC_DRAW);
+
+    this->vao.unbind();
+    this->vbo.unbind();
 
     return STATUS_OK;
 }

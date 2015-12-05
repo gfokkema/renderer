@@ -12,6 +12,7 @@ public:
     void destroy();
 
     void bind();
+    void unbind();
 
     GLuint getId();
 private:

@@ -2,6 +2,7 @@
 #define __COMMON_H__
 
 #include <GL/glew.h>
+#include <glm/glm.hpp>
 
 #include <cstdio>
 #include <fstream>

@@ -25,9 +25,14 @@ void VertexBuffer::bind()
     glBindBuffer(this->m_type, this->m_vbo);
 }
 
-void VertexBuffer::load(std::vector<float> data, GLenum usage)
+void VertexBuffer::load(std::vector<glm::vec3> data, GLenum usage)
 {
-    glBufferData(this->m_type, sizeof(float) * data.size(), &data.front(), usage);
+    glBufferData(this->m_type, sizeof(glm::vec3) * data.size(), &data.front(), usage);
+}
+
+void VertexBuffer::unbind()
+{
+    glBindBuffer(this->m_type, this->m_vbo);
 }
 
 GLuint VertexBuffer::getId()

@@ -24,6 +24,7 @@ public:
     void resolve();
 
     void use();
+    Uniform operator[](std::string);
 
     GLuint getId();
 private:

@@ -1,9 +1,6 @@
-#include "window.h"
-
-#include <iostream>
-
 #include "status.h"
 #include "tiny_obj_loader.h"
+#include "window.h"
 
 Status loadobj()
 {
