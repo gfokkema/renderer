@@ -5,7 +5,6 @@
 
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
 
 #include "gl/context.h"
 
@@ -17,7 +16,6 @@ public:
     Status create();
     void destroy();
 
-    void init();
     void draw(Context& ctx);
     void update();
 

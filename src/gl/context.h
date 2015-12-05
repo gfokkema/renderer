@@ -13,7 +13,7 @@ public:
     Context ();
     ~Context ();
 
-    void create();
+    Status create();
     void destroy();
 
     Program program;

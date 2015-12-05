@@ -32,6 +32,8 @@ Status loadobj()
 
 int main(int argc, char** argv)
 {
+    loadobj();
+
     Window window;
     Context ctx;
 
@@ -40,10 +42,11 @@ int main(int argc, char** argv)
         std::cerr << "Failed to create window." << std::endl;
         return STATUS_ERR;
     }
-
-    ctx.create();
-    window.init();
-    loadobj();
+    if (ctx.create() != STATUS_OK)
+    {
+        std::cerr << "Failed to create opengl context." << std::endl;
+        return STATUS_ERR;
+    }
 
     // Set the timer to zero
     glfwSetTime(0.0);

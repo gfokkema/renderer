@@ -1,5 +1,6 @@
 #include "window.h"
 
+#include <glm/gtc/matrix_transform.hpp>
 #include <unistd.h>
 
 #define WIDTH 640
@@ -75,24 +76,10 @@ Status Window::create()
         return STATUS_ERR;
     }
     glfwMakeContextCurrent(this->p_window);
-
-    // Initialize GLEW
-    glewExperimental = true;
-    if (glewInit() != STATUS_OK)
-    {
-        std::cerr << "Failed to initialize GLEW" << std::endl;
-        return STATUS_ERR;
-    }
-
     glfwSetInputMode(this->p_window, GLFW_STICKY_KEYS, GL_TRUE);
     glfwSetKeyCallback(this->p_window, &key_callback);
     glfwSetWindowFocusCallback(this->p_window, &focus_callback);
 
-    return STATUS_OK;
-}
-
-void Window::init()
-{
     // Belongs to some camera class or something like it.
     glm::mat4 m_projection = glm::perspective(glm::radians(45.0f), (float)WIDTH / (float)HEIGHT, 0.1f, 100.0f);
     glm::mat4 m_view = glm::lookAt(
@@ -102,9 +89,16 @@ void Window::init()
     );
     glm::mat4 m_model = glm::mat4(1.0f);
 
-    m_mvp = m_projection * m_view * m_model;
+    this->m_mvp = m_projection * m_view * m_model;
+
+    return STATUS_OK;
 }
-    
+
+void Window::destroy()
+{
+    glfwTerminate();
+}
+
 void Window::draw(Context& ctx)
 {
     // This should probably not be called multiple times.
@@ -112,6 +106,7 @@ void Window::draw(Context& ctx)
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     ctx.program.use();
+    // ctx.program.send(m_mvp);
 
     // Send our transformation to the currently bound shader, in the "MVP" uniform
     glUniformMatrix4fv(matrix, 1, GL_FALSE, &m_mvp[0][0]);
@@ -131,11 +126,6 @@ void Window::draw(Context& ctx)
     // Draw the triangle !
     glDrawArrays(GL_TRIANGLES, 0, 3);
     glDisableVertexAttribArray(0);
-}
-
-void Window::destroy()
-{
-    glfwTerminate();
 }
 
 Status Window::shouldClose()

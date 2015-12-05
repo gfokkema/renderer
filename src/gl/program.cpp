@@ -32,13 +32,13 @@ Status Program::load(std::string vertex, std::string fragment)
 
     Shader vertexshader(GL_VERTEX_SHADER);
     vertexshader.create();
-    vertexshader.load(vertex);
-    vertexshader.compile();
+    if (vertexshader.load(vertex)) return STATUS_ERR;
+    if (vertexshader.compile()) return STATUS_ERR;
 
     Shader fragmentshader(GL_FRAGMENT_SHADER);
     fragmentshader.create();
-    fragmentshader.load(fragment);
-    fragmentshader.compile();
+    if (fragmentshader.load(fragment)) return STATUS_ERR;
+    if (fragmentshader.compile()) return STATUS_ERR;
 
     // Link the program
     std::cout << "Linking program." << std::endl;

@@ -14,21 +14,35 @@ Context::Context()
 
 Context::~Context()
 {
+    this->destroy();
 }
 
-void Context::create()
+Status Context::create()
 {
+    // Initialize GLEW
+    glewExperimental = true;
+    if (glewInit() != STATUS_OK)
+    {
+        std::cerr << "Failed to initialize GLEW" << std::endl;
+        return STATUS_ERR;
+    }
+
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
 
-    // Belongs to some scene class or something like it.
     this->program.create();
-    this->program.load("../src/shaders/shader.vertex.c", "../src/shaders/shader.fragment.c");
+    if(this->program.load("../src/shaders/shader.vertex.c",
+                           "../src/shaders/shader.fragment.c"))
+        return STATUS_ERR;
+
     this->vao.create();
     this->vao.bind();
+
     this->vbo.create();
     this->vbo.bind();
     this->vbo.load(vertex_buffer_data, GL_STATIC_DRAW);
+
+    return STATUS_OK;
 }
 
 void Context::destroy()
