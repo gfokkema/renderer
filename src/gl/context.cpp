@@ -47,6 +47,7 @@ Status Context::create()
     this->vbo.bind();
     this->vbo.load(vertex_buffer_data, GL_STATIC_DRAW);
 
+    this->vao.bindattrib();
     this->vao.unbind();
     this->vbo.unbind();
 
@@ -58,4 +59,20 @@ void Context::destroy()
     this->program.destroy();
     this->vbo.destroy();
     this->vao.destroy();
+}
+
+void Context::draw(Camera& camera)
+{
+    glm::mat4 model = glm::mat4(1.0f);
+    glm::mat4 mvp = camera.matrix() * model;
+
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    vao.bind();
+    program.use();
+    program["mvp"].set(mvp);
+
+    glDrawArrays(GL_TRIANGLES, 0, vertex_buffer_data.size());
+
+    vao.unbind();
 }

@@ -14,6 +14,9 @@ public:
     void bind();
     void unbind();
 
+    void bindattrib();
+    void unbindattrib();
+
     GLuint getId();
 private:
     GLuint m_vao;

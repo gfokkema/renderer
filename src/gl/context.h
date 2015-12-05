@@ -3,6 +3,7 @@
 
 #include "common.h"
 
+#include "camera.h"
 #include "program.h"
 #include "vertexarray.h"
 #include "vertexbuffer.h"
@@ -16,6 +17,8 @@ public:
     Status create();
     void destroy();
 
+    void draw(Camera&);
+private:
     Program program;
     VertexArray vao;
     VertexBuffer vbo;

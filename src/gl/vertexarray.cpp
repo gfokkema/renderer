@@ -30,6 +30,24 @@ void VertexArray::unbind()
     glBindVertexArray(0);
 }
 
+void VertexArray::bindattrib()
+{
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(
+       0,                  // attribute 0
+       3,                  // size
+       GL_FLOAT,           // type
+       GL_FALSE,           // normalized?
+       0,                  // stride
+       (void*)0            // array buffer offset
+    );
+}
+
+void VertexArray::unbindattrib()
+{
+    glDisableVertexAttribArray(0);
+}
+
 GLuint VertexArray::getId()
 {
     return this->m_vao;

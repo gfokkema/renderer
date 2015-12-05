@@ -15,6 +15,8 @@ public:
     void load(std::vector<glm::vec3> data, GLenum usage);
     void unbind();
 
+    void attrib();
+
     GLuint getId();
 private:
     GLuint m_vbo;

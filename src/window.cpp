@@ -91,33 +91,8 @@ void Window::destroy()
 
 void Window::draw(Context& ctx)
 {
-    // This should probably not be called this many times.
-    glm::mat4 model = glm::mat4(1.0f);
-    glm::mat4 mvp = this->m_camera.matrix() * model;
-
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-    ctx.vao.bind();
-    ctx.program.use();
-    ctx.program["mvp"].set(mvp);
-
-    // This should probably be moved to vbo class
-    // 1st attribute buffer : vertices
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(
-       0,                  // attribute 0
-       3,                  // size
-       GL_FLOAT,           // type
-       GL_FALSE,           // normalized?
-       0,                  // stride
-       (void*)0            // array buffer offset
-    );
-
-    glDrawArrays(GL_TRIANGLES, 0, 3);
-
-    glDisableVertexAttribArray(0);
-
-    ctx.vao.unbind();
+    ctx.draw(this->m_camera);
+    glfwSwapBuffers(this->p_window);
 }
 
 Status Window::shouldClose()
@@ -130,6 +105,5 @@ Status Window::shouldClose()
 
 void Window::update()
 {
-    glfwSwapBuffers(this->p_window);
     glfwPollEvents();
 }
