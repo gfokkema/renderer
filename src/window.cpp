@@ -1,6 +1,6 @@
 #include "window.h"
 
-#include <glm/gtc/matrix_transform.hpp>
+#include <glm/glm.hpp>
 #include <unistd.h>
 
 #define WIDTH 640
@@ -44,7 +44,7 @@ void handle_mouse(GLFWwindow* window)
 }
 
 Window::Window()
-: p_window(nullptr)
+: p_window(nullptr), m_camera((float)WIDTH / (float)HEIGHT)
 {
 }
 
@@ -55,7 +55,6 @@ Window::~Window()
 
 Status Window::create()
 {
-    // Initialise GLFW
     if (!glfwInit())
     {
         std::cerr << "Failed to initialize GLFW" << std::endl;
@@ -75,21 +74,13 @@ Status Window::create()
         glfwTerminate();
         return STATUS_ERR;
     }
+
     glfwMakeContextCurrent(this->p_window);
     glfwSetInputMode(this->p_window, GLFW_STICKY_KEYS, GL_TRUE);
     glfwSetKeyCallback(this->p_window, &key_callback);
     glfwSetWindowFocusCallback(this->p_window, &focus_callback);
 
-    // Belongs to some camera class or something like it.
-    glm::mat4 m_projection = glm::perspective(glm::radians(45.0f), (float)WIDTH / (float)HEIGHT, 0.1f, 100.0f);
-    glm::mat4 m_view = glm::lookAt(
-       glm::vec3(0,0,-2), // Camera is at (0,0,-2), in World Space
-       glm::vec3(0,0,0),  // and looks at the origin
-       glm::vec3(0,1,0)   // Head is up (set to 0,-1,0 to look upside-down)
-    );
-    glm::mat4 m_model = glm::mat4(1.0f);
-
-    this->m_mvp = m_projection * m_view * m_model;
+    glfwSetTime(0.0);
 
     return STATUS_OK;
 }
@@ -101,7 +92,9 @@ void Window::destroy()
 
 void Window::draw(Context& ctx)
 {
-    // This should probably not be called multiple times.
+    // This should probably not be called this many times.
+    glm::mat4 m_model = glm::mat4(1.0f);
+    glm::mat4 m_mvp = this->m_camera.m_projection * this->m_camera.m_view * m_model;
     GLuint matrix = glGetUniformLocation(ctx.program.getId(), "mvp");
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

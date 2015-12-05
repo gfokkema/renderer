@@ -48,8 +48,6 @@ int main(int argc, char** argv)
         return STATUS_ERR;
     }
 
-    // Set the timer to zero
-    glfwSetTime(0.0);
     unsigned frames = 0;
     do {
         window.draw(ctx);

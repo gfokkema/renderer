@@ -4,9 +4,9 @@
 #include "common.h"
 
 #include <GLFW/glfw3.h>
-#include <glm/glm.hpp>
 
 #include "gl/context.h"
+#include "camera.h"
 
 class Window {
 public:
@@ -22,8 +22,7 @@ public:
     Status shouldClose();
 private:
     GLFWwindow* p_window;
-
-    glm::mat4 m_mvp;
+    Camera m_camera;
 };
 
 #endif /* __WINDOW_H */
