@@ -94,7 +94,7 @@ void Window::draw(Context& ctx)
 {
     // This should probably not be called this many times.
     glm::mat4 m_model = glm::mat4(1.0f);
-    glm::mat4 m_mvp = this->m_camera.m_projection * this->m_camera.m_view * m_model;
+    glm::mat4 m_mvp = this->m_camera.matrix() * m_model;
     GLuint matrix = glGetUniformLocation(ctx.program.getId(), "mvp");
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

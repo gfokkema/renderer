@@ -3,6 +3,11 @@
 
 #include "common.h"
 
+#include "shader.h"
+#include "uniform.h"
+
+typedef std::pair<std::string, Uniform> entry;
+
 class Program {
 public:
     Program();
@@ -11,12 +16,20 @@ public:
     void create();
     void destroy();
 
-    Status load(std::string, std::string);
+    Status load(Shader, Shader);
+
+    void attach(Shader);
+    void detach(Shader);
+    Status link();
+    void resolve();
+
     void use();
 
     GLuint getId();
 private:
     GLuint m_program;
+
+    std::map<std::string, Uniform> m_uniforms;
 };
 
 #endif /* __PROGRAM_H */

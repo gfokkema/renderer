@@ -30,10 +30,15 @@ Status Context::create()
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
 
-    this->program.create();
-    if(this->program.load("../src/shaders/shader.vertex.c",
-                           "../src/shaders/shader.fragment.c"))
-        return STATUS_ERR;
+    Shader vertexshader(GL_VERTEX_SHADER);
+    Shader fragmentshader(GL_FRAGMENT_SHADER);
+    if (vertexshader.load("../src/shaders/shader.vertex.c")) return STATUS_ERR;
+    if (fragmentshader.load("../src/shaders/shader.fragment.c")) return STATUS_ERR;
+
+    if (this->program.load(vertexshader, fragmentshader)) return STATUS_ERR;
+
+    vertexshader.destroy();
+    fragmentshader.destroy();
 
     this->vao.create();
     this->vao.bind();

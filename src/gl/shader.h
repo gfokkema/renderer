@@ -12,6 +12,8 @@ public:
     void destroy();
 
     Status load(std::string path);
+
+    Status read(std::string path);
     Status compile();
 
     GLuint getId();

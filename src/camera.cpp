@@ -15,3 +15,8 @@ Camera::Camera (float aspect_ratio)
 Camera::~Camera ()
 {
 }
+
+glm::mat4 Camera::matrix()
+{
+    return m_projection * m_view;
+}

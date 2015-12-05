@@ -3,7 +3,6 @@
 Shader::Shader (GLenum type)
 : m_shader(0), m_type(type)
 {
-
 }
 
 Shader::~Shader ()
@@ -22,6 +21,20 @@ void Shader::destroy()
 }
 
 Status Shader::load(std::string path)
+{
+    this->create();
+
+    if (this->read(path) != STATUS_OK)
+        return STATUS_ERR;
+
+    if (this->compile() != STATUS_OK)
+        return STATUS_ERR;
+
+    return STATUS_OK;
+}
+
+
+Status Shader::read(std::string path)
 {
     // Read the Vertex Shader code from the file
     std::string shaderCode;
