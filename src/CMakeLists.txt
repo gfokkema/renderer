@@ -14,7 +14,8 @@ add_subdirectory (external/tinyobjloader)
 include_directories (${PROJECT_SOURCE_DIR})
 
 add_subdirectory (gl)
+add_subdirectory (util)
 
 file (GLOB SOURCES *.cpp)
 add_executable (renderer ${SOURCES})
-target_link_libraries (renderer gl tinyobjloader ${GLFW_LIBRARIES})
+target_link_libraries (renderer gl util tinyobjloader ${GLFW_LIBRARIES})

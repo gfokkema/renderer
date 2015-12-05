@@ -6,7 +6,7 @@
 #include <GLFW/glfw3.h>
 
 #include "gl/context.h"
-#include "camera.h"
+#include "util/camera.h"
 
 class Window {
 public:

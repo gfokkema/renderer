@@ -1,38 +1,11 @@
-#include "status.h"
-#include "tiny_obj_loader.h"
 #include "window.h"
-
-Status loadobj()
-{
-    std::string err;
-
-    std::vector<tinyobj::shape_t> shapes;
-    std::vector<tinyobj::material_t> materials;
-
-    // Load our model
-    if (!tinyobj::LoadObj(shapes, materials, err, "../altair.obj", "../"))
-    {
-        std::cerr << "Failed to load obj: " << err << std::endl;
-        return STATUS_ERR;
-    }
-    std::cout << "# shapes   : " << shapes.size() << std::endl;
-    std::cout << "# materials: " << materials.size() << std::endl;
-
-    for (auto i = 0; i < shapes.size(); i++)
-    {
-        std::cout << i << " name: " << shapes[i].name << std::endl;
-        std::cout << "  size: " << shapes[i].mesh.positions.size() << std::endl;
-    }
-
-    return STATUS_OK;
-}
+#include "util/objmodel.h"
 
 int main(int argc, char** argv)
 {
-    loadobj();
-
     Window window;
     Context ctx;
+    ObjModel model;
 
     if (window.create() != STATUS_OK)
     {
@@ -45,6 +18,8 @@ int main(int argc, char** argv)
         std::cerr << "Failed to create opengl context." << std::endl;
         return STATUS_ERR;
     }
+
+    model.load();
 
     unsigned frames = 0;
     do {

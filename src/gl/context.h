@@ -3,10 +3,10 @@
 
 #include "common.h"
 
-#include "camera.h"
 #include "program.h"
 #include "vertexarray.h"
 #include "vertexbuffer.h"
+#include "util/camera.h"
 
 
 class Context {
