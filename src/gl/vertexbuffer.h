@@ -12,11 +12,11 @@ public:
     void destroy();
 
     void bind();
+    void unbind();
 
     void load(std::vector<float>, GLenum usage);
     void load(std::vector<unsigned>, GLenum usage);
     void load(std::vector<glm::vec3> data, GLenum usage);
-    void unbind();
 
     unsigned size();
 

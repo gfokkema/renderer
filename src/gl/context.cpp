@@ -8,7 +8,7 @@ const std::vector<glm::vec3> vertex_buffer_data({
 });
 
 Context::Context()
-: vbo(GL_ARRAY_BUFFER), vbo_index(GL_ELEMENT_ARRAY_BUFFER)
+: vbo(GL_ARRAY_BUFFER), vbo_index(GL_ELEMENT_ARRAY_BUFFER), texture(GL_TEXTURE_2D)
 {
 }
 
@@ -45,13 +45,19 @@ Status Context::create()
 
     this->vbo.create();
     this->vbo.bind();
+
     this->vbo_index.create();
     this->vbo_index.bind();
     this->vao.bindattrib();
 
+    this->texture.create();
+    this->texture.bind();
+    this->texture.load("../debug_texture.jpg");
+
     this->vao.unbind();
     this->vbo.unbind();
     this->vbo_index.unbind();
+    this->texture.unbind();
 
     return STATUS_OK;
 }
@@ -59,9 +65,10 @@ Status Context::create()
 void Context::destroy()
 {
     this->program.destroy();
+    this->vao.destroy();
     this->vbo.destroy();
     this->vbo_index.destroy();
-    this->vao.destroy();
+    this->texture.destroy();
 }
 
 void Context::draw(Camera& camera, std::vector<tinyobj::shape_t> shapes)
@@ -73,10 +80,12 @@ void Context::draw(Camera& camera, std::vector<tinyobj::shape_t> shapes)
 
     this->program.use();
     this->program["mvp"].set(mvp);
+    this->program["tex"].set(texture);
 
     this->vao.bind();
     this->vbo.bind();
     this->vbo_index.bind();
+    this->texture.bind();
     for (auto shape : shapes)
     {
         this->vbo.load(shape.mesh.positions, GL_STATIC_DRAW);
@@ -92,4 +101,5 @@ void Context::draw(Camera& camera, std::vector<tinyobj::shape_t> shapes)
     this->vao.unbind();
     this->vbo.unbind();
     this->vbo_index.unbind();
+    this->texture.unbind();
 }

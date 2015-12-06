@@ -2,10 +2,10 @@
 
 std::ostream& operator<<(std::ostream& os, const Uniform& uniform)
 {
-    os << "[" << uniform.name << ", "
-       << uniform.location << ", "
-       << std::hex << uniform.type << ", "
-       << std::dec << uniform.size << "]";
+    os << "[name: \"" << uniform.name << "\","
+       << " location: \"" << uniform.location << "\","
+       << " type: \"" << std::hex << uniform.type << "\","
+       << " size: \"" << std::dec << uniform.size << "\"]";
     return os;
 }
 
@@ -102,9 +102,10 @@ void Program::resolve()
     }
 
     // FIXME: DEBUG CODE
+    std::cout << "Program uniforms:" << std::endl;
     for (auto uniform : this->m_uniforms)
     {
-        std::cout << "(" << uniform.first << ", " << uniform.second << ")" << std::endl;
+        std::cout << "  (" << uniform.first << ", " << uniform.second << ")" << std::endl;
     }
 }
 

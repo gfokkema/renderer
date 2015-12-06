@@ -2,10 +2,12 @@
 #define GL_UNIFORM_H_
 
 #include "common.h"
+#include "texture.h"
 
 class Uniform {
 public:
-    void set(glm::mat4);
+    void set(glm::mat4&);
+    void set(Texture&);
 
     std::string name;
     GLuint location;

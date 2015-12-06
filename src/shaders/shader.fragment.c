@@ -1,7 +1,14 @@
 #version 330 core
 
-out vec3 color;
+in vec2 frag_texcoord;
+
+layout(location=0) out vec3 frag_color;
+
+uniform sampler2D tex;
 
 void main() {
-  color = vec3(1, 0, 0);
+//    frag_color = texture(tex, frag_texcoord).rgb;
+
+    vec2 xy = normalize(vec2(gl_FragCoord.xy));
+    frag_color = texture(tex, xy).rgb;
 }
