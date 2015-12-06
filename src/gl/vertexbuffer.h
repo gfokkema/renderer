@@ -2,6 +2,7 @@
 #define __VERTEXBUFFER_H
 
 #include "common.h"
+#include "tiny_obj_loader.h"
 
 class VertexBuffer {
 public:
@@ -12,6 +13,9 @@ public:
     void destroy();
 
     void bind();
+
+    void load(std::vector<float>, GLenum usage);
+    void load(std::vector<unsigned int>, GLenum usage);
     void load(std::vector<glm::vec3> data, GLenum usage);
     void unbind();
 

@@ -7,6 +7,7 @@
 
 #include "gl/context.h"
 #include "util/camera.h"
+#include "util/objmodel.h"
 
 class Window {
 public:
@@ -16,7 +17,7 @@ public:
     Status create();
     void destroy();
 
-    void draw(Context& ctx);
+    void draw(Context&, ObjModel&);
     void update();
 
     Status shouldClose();

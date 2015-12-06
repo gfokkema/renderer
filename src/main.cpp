@@ -3,9 +3,11 @@
 
 int main(int argc, char** argv)
 {
+    ObjModel model;
+    model.load();
+
     Window window;
     Context ctx;
-    ObjModel model;
 
     if (window.create() != STATUS_OK)
     {
@@ -19,11 +21,9 @@ int main(int argc, char** argv)
         return STATUS_ERR;
     }
 
-    model.load();
-
     unsigned frames = 0;
     do {
-        window.draw(ctx);
+        window.draw(ctx, model);
         window.update();
 
         // Overflows after a while.
