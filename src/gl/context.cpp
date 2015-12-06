@@ -64,7 +64,7 @@ void Context::destroy()
     this->vao.destroy();
 }
 
-void Context::draw(Camera& camera, ObjModel& objmodel)
+void Context::draw(Camera& camera)
 {
     glm::mat4 model = glm::mat4(1.0f);
     glm::mat4 mvp = camera.matrix() * model;
@@ -75,15 +75,23 @@ void Context::draw(Camera& camera, ObjModel& objmodel)
     program["mvp"].set(mvp);
 
     vao.bind();
-    this->vbo.load(objmodel.m_shapes[4].mesh.positions, GL_STATIC_DRAW);
-    this->vbo_index.load(objmodel.m_shapes[4].mesh.indices, GL_STATIC_DRAW);
 
     glDrawElements(
-        GL_TRIANGLES,                 // mode
-        objmodel.m_shapes[4].mesh.indices.size(),    // count
-        GL_UNSIGNED_INT,              // type
-        (void*)0                      // element array buffer offset
+        GL_TRIANGLES,            // mode
+        this->vbo_index.size(),  // count
+        GL_UNSIGNED_INT,         // type
+        (void*)0                 // element array buffer offset
     );
 
     vao.unbind();
+}
+
+void Context::update(ObjModel& objmodel)
+{
+    this->vbo.bind();
+    this->vbo.load(objmodel.m_shapes[4].mesh.positions, GL_STATIC_DRAW);
+    this->vbo.unbind();
+    this->vbo_index.bind();
+    this->vbo_index.load(objmodel.m_shapes[4].mesh.indices, GL_STATIC_DRAW);
+    this->vbo_index.unbind();
 }

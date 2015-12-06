@@ -89,9 +89,9 @@ void Window::destroy()
     glfwTerminate();
 }
 
-void Window::draw(Context& ctx, ObjModel& model)
+void Window::draw(Context& ctx)
 {
-    ctx.draw(this->m_camera, model);
+    ctx.draw(this->m_camera);
     glfwSwapBuffers(this->p_window);
 }
 

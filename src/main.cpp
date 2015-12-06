@@ -3,11 +3,9 @@
 
 int main(int argc, char** argv)
 {
-    ObjModel model;
-    model.load();
-
     Window window;
     Context ctx;
+    ObjModel model;
 
     if (window.create() != STATUS_OK)
     {
@@ -20,10 +18,12 @@ int main(int argc, char** argv)
         std::cerr << "Failed to create opengl context." << std::endl;
         return STATUS_ERR;
     }
+    model.load();
+    ctx.update(model);
 
     unsigned frames = 0;
     do {
-        window.draw(ctx, model);
+        window.draw(ctx);
         window.update();
 
         // Overflows after a while.

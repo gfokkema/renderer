@@ -17,7 +17,8 @@ public:
     Status create();
     void destroy();
 
-    void draw(Camera&, ObjModel&);
+    void draw(Camera&);
+    void update(ObjModel&);
 private:
     Program program;
     VertexArray vao;
