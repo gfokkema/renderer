@@ -89,13 +89,17 @@ void Window::destroy()
     glfwTerminate();
 }
 
-void Window::draw(Context& ctx)
+Camera& Window::camera()
 {
-    ctx.draw(this->m_camera);
+    return m_camera;
+}
+
+void Window::refresh()
+{
     glfwSwapBuffers(this->p_window);
 }
 
-Status Window::shouldClose()
+Status Window::should_close()
 {
     if (glfwWindowShouldClose(this->p_window))
         return STATUS_OK;

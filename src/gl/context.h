@@ -4,6 +4,7 @@
 #include "common.h"
 
 #include "program.h"
+#include "tiny_obj_loader.h"
 #include "vertexarray.h"
 #include "vertexbuffer.h"
 #include "util/camera.h"
@@ -17,8 +18,7 @@ public:
     Status create();
     void destroy();
 
-    void draw(Camera&);
-    void update(ObjModel&);
+    void draw(Camera&, std::vector<tinyobj::shape_t>);
 private:
     Program program;
     VertexArray vao;

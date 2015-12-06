@@ -64,34 +64,32 @@ void Context::destroy()
     this->vao.destroy();
 }
 
-void Context::draw(Camera& camera)
+void Context::draw(Camera& camera, std::vector<tinyobj::shape_t> shapes)
 {
     glm::mat4 model = glm::mat4(1.0f);
     glm::mat4 mvp = camera.matrix() * model;
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    program.use();
-    program["mvp"].set(mvp);
+    this->program.use();
+    this->program["mvp"].set(mvp);
 
-    vao.bind();
-
-    glDrawElements(
-        GL_TRIANGLES,            // mode
-        this->vbo_index.size(),  // count
-        GL_UNSIGNED_INT,         // type
-        (void*)0                 // element array buffer offset
-    );
-
-    vao.unbind();
-}
-
-void Context::update(ObjModel& objmodel)
-{
+    this->vao.bind();
     this->vbo.bind();
-    this->vbo.load(objmodel.m_shapes[4].mesh.positions, GL_STATIC_DRAW);
-    this->vbo.unbind();
     this->vbo_index.bind();
-    this->vbo_index.load(objmodel.m_shapes[4].mesh.indices, GL_STATIC_DRAW);
+    for (auto shape : shapes)
+    {
+        this->vbo.load(shape.mesh.positions, GL_STATIC_DRAW);
+        this->vbo_index.load(shape.mesh.indices, GL_STATIC_DRAW);
+
+        glDrawElements(
+            GL_TRIANGLES,            // mode
+            this->vbo_index.size(),  // count
+            GL_UNSIGNED_INT,         // type
+            (void*)0                 // element array buffer offset
+        );
+    }
+    this->vao.unbind();
+    this->vbo.unbind();
     this->vbo_index.unbind();
 }

@@ -19,17 +19,17 @@ int main(int argc, char** argv)
         return STATUS_ERR;
     }
     model.load();
-    ctx.update(model);
 
     unsigned frames = 0;
     do {
-        window.draw(ctx);
+        ctx.draw(window.camera(), model.m_shapes);
+        window.refresh();
         window.update();
 
         // Overflows after a while.
         std::cout << "FPS: " << ++frames / glfwGetTime() << "\r";
         std::flush(std::cout);
-    } while (window.shouldClose() != STATUS_OK);
+    } while (window.should_close() != STATUS_OK);
 
     window.destroy();
     ctx.destroy();

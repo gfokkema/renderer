@@ -16,10 +16,11 @@ public:
     Status create();
     void destroy();
 
-    void draw(Context&);
+    Camera& camera();
+    void refresh();
+    Status should_close();
     void update();
 
-    Status shouldClose();
 private:
     GLFWwindow* p_window;
     Camera m_camera;
