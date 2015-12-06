@@ -14,7 +14,8 @@ public:
     void bind();
     void unbind();
 
-    void bindattrib();
+    void binduvattrib();
+    void bindvertexattrib();
     void unbindattrib();
 
     GLuint getId();

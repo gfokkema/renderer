@@ -32,9 +32,8 @@ void VertexBuffer::unbind()
 
 void VertexBuffer::load(std::vector<float> data, GLenum usage)
 {
-    std::vector<glm::vec3> vertices((glm::vec3*)&data[0],
-                                    (glm::vec3*)&data[data.size()]);
-    this->load(vertices, usage);
+    this->m_size = data.size();
+    glBufferData(this->m_type, sizeof(float) * data.size(), &data.front(), usage);
 }
 
 void VertexBuffer::load(std::vector<unsigned> data, GLenum usage)
@@ -43,11 +42,11 @@ void VertexBuffer::load(std::vector<unsigned> data, GLenum usage)
     glBufferData(this->m_type, sizeof(unsigned) * data.size(), &data.front(), usage);
 }
 
-void VertexBuffer::load(std::vector<glm::vec3> data, GLenum usage)
-{
-    this->m_size = data.size();
-    glBufferData(this->m_type, sizeof(glm::vec3) * data.size(), &data.front(), usage);
-}
+//void VertexBuffer::load(std::vector<glm::vec3> data, GLenum usage)
+//{
+//    this->m_size = data.size();
+//    glBufferData(this->m_type, sizeof(glm::vec3) * data.size(), &data.front(), usage);
+//}
 
 unsigned VertexBuffer::size()
 {

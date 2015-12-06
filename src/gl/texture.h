@@ -13,17 +13,15 @@ public:
 
     void bind();
 
+    void load(int, int);
     void load(std::string);
     void unbind();
 
-    unsigned size();
-    std::vector<unsigned char> pixels();
-
     GLuint getId();
 private:
+    void upload(int, int, unsigned char*);
     GLuint m_tex;
     GLenum m_type;
-    std::vector<unsigned char> m_pixels;
 };
 
 #endif /* GL_TEXTURE_H_ */

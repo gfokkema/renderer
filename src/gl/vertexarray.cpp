@@ -30,8 +30,9 @@ void VertexArray::unbind()
     glBindVertexArray(0);
 }
 
-void VertexArray::bindattrib()
+void VertexArray::bindvertexattrib()
 {
+    // vertex positions
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(
        0,                  // attribute 0
@@ -43,9 +44,24 @@ void VertexArray::bindattrib()
     );
 }
 
+void VertexArray::binduvattrib()
+{
+    // uv mapping for textures
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(
+       1,                  // attribute 0
+       2,                  // size
+       GL_FLOAT,           // type
+       GL_FALSE,           // normalized?
+       0,                  // stride
+       (void*)0            // array buffer offset
+    );
+}
+
 void VertexArray::unbindattrib()
 {
     glDisableVertexAttribArray(0);
+    glDisableVertexAttribArray(1);
 }
 
 GLuint VertexArray::getId()

@@ -22,8 +22,9 @@ public:
     void draw(Camera&, std::vector<tinyobj::shape_t>);
 private:
     Program program;
-    Texture texture;
+    Texture texture, texture2;
     VertexArray vao;
+    VertexBuffer uv;
     VertexBuffer vbo;
     VertexBuffer vbo_index;
 };

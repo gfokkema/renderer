@@ -8,7 +8,8 @@ const std::vector<glm::vec3> vertex_buffer_data({
 });
 
 Context::Context()
-: vbo(GL_ARRAY_BUFFER), vbo_index(GL_ELEMENT_ARRAY_BUFFER), texture(GL_TEXTURE_2D)
+: uv(GL_ARRAY_BUFFER), vbo(GL_ARRAY_BUFFER), vbo_index(GL_ELEMENT_ARRAY_BUFFER),
+  texture(GL_TEXTURE_2D), texture2(GL_TEXTURE_2D)
 {
 }
 
@@ -43,21 +44,29 @@ Status Context::create()
     this->vao.create();
     this->vao.bind();
 
+    this->uv.create();
+    this->uv.bind();
+    this->vao.binduvattrib();
+
     this->vbo.create();
     this->vbo.bind();
-
     this->vbo_index.create();
     this->vbo_index.bind();
-    this->vao.bindattrib();
-
-    this->texture.create();
-    this->texture.bind();
-    this->texture.load("../debug_texture.jpg");
+    this->vao.bindvertexattrib();
 
     this->vao.unbind();
     this->vbo.unbind();
     this->vbo_index.unbind();
+
+    this->texture.create();
+    this->texture.bind();
+    this->texture.load("../debug_texture.jpg");
     this->texture.unbind();
+
+    this->texture2.create();
+    this->texture2.bind();
+    this->texture2.load(512, 512);
+    this->texture2.unbind();
 
     return STATUS_OK;
 }
@@ -83,12 +92,13 @@ void Context::draw(Camera& camera, std::vector<tinyobj::shape_t> shapes)
     this->program["tex"].set(texture);
 
     this->vao.bind();
-    this->vbo.bind();
-    this->vbo_index.bind();
-    this->texture.bind();
     for (auto shape : shapes)
     {
+        this->uv.bind();
+        this->uv.load(shape.mesh.texcoords, GL_STATIC_DRAW);
+        this->vbo.bind();
         this->vbo.load(shape.mesh.positions, GL_STATIC_DRAW);
+        this->vbo_index.bind();
         this->vbo_index.load(shape.mesh.indices, GL_STATIC_DRAW);
 
         glDrawElements(

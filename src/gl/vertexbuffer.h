@@ -16,7 +16,7 @@ public:
 
     void load(std::vector<float>, GLenum usage);
     void load(std::vector<unsigned>, GLenum usage);
-    void load(std::vector<glm::vec3> data, GLenum usage);
+//    void load(std::vector<glm::vec3> data, GLenum usage);
 
     unsigned size();
 

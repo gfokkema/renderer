@@ -2,8 +2,8 @@
 
 #include <unistd.h>
 
-#define WIDTH 640
-#define HEIGHT 480
+#define WIDTH 1024
+#define HEIGHT 768
 
 /* Time independent keyboard function */
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
