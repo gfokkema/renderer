@@ -15,6 +15,8 @@ Context::Context()
 Context::~Context()
 {
     this->destroy();
+    for (auto texture : textures)
+        delete texture;
 }
 
 Status Context::create(std::vector<tinyobj::material_t> materials)

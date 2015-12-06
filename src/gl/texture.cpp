@@ -58,6 +58,8 @@ void Texture::load(std::string path)
 
     unsigned char* buf = new unsigned char[w * h * 3];
     FreeImage_ConvertToRawBits(buf, img, w * 3, 24, 0, 0, 0);
+    FreeImage_Unload(img);
+
     this->upload(w, h, buf);
 }
 
