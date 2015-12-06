@@ -19,7 +19,7 @@ public:
     Status create();
     void destroy();
 
-    void draw(Camera&, std::vector<tinyobj::shape_t>);
+    void draw(Camera&, std::vector<tinyobj::shape_t>, std::vector<tinyobj::material_t>);
 private:
     Program program;
     Texture texture, texture2;

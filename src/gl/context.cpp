@@ -59,14 +59,6 @@ Status Context::create()
     this->vbo_index.unbind();
 
     this->texture.create();
-    this->texture.bind();
-    this->texture.load("../debug_texture.jpg");
-    this->texture.unbind();
-
-    this->texture2.create();
-    this->texture2.bind();
-    this->texture2.load(512, 512);
-    this->texture2.unbind();
 
     return STATUS_OK;
 }
@@ -80,7 +72,9 @@ void Context::destroy()
     this->texture.destroy();
 }
 
-void Context::draw(Camera& camera, std::vector<tinyobj::shape_t> shapes)
+void Context::draw(Camera& camera,
+                   std::vector<tinyobj::shape_t> shapes,
+                   std::vector<tinyobj::material_t> materials)
 {
     glm::mat4 model = glm::mat4(1.0f);
     glm::mat4 mvp = camera.matrix() * model;
@@ -92,8 +86,10 @@ void Context::draw(Camera& camera, std::vector<tinyobj::shape_t> shapes)
     this->program["tex"].set(texture);
 
     this->vao.bind();
+    this->texture.bind();
     for (auto shape : shapes)
     {
+        this->texture.load("../Desmond_Miles/" + materials[shape.mesh.material_ids.front()].diffuse_texname);
         this->uv.bind();
         this->uv.load(shape.mesh.texcoords, GL_STATIC_DRAW);
         this->vbo.bind();

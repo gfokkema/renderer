@@ -13,7 +13,7 @@ Status ObjModel::load()
     std::string err;
 
     // Load our model
-    if (!tinyobj::LoadObj(this->m_shapes, this->m_materials, err, "../cubes.obj", "../"))
+    if (!tinyobj::LoadObj(this->m_shapes, this->m_materials, err, "../Desmond_Miles/Desmond_Miles.obj", "../Desmond_Miles/"))
     {
         std::cerr << "Failed to load obj: " << err << std::endl;
         return STATUS_ERR;

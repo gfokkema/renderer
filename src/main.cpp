@@ -22,7 +22,7 @@ int main(int argc, char** argv)
 
     unsigned frames = 0;
     do {
-        ctx.draw(window.camera(), model.m_shapes);
+        ctx.draw(window.camera(), model.m_shapes, model.m_materials);
         window.refresh();
         window.update();
 

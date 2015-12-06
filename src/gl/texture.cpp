@@ -46,6 +46,7 @@ void Texture::load(int w, int h)
 
 void Texture::load(std::string path)
 {
+    std::cout << "Path: " << path << std::endl;
     FREE_IMAGE_FORMAT format;
     FIBITMAP* img;
     int w, h;
