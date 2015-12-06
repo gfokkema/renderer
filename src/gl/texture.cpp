@@ -34,7 +34,7 @@ void Texture::unbind()
 
 void Texture::load(int w, int h)
 {
-    unsigned char buf[w * h * 3];
+    unsigned char* buf = new unsigned char[w * h * 3];
     for (int i = 0; i < w * h; i++)
     {
         buf[i * 3 + 0] = (unsigned char)255;
@@ -56,7 +56,7 @@ void Texture::load(std::string path)
     w = FreeImage_GetWidth(img);
     h = FreeImage_GetHeight(img);
 
-    unsigned char buf[w * h * 3];
+    unsigned char* buf = new unsigned char[w * h * 3];
     FreeImage_ConvertToRawBits(buf, img, w * 3, 24, 0, 0, 0);
     this->upload(w, h, buf);
 }
@@ -75,6 +75,7 @@ void Texture::upload(int w, int h, unsigned char* buf)
     );
     glTexParameteri(this->m_type, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(this->m_type, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    delete[] buf;
 }
 
 GLuint Texture::getId()

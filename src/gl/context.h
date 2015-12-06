@@ -16,13 +16,13 @@ public:
     Context ();
     ~Context ();
 
-    Status create();
+    Status create(std::vector<tinyobj::material_t> materials);
     void destroy();
 
-    void draw(Camera&, std::vector<tinyobj::shape_t>, std::vector<tinyobj::material_t>);
+    void draw(Camera&, std::vector<tinyobj::shape_t>);
 private:
     Program program;
-    Texture texture, texture2;
+    std::vector<Texture*> textures;
     VertexArray vao;
     VertexBuffer uv;
     VertexBuffer vbo;

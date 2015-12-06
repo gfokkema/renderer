@@ -8,8 +8,7 @@ const std::vector<glm::vec3> vertex_buffer_data({
 });
 
 Context::Context()
-: uv(GL_ARRAY_BUFFER), vbo(GL_ARRAY_BUFFER), vbo_index(GL_ELEMENT_ARRAY_BUFFER),
-  texture(GL_TEXTURE_2D), texture2(GL_TEXTURE_2D)
+: uv(GL_ARRAY_BUFFER), vbo(GL_ARRAY_BUFFER), vbo_index(GL_ELEMENT_ARRAY_BUFFER)
 {
 }
 
@@ -18,7 +17,7 @@ Context::~Context()
     this->destroy();
 }
 
-Status Context::create()
+Status Context::create(std::vector<tinyobj::material_t> materials)
 {
     // Initialize GLEW
     glewExperimental = true;
@@ -58,7 +57,14 @@ Status Context::create()
     this->vbo.unbind();
     this->vbo_index.unbind();
 
-    this->texture.create();
+    for (auto material : materials)
+    {
+        Texture* texture = new Texture(GL_TEXTURE_2D);
+        texture->create();
+        texture->bind();
+        texture->load("../Desmond_Miles/" + material.diffuse_texname);
+        this->textures.push_back(texture);
+    }
 
     return STATUS_OK;
 }
@@ -69,12 +75,14 @@ void Context::destroy()
     this->vao.destroy();
     this->vbo.destroy();
     this->vbo_index.destroy();
-    this->texture.destroy();
+    for (auto texture : this->textures)
+    {
+        texture->destroy();
+    }
 }
 
 void Context::draw(Camera& camera,
-                   std::vector<tinyobj::shape_t> shapes,
-                   std::vector<tinyobj::material_t> materials)
+                   std::vector<tinyobj::shape_t> shapes)
 {
     glm::mat4 model = glm::mat4(1.0f);
     glm::mat4 mvp = camera.matrix() * model;
@@ -83,13 +91,16 @@ void Context::draw(Camera& camera,
 
     this->program.use();
     this->program["mvp"].set(mvp);
-    this->program["tex"].set(texture);
+
 
     this->vao.bind();
-    this->texture.bind();
+
     for (auto shape : shapes)
     {
-        this->texture.load("../Desmond_Miles/" + materials[shape.mesh.material_ids.front()].diffuse_texname);
+        int mat_idx = shape.mesh.material_ids.front();
+        this->program["tex"].set(*textures[mat_idx]);
+        this->textures[mat_idx]->bind();
+
         this->uv.bind();
         this->uv.load(shape.mesh.texcoords, GL_STATIC_DRAW);
         this->vbo.bind();
@@ -107,5 +118,4 @@ void Context::draw(Camera& camera,
     this->vao.unbind();
     this->vbo.unbind();
     this->vbo_index.unbind();
-    this->texture.unbind();
 }
