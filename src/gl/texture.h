@@ -20,6 +20,8 @@ public:
     GLuint getId();
 private:
     void upload(int, int, unsigned char*);
+
+    bool created;
     GLuint m_tex;
     GLenum m_type;
 };

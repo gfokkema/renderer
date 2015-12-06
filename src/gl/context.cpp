@@ -41,32 +41,22 @@ Status Context::create()
     vertexshader.destroy();
     fragmentshader.destroy();
 
-    this->vao.create();
     this->vao.bind();
 
-    this->uv.create();
     this->uv.bind();
     this->vao.binduvattrib();
 
-    this->vbo.create();
     this->vbo.bind();
-    this->vbo_index.create();
-    this->vbo_index.bind();
     this->vao.bindvertexattrib();
+
+    this->vbo_index.bind();
 
     this->vao.unbind();
     this->vbo.unbind();
     this->vbo_index.unbind();
 
-    this->texture.create();
-    this->texture.bind();
     this->texture.load("../debug_texture.jpg");
-    this->texture.unbind();
-
-    this->texture2.create();
-    this->texture2.bind();
     this->texture2.load(512, 512);
-    this->texture2.unbind();
 
     return STATUS_OK;
 }
@@ -78,6 +68,7 @@ void Context::destroy()
     this->vbo.destroy();
     this->vbo_index.destroy();
     this->texture.destroy();
+    this->texture2.destroy();
 }
 
 void Context::draw(Camera& camera, std::vector<tinyobj::shape_t> shapes)
@@ -94,13 +85,9 @@ void Context::draw(Camera& camera, std::vector<tinyobj::shape_t> shapes)
     this->vao.bind();
     for (auto shape : shapes)
     {
-        this->uv.bind();
         this->uv.load(shape.mesh.texcoords, GL_STATIC_DRAW);
-        this->vbo.bind();
         this->vbo.load(shape.mesh.positions, GL_STATIC_DRAW);
-        this->vbo_index.bind();
         this->vbo_index.load(shape.mesh.indices, GL_STATIC_DRAW);
-
         glDrawElements(
             GL_TRIANGLES,            // mode
             this->vbo_index.size(),  // count

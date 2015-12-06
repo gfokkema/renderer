@@ -20,6 +20,7 @@ public:
 
     GLuint getId();
 private:
+    bool created;
     GLuint m_vao;
 };
 

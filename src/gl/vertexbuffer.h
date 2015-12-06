@@ -22,6 +22,7 @@ public:
 
     GLuint getId();
 private:
+    bool created;
     GLuint m_vbo;
     GLenum m_type;
     unsigned m_size;

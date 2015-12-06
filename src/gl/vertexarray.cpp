@@ -1,7 +1,7 @@
 #include "vertexarray.h"
 
 VertexArray::VertexArray()
-: m_vao(0)
+: created(false), m_vao(0)
 {
 }
 
@@ -12,6 +12,8 @@ VertexArray::~VertexArray()
 
 void VertexArray::create()
 {
+    this->created = true;
+
     glGenVertexArrays(1, &this->m_vao);
 }
 
@@ -22,6 +24,8 @@ void VertexArray::destroy()
 
 void VertexArray::bind()
 {
+    if (!this->created) this->create();
+
     glBindVertexArray(this->m_vao);
 }
 

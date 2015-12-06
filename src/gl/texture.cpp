@@ -3,7 +3,7 @@
 #include <FreeImage.h>
 
 Texture::Texture(GLenum type)
-: m_tex(0), m_type(type)
+: created(false), m_tex(0), m_type(type)
 {
 }
 
@@ -14,6 +14,8 @@ Texture::~Texture()
 
 void Texture::create()
 {
+    this->created = true;
+
     glGenTextures(1, &this->m_tex);
 }
 
@@ -24,6 +26,8 @@ void Texture::destroy()
 
 void Texture::bind()
 {
+    if (!this->created) this->create();
+
     glBindTexture(this->m_type, this->m_tex);
 }
 
@@ -63,6 +67,8 @@ void Texture::load(std::string path)
 void Texture::upload(int w, int h, unsigned char* buf)
 {
     std::cout << "Loaded texture. Dimensions: (" << w << ", " << h << ")" << std::endl;
+
+    this->bind();
     glTexImage2D(
         this->m_type, // GL_TEXTURE_2D
         0,            // mipmap level
@@ -74,6 +80,7 @@ void Texture::upload(int w, int h, unsigned char* buf)
     );
     glTexParameteri(this->m_type, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(this->m_type, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    this->unbind();
 }
 
 GLuint Texture::getId()
