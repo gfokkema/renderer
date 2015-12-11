@@ -1,13 +1,13 @@
 #include "vertexarray.h"
 
 VertexArray::VertexArray()
-: m_vao(0)
+: m_vao(0), m_size(0)
 {
 }
 
 VertexArray::~VertexArray()
 {
-    this->destroy();
+//    this->destroy();
 }
 
 void VertexArray::create()
@@ -17,6 +17,7 @@ void VertexArray::create()
 
 void VertexArray::destroy()
 {
+    std::cout << "Destroying vao." << std::endl;
     glDeleteVertexArrays(1, &this->m_vao);
 }
 
@@ -49,7 +50,7 @@ void VertexArray::binduvattrib()
     // uv mapping for textures
     glEnableVertexAttribArray(1);
     glVertexAttribPointer(
-       1,                  // attribute 0
+       1,                  // attribute 1
        2,                  // size
        GL_FLOAT,           // type
        GL_FALSE,           // normalized?

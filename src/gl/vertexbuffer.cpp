@@ -7,7 +7,7 @@ VertexBuffer::VertexBuffer(GLenum type)
 
 VertexBuffer::~VertexBuffer()
 {
-    this->destroy();
+//    this->destroy();
 }
 
 void VertexBuffer::create()
@@ -17,6 +17,7 @@ void VertexBuffer::create()
 
 void VertexBuffer::destroy()
 {
+    std::cout << "Destroying vbo." << std::endl;
     glDeleteBuffers(1, &this->m_vbo);
 }
 

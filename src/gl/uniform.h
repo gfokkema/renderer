@@ -7,7 +7,7 @@
 class Uniform {
 public:
     void set(glm::mat4&);
-    void set(Texture&);
+    void set(GLenum texture);
 
     std::string name;
     GLuint location;

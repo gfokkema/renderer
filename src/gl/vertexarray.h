@@ -19,6 +19,9 @@ public:
     void unbindattrib();
 
     GLuint getId();
+
+    unsigned m_size;
+    GLuint texture_idx;
 private:
     GLuint m_vao;
 };

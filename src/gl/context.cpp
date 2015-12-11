@@ -8,18 +8,26 @@ const std::vector<glm::vec3> vertex_buffer_data({
 });
 
 Context::Context()
-: uv(GL_ARRAY_BUFFER), vbo(GL_ARRAY_BUFFER), vbo_index(GL_ELEMENT_ARRAY_BUFFER)
 {
 }
 
 Context::~Context()
 {
     this->destroy();
+    for (auto vao : vao_array)
+    {
+        vao->destroy();
+        delete vao;
+    }
     for (auto texture : textures)
+    {
+        texture->destroy();
         delete texture;
+    }
 }
 
-Status Context::create(std::vector<tinyobj::material_t> materials)
+Status Context::create(std::vector<tinyobj::shape_t> shapes,
+                       std::vector<tinyobj::material_t> materials)
 {
     // Initialize GLEW
     glewExperimental = true;
@@ -42,49 +50,71 @@ Status Context::create(std::vector<tinyobj::material_t> materials)
     vertexshader.destroy();
     fragmentshader.destroy();
 
-    this->vao.create();
-    this->vao.bind();
-
-    this->uv.create();
-    this->uv.bind();
-    this->vao.binduvattrib();
-
-    this->vbo.create();
-    this->vbo.bind();
-    this->vbo_index.create();
-    this->vbo_index.bind();
-    this->vao.bindvertexattrib();
-
-    this->vao.unbind();
-    this->vbo.unbind();
-    this->vbo_index.unbind();
+    for (auto shape : shapes)
+    {
+        vao_array.push_back(this->create(shape));
+    }
 
     for (auto material : materials)
     {
-        Texture* texture = new Texture(GL_TEXTURE_2D);
-        texture->create();
-        texture->bind();
-        texture->load("../Desmond_Miles/" + material.diffuse_texname);
-        this->textures.push_back(texture);
+        this->textures.push_back(this->create(material));
     }
 
     return STATUS_OK;
 }
 
+VertexArray* Context::create(tinyobj::shape_t shape)
+{
+    VertexArray* vao = new VertexArray;
+    VertexBuffer vbo_index(GL_ELEMENT_ARRAY_BUFFER);
+    VertexBuffer vbo(GL_ARRAY_BUFFER);
+    VertexBuffer uv(GL_ARRAY_BUFFER);
+
+    vao->create();
+    vao->bind();
+
+    vbo_index.create();
+    vbo_index.bind();
+    vbo_index.load(shape.mesh.indices, GL_STATIC_DRAW);
+
+    vbo.create();
+    vbo.bind();
+    vbo.load(shape.mesh.positions, GL_STATIC_DRAW);
+    vao->bindvertexattrib();
+
+    uv.create();
+    uv.bind();
+    uv.load(shape.mesh.texcoords, GL_STATIC_DRAW);
+    vao->binduvattrib();
+
+    vao->m_size = vbo_index.size();
+    vao->texture_idx = shape.mesh.material_ids.front();
+    vao->unbind();
+
+    vbo_index.unbind();
+    vbo.unbind();
+    uv.unbind();
+
+    return vao;
+}
+
+Texture* Context::create(tinyobj::material_t material)
+{
+    Texture* texture = new Texture(GL_TEXTURE_2D);
+    texture->create();
+    texture->bind();
+    texture->load("../Desmond_Miles/" + material.diffuse_texname);
+    texture->unbind();
+
+    return texture;
+}
+
 void Context::destroy()
 {
     this->program.destroy();
-    this->vao.destroy();
-    this->vbo.destroy();
-    this->vbo_index.destroy();
-    for (auto texture : this->textures)
-    {
-        texture->destroy();
-    }
 }
 
-void Context::draw(Camera& camera,
-                   std::vector<tinyobj::shape_t> shapes)
+void Context::draw(Camera& camera)
 {
     glm::mat4 model = glm::mat4(1.0f);
     glm::mat4 mvp = camera.matrix() * model;
@@ -94,30 +124,20 @@ void Context::draw(Camera& camera,
     this->program.use();
     this->program["mvp"].set(mvp);
 
-
-    this->vao.bind();
-
-    for (auto shape : shapes)
+    for (auto vao : vao_array)
     {
-        int mat_idx = shape.mesh.material_ids.front();
-        this->program["tex"].set(*textures[mat_idx]);
-        this->textures[mat_idx]->bind();
+        this->textures[vao->texture_idx]->bind();
+        this->program["tex"].set(GL_TEXTURE0);
 
-        this->uv.bind();
-        this->uv.load(shape.mesh.texcoords, GL_STATIC_DRAW);
-        this->vbo.bind();
-        this->vbo.load(shape.mesh.positions, GL_STATIC_DRAW);
-        this->vbo_index.bind();
-        this->vbo_index.load(shape.mesh.indices, GL_STATIC_DRAW);
+        vao->bind();
 
         glDrawElements(
             GL_TRIANGLES,            // mode
-            this->vbo_index.size(),  // count
+            vao->m_size,             // count
             GL_UNSIGNED_INT,         // type
             (void*)0                 // element array buffer offset
         );
+
+        vao->unbind();
     }
-    this->vao.unbind();
-    this->vbo.unbind();
-    this->vbo_index.unbind();
 }

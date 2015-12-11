@@ -16,17 +16,17 @@ public:
     Context ();
     ~Context ();
 
-    Status create(std::vector<tinyobj::material_t> materials);
+    Status create(std::vector<tinyobj::shape_t>, std::vector<tinyobj::material_t>);
     void destroy();
 
-    void draw(Camera&, std::vector<tinyobj::shape_t>);
+    void draw(Camera&);
 private:
+    VertexArray* create(tinyobj::shape_t);
+    Texture* create(tinyobj::material_t);
+
     Program program;
     std::vector<Texture*> textures;
-    VertexArray vao;
-    VertexBuffer uv;
-    VertexBuffer vbo;
-    VertexBuffer vbo_index;
+    std::vector<VertexArray*> vao_array;
 };
 
 #endif /* GL_CONTEXT_H_ */

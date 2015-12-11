@@ -14,7 +14,7 @@ int main(int argc, char** argv)
     }
 
     model.load();
-    if (ctx.create(model.m_materials) != STATUS_OK)
+    if (ctx.create(model.m_shapes, model.m_materials) != STATUS_OK)
     {
         std::cerr << "Failed to create opengl context." << std::endl;
         return STATUS_ERR;
@@ -22,7 +22,7 @@ int main(int argc, char** argv)
 
     unsigned frames = 0;
     do {
-        ctx.draw(window.camera(), model.m_shapes);
+        ctx.draw(window.camera());
         window.refresh();
         window.update();
 
