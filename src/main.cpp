@@ -22,13 +22,17 @@ int main(int argc, char** argv)
 
     unsigned frames = 0;
     do {
+        double start = glfwGetTime();
         ctx.draw(window.camera());
+        std::cout << "frame draw took " << glfwGetTime() - start << " seconds.\r";
+        std::flush(std::cout);
+
         window.refresh();
         window.update();
 
         // Overflows after a while.
-        std::cout << "FPS: " << ++frames / glfwGetTime() << "\r";
-        std::flush(std::cout);
+//        std::cout << "FPS: " << ++frames / glfwGetTime() << "\r";
+//        std::flush(std::cout);
     } while (window.should_close() != STATUS_OK);
 
     window.destroy();
