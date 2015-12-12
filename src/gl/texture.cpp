@@ -3,27 +3,36 @@
 #include <FreeImage.h>
 
 Texture::Texture(GLenum type)
-: m_tex(0), m_type(type)
+: m_tex(0), m_type(type), m_created(false)
 {
 }
 
 Texture::~Texture()
 {
-    this->destroy();
+//    this->destroy();
 }
 
 void Texture::create()
 {
+    this->m_created = true;
+
     glGenTextures(1, &this->m_tex);
 }
 
 void Texture::destroy()
 {
+    // Clear buffers when destroyed.
+    this->bind();
+    this->load(1024, 1024);
+    this->unbind();
+
     glDeleteTextures(1, &this->m_tex);
 }
 
 void Texture::bind()
 {
+    if (!this->m_created) create();
+
     glBindTexture(this->m_type, this->m_tex);
 }
 

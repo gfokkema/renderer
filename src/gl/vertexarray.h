@@ -23,6 +23,7 @@ public:
     unsigned m_size;
     GLuint texture_idx;
 private:
+    bool m_created;
     GLuint m_vao;
 };
 

@@ -5,8 +5,7 @@ void Uniform::set(glm::mat4& uniform)
     glUniformMatrix4fv(this->location, 1, GL_FALSE, &uniform[0][0]);
 }
 
-void Uniform::set(GLenum texture)
+void Uniform::set(unsigned texture)
 {
-    glActiveTexture(texture);
-    glUniform1i(this->location, 0);
+    glUniform1i(this->location, texture);
 }

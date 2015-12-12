@@ -1,12 +1,5 @@
 #include "context.h"
 
-// An array of 3 vectors which represents 3 vertices
-const std::vector<glm::vec3> vertex_buffer_data({
-    glm::vec3(-1.0f, -1.0f, 0.0f),
-    glm::vec3(1.0f, -1.0f, 0.0f),
-    glm::vec3(0.0f,  1.0f, 0.0f),
-});
-
 Context::Context()
 {
 }
@@ -52,12 +45,14 @@ Status Context::create(std::vector<tinyobj::shape_t> shapes,
 
     for (auto shape : shapes)
     {
-        vao_array.push_back(this->create(shape));
+        this->vao_array.push_back(this->create(shape));
     }
 
-    for (auto material : materials)
+    for (auto idx = 0; idx < materials.size(); idx++)
     {
-        this->textures.push_back(this->create(material));
+        glActiveTexture(GL_TEXTURE0 + idx);
+
+        this->textures.push_back(this->create(materials[idx]));
     }
 
     return STATUS_OK;
@@ -70,21 +65,17 @@ VertexArray* Context::create(tinyobj::shape_t shape)
     VertexBuffer vbo(GL_ARRAY_BUFFER);
     VertexBuffer uv(GL_ARRAY_BUFFER);
 
-    vao->create();
     vao->bind();
 
-    vbo_index.create();
     vbo_index.bind();
-    vbo_index.load(shape.mesh.indices, GL_STATIC_DRAW);
+    vbo_index.load<unsigned>(shape.mesh.indices, GL_STATIC_DRAW);
 
-    vbo.create();
     vbo.bind();
-    vbo.load(shape.mesh.positions, GL_STATIC_DRAW);
+    vbo.load<float>(shape.mesh.positions, GL_STATIC_DRAW);
     vao->bindvertexattrib();
 
-    uv.create();
     uv.bind();
-    uv.load(shape.mesh.texcoords, GL_STATIC_DRAW);
+    uv.load<float>(shape.mesh.texcoords, GL_STATIC_DRAW);
     vao->binduvattrib();
 
     vao->m_size = vbo_index.size();
@@ -104,7 +95,6 @@ Texture* Context::create(tinyobj::material_t material)
     texture->create();
     texture->bind();
     texture->load("../Desmond_Miles/" + material.diffuse_texname);
-    texture->unbind();
 
     return texture;
 }
@@ -126,8 +116,7 @@ void Context::draw(Camera& camera)
 
     for (auto vao : vao_array)
     {
-        this->textures[vao->texture_idx]->bind();
-        this->program["tex"].set(GL_TEXTURE0);
+        this->program["tex"].set(vao->texture_idx);
 
         vao->bind();
 

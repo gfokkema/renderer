@@ -1,7 +1,7 @@
 #include "vertexarray.h"
 
 VertexArray::VertexArray()
-: m_vao(0), m_size(0)
+: m_vao(0), m_size(0), texture_idx(0), m_created(false)
 {
 }
 
@@ -12,6 +12,8 @@ VertexArray::~VertexArray()
 
 void VertexArray::create()
 {
+    this->m_created = true;
+
     glGenVertexArrays(1, &this->m_vao);
 }
 
@@ -23,6 +25,8 @@ void VertexArray::destroy()
 
 void VertexArray::bind()
 {
+    if (!this->m_created) create();
+
     glBindVertexArray(this->m_vao);
 }
 

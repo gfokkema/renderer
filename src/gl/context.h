@@ -16,7 +16,8 @@ public:
     Context ();
     ~Context ();
 
-    Status create(std::vector<tinyobj::shape_t>, std::vector<tinyobj::material_t>);
+    Status create(std::vector<tinyobj::shape_t>,
+                  std::vector<tinyobj::material_t>);
     void destroy();
 
     void draw(Camera&);

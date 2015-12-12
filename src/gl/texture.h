@@ -19,6 +19,7 @@ public:
 
     GLuint getId();
 private:
+    bool m_created;
     void upload(int, int, unsigned char*);
     GLuint m_tex;
     GLenum m_type;

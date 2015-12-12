@@ -1,7 +1,10 @@
 #include "vertexbuffer.h"
 
+template void VertexBuffer::load<float>(std::vector<float>, GLenum);
+template void VertexBuffer::load<unsigned>(std::vector<unsigned>, GLenum);
+
 VertexBuffer::VertexBuffer(GLenum type)
-: m_vbo(0), m_type(type), m_size(0)
+: m_vbo(0), m_type(type), m_size(0), m_created(false)
 {
 }
 
@@ -12,6 +15,8 @@ VertexBuffer::~VertexBuffer()
 
 void VertexBuffer::create()
 {
+    this->m_created = true;
+
     glGenBuffers(1, &this->m_vbo);
 }
 
@@ -23,6 +28,8 @@ void VertexBuffer::destroy()
 
 void VertexBuffer::bind()
 {
+    if (!this->m_created) create();
+
     glBindBuffer(this->m_type, this->m_vbo);
 }
 
@@ -31,23 +38,12 @@ void VertexBuffer::unbind()
     glBindBuffer(this->m_type, 0);
 }
 
-void VertexBuffer::load(std::vector<float> data, GLenum usage)
+template<typename T>
+void VertexBuffer::load(std::vector<T> data, GLenum usage)
 {
     this->m_size = data.size();
-    glBufferData(this->m_type, sizeof(float) * data.size(), &data.front(), usage);
+    glBufferData(this->m_type, sizeof(T) * data.size(), &data.front(), usage);
 }
-
-void VertexBuffer::load(std::vector<unsigned> data, GLenum usage)
-{
-    this->m_size = data.size();
-    glBufferData(this->m_type, sizeof(unsigned) * data.size(), &data.front(), usage);
-}
-
-//void VertexBuffer::load(std::vector<glm::vec3> data, GLenum usage)
-//{
-//    this->m_size = data.size();
-//    glBufferData(this->m_type, sizeof(glm::vec3) * data.size(), &data.front(), usage);
-//}
 
 unsigned VertexBuffer::size()
 {
