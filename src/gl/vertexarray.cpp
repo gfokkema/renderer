@@ -1,41 +1,46 @@
 #include "vertexarray.h"
 
-VertexArray::VertexArray()
+gl::VertexArray::VertexArray()
 : m_vao(0), m_size(0), texture_idx(0), m_created(false)
 {
 }
 
-VertexArray::~VertexArray()
+gl::VertexArray::~VertexArray()
 {
 //    this->destroy();
 }
 
-void VertexArray::create()
+void
+gl::VertexArray::create()
 {
     this->m_created = true;
 
     glGenVertexArrays(1, &this->m_vao);
 }
 
-void VertexArray::destroy()
+void
+gl::VertexArray::destroy()
 {
     std::cout << "Destroying vao." << std::endl;
     glDeleteVertexArrays(1, &this->m_vao);
 }
 
-void VertexArray::bind()
+void
+gl::VertexArray::bind()
 {
     if (!this->m_created) create();
 
     glBindVertexArray(this->m_vao);
 }
 
-void VertexArray::unbind()
+void
+gl::VertexArray::unbind()
 {
     glBindVertexArray(0);
 }
 
-void VertexArray::bindvertexattrib()
+void
+gl::VertexArray::bindvertexattrib()
 {
     // vertex positions
     glEnableVertexAttribArray(0);
@@ -49,7 +54,8 @@ void VertexArray::bindvertexattrib()
     );
 }
 
-void VertexArray::binduvattrib()
+void
+gl::VertexArray::binduvattrib()
 {
     // uv mapping for textures
     glEnableVertexAttribArray(1);
@@ -63,13 +69,15 @@ void VertexArray::binduvattrib()
     );
 }
 
-void VertexArray::unbindattrib()
+void
+gl::VertexArray::unbindattrib()
 {
     glDisableVertexAttribArray(0);
     glDisableVertexAttribArray(1);
 }
 
-GLuint VertexArray::getId()
+GLuint
+gl::VertexArray::getId()
 {
     return this->m_vao;
 }

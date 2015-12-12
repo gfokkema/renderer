@@ -3,6 +3,9 @@
 
 #include "common.h"
 
+namespace gl
+{
+
 class VertexBuffer {
 public:
     VertexBuffer(GLenum type);
@@ -26,6 +29,8 @@ private:
     GLenum m_type;
     unsigned m_size;
 };
+
+}
 
 #endif /* __VERTEXBUFFER_H */
 

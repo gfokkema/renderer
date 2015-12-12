@@ -3,6 +3,9 @@
 
 #include "common.h"
 
+namespace gl
+{
+
 class Shader {
 public:
     Shader(GLenum type);
@@ -21,5 +24,7 @@ private:
     GLuint m_shader;
     GLenum m_type;
 };
+
+}
 
 #endif /* GL_SHADER_H_ */

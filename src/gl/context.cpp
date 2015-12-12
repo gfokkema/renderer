@@ -1,10 +1,10 @@
 #include "context.h"
 
-Context::Context()
+gl::Context::Context()
 {
 }
 
-Context::~Context()
+gl::Context::~Context()
 {
     this->destroy();
     for (auto vao : vao_array)
@@ -19,7 +19,8 @@ Context::~Context()
     }
 }
 
-Status Context::create(std::vector<tinyobj::shape_t> shapes,
+Status
+gl::Context::create(std::vector<tinyobj::shape_t> shapes,
                        std::vector<tinyobj::material_t> materials)
 {
     // Initialize GLEW
@@ -33,8 +34,8 @@ Status Context::create(std::vector<tinyobj::shape_t> shapes,
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
 
-    Shader vertexshader(GL_VERTEX_SHADER);
-    Shader fragmentshader(GL_FRAGMENT_SHADER);
+    gl::Shader vertexshader(GL_VERTEX_SHADER);
+    gl::Shader fragmentshader(GL_FRAGMENT_SHADER);
 
     if (vertexshader.load("../src/shaders/shader.vertex.c")) return STATUS_ERR;
     if (fragmentshader.load("../src/shaders/shader.fragment.c")) return STATUS_ERR;
@@ -58,7 +59,8 @@ Status Context::create(std::vector<tinyobj::shape_t> shapes,
     return STATUS_OK;
 }
 
-VertexArray* Context::create(tinyobj::shape_t shape)
+gl::VertexArray*
+gl::Context::create(tinyobj::shape_t shape)
 {
     VertexArray* vao = new VertexArray;
     VertexBuffer vbo_index(GL_ELEMENT_ARRAY_BUFFER);
@@ -89,7 +91,8 @@ VertexArray* Context::create(tinyobj::shape_t shape)
     return vao;
 }
 
-Texture* Context::create(tinyobj::material_t material)
+gl::Texture*
+gl::Context::create(tinyobj::material_t material)
 {
     Texture* texture = new Texture(GL_TEXTURE_2D);
     texture->create();
@@ -99,12 +102,14 @@ Texture* Context::create(tinyobj::material_t material)
     return texture;
 }
 
-void Context::destroy()
+void
+gl::Context::destroy()
 {
     this->program.destroy();
 }
 
-void Context::draw(Camera& camera)
+void
+gl::Context::draw(Camera& camera)
 {
     glm::mat4 model = glm::mat4(1.0f);
     glm::mat4 mvp = camera.matrix() * model;

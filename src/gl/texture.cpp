@@ -2,24 +2,26 @@
 
 #include <FreeImage.h>
 
-Texture::Texture(GLenum type)
+gl::Texture::Texture(GLenum type)
 : m_tex(0), m_type(type), m_created(false)
 {
 }
 
-Texture::~Texture()
+gl::Texture::~Texture()
 {
 //    this->destroy();
 }
 
-void Texture::create()
+void
+gl::Texture::create()
 {
     this->m_created = true;
 
     glGenTextures(1, &this->m_tex);
 }
 
-void Texture::destroy()
+void
+gl::Texture::destroy()
 {
     // Clear buffers when destroyed.
     this->bind();
@@ -29,19 +31,22 @@ void Texture::destroy()
     glDeleteTextures(1, &this->m_tex);
 }
 
-void Texture::bind()
+void
+gl::Texture::bind()
 {
     if (!this->m_created) create();
 
     glBindTexture(this->m_type, this->m_tex);
 }
 
-void Texture::unbind()
+void
+gl::Texture::unbind()
 {
     glBindTexture(this->m_type, 0);
 }
 
-void Texture::load(int w, int h)
+void
+gl::Texture::load(int w, int h)
 {
     unsigned char* buf = new unsigned char[w * h * 3];
     for (int i = 0; i < w * h; i++)
@@ -53,7 +58,8 @@ void Texture::load(int w, int h)
     this->upload(w, h, buf);
 }
 
-void Texture::load(std::string path)
+void
+gl::Texture::load(std::string path)
 {
     std::cout << "Path: " << path << std::endl;
     FREE_IMAGE_FORMAT format;
@@ -72,7 +78,8 @@ void Texture::load(std::string path)
     this->upload(w, h, buf);
 }
 
-void Texture::upload(int w, int h, unsigned char* buf)
+void
+gl::Texture::upload(int w, int h, unsigned char* buf)
 {
     std::cout << "Loaded texture. Dimensions: (" << w << ", " << h << ")" << std::endl;
     glTexImage2D(
@@ -89,7 +96,8 @@ void Texture::upload(int w, int h, unsigned char* buf)
     delete[] buf;
 }
 
-GLuint Texture::getId()
+GLuint
+gl::Texture::getId()
 {
     return this->m_tex;
 }

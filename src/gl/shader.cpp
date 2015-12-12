@@ -1,26 +1,29 @@
 #include "shader.h"
 
-Shader::Shader (GLenum type)
+gl::Shader::Shader (GLenum type)
 : m_shader(0), m_type(type)
 {
 }
 
-Shader::~Shader ()
+gl::Shader::~Shader ()
 {
     this->destroy();
 }
 
-void Shader::create()
+void
+gl::Shader::create()
 {
     this->m_shader = glCreateShader(this->m_type);
 }
 
-void Shader::destroy()
+void
+gl::Shader::destroy()
 {
     glDeleteShader(this->m_shader);
 }
 
-Status Shader::load(std::string path)
+Status
+gl::Shader::load(std::string path)
 {
     this->create();
 
@@ -34,7 +37,8 @@ Status Shader::load(std::string path)
 }
 
 
-Status Shader::read(std::string path)
+Status
+gl::Shader::read(std::string path)
 {
     // Read the Vertex Shader code from the file
     std::string shaderCode;
@@ -58,7 +62,8 @@ Status Shader::read(std::string path)
     return STATUS_OK;
 }
 
-Status Shader::compile()
+Status
+gl::Shader::compile()
 {
     int result = 0;
     int log_size = 0;
@@ -78,7 +83,8 @@ Status Shader::compile()
     return result == GL_TRUE ? STATUS_OK : STATUS_ERR;
 }
 
-GLuint Shader::getId()
+GLuint
+gl::Shader::getId()
 {
     return this->m_shader;
 }

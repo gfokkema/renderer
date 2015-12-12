@@ -11,10 +11,14 @@
 #include "util/camera.h"
 #include "util/objmodel.h"
 
-class Context {
+namespace gl
+{
+
+class Context
+{
 public:
-    Context ();
-    ~Context ();
+    Context();
+    ~Context();
 
     Status create(std::vector<tinyobj::shape_t>,
                   std::vector<tinyobj::material_t>);
@@ -25,9 +29,11 @@ private:
     VertexArray* create(tinyobj::shape_t);
     Texture* create(tinyobj::material_t);
 
-    Program program;
-    std::vector<Texture*> textures;
-    std::vector<VertexArray*> vao_array;
+    gl::Program program;
+    std::vector<gl::Texture*> textures;
+    std::vector<gl::VertexArray*> vao_array;
 };
+
+}
 
 #endif /* GL_CONTEXT_H_ */

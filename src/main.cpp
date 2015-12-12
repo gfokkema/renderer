@@ -3,8 +3,8 @@
 
 int main(int argc, char** argv)
 {
-    Window window;
-    Context ctx;
+    gl::Window window;
+    gl::Context ctx;
     ObjModel model;
 
     if (window.create() != STATUS_OK)

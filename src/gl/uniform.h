@@ -4,6 +4,9 @@
 #include "common.h"
 #include "texture.h"
 
+namespace gl
+{
+
 class Uniform {
 public:
     void set(glm::mat4&);
@@ -14,5 +17,7 @@ public:
     GLenum type;
     int size;
 };
+
+}
 
 #endif /* GL_UNIFORM_H_ */

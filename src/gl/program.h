@@ -6,6 +6,9 @@
 #include "shader.h"
 #include "uniform.h"
 
+namespace gl
+{
+
 typedef std::pair<std::string, Uniform> entry;
 
 class Program {
@@ -32,5 +35,7 @@ private:
 
     std::map<std::string, Uniform> m_uniforms;
 };
+
+}
 
 #endif /* __PROGRAM_H */

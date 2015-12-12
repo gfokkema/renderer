@@ -1,6 +1,6 @@
 #include "program.h"
 
-std::ostream& operator<<(std::ostream& os, const Uniform& uniform)
+std::ostream& operator<<(std::ostream& os, const gl::Uniform& uniform)
 {
     os << "[name: \"" << uniform.name << "\","
        << " location: \"" << uniform.location << "\","
@@ -9,27 +9,30 @@ std::ostream& operator<<(std::ostream& os, const Uniform& uniform)
     return os;
 }
 
-Program::Program()
+gl::Program::Program()
 : m_program(0)
 {
 }
 
-Program::~Program()
+gl::Program::~Program()
 {
     this->destroy();
 }
 
-void Program::create()
+void
+gl::Program::create()
 {
     this->m_program = glCreateProgram();
 }
 
-void Program::destroy()
+void
+gl::Program::destroy()
 {
     glDeleteProgram(this->m_program);
 }
 
-Status Program::load(Shader vertex, Shader fragment)
+Status
+gl::Program::load(Shader vertex, Shader fragment)
 {
     Status result;
 
@@ -50,17 +53,20 @@ Status Program::load(Shader vertex, Shader fragment)
     return STATUS_OK;
 }
 
-void Program::attach(Shader shader)
+void
+gl::Program::attach(Shader shader)
 {
     glAttachShader(this->m_program, shader.getId());
 }
 
-void Program::detach(Shader shader)
+void
+gl::Program::detach(Shader shader)
 {
     glDetachShader(this->m_program, shader.getId());
 }
 
-Status Program::link()
+Status
+gl::Program::link()
 {
     int result = 0;
     int log_size = 0;
@@ -81,7 +87,8 @@ Status Program::link()
     return result == GL_TRUE ? STATUS_OK : STATUS_ERR;
 }
 
-void Program::resolve()
+void
+gl::Program::resolve()
 {
     int no_uniform = 0;
     int max_name_size = 0;
@@ -109,17 +116,20 @@ void Program::resolve()
     }
 }
 
-void Program::use()
+void
+gl::Program::use()
 {
     glUseProgram(this->m_program);
 }
 
-Uniform Program::operator[](std::string uniform)
+gl::Uniform
+gl::Program::operator[](std::string uniform)
 {
     return this->m_uniforms[uniform];
 }
 
-GLuint Program::getId()
+GLuint
+gl::Program::getId()
 {
     return this->m_program;
 }

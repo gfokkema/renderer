@@ -3,7 +3,11 @@
 
 #include "common.h"
 
-class Texture {
+namespace gl
+{
+
+class Texture
+{
 public:
     Texture(GLenum type);
     ~Texture();
@@ -24,5 +28,7 @@ private:
     GLuint m_tex;
     GLenum m_type;
 };
+
+}
 
 #endif /* GL_TEXTURE_H_ */

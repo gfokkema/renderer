@@ -8,7 +8,11 @@
 #include "gl/context.h"
 #include "util/camera.h"
 
-class Window {
+namespace gl
+{
+
+class Window
+{
 public:
     Window();
     ~Window();
@@ -25,5 +29,7 @@ private:
     GLFWwindow* p_window;
     Camera m_camera;
 };
+
+}
 
 #endif /* __WINDOW_H */

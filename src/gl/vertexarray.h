@@ -3,6 +3,9 @@
 
 #include "common.h"
 
+namespace gl
+{
+
 class VertexArray {
 public:
     VertexArray();
@@ -26,5 +29,7 @@ private:
     bool m_created;
     GLuint m_vao;
 };
+
+}
 
 #endif /* __VERTEXARRAY_H */

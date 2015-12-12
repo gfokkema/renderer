@@ -42,17 +42,18 @@ void handle_mouse(GLFWwindow* window)
     glfwSetCursorPos(window, middle_x, middle_y);
 }
 
-Window::Window()
+gl::Window::Window()
 : p_window(nullptr), m_camera((float)WIDTH / (float)HEIGHT)
 {
 }
 
-Window::~Window()
+gl::Window::~Window()
 {
     this->destroy();
 }
 
-Status Window::create()
+Status
+gl::Window::create()
 {
     if (!glfwInit())
     {
@@ -84,22 +85,26 @@ Status Window::create()
     return STATUS_OK;
 }
 
-void Window::destroy()
+void
+gl::Window::destroy()
 {
     glfwTerminate();
 }
 
-Camera& Window::camera()
+Camera&
+gl::Window::camera()
 {
     return m_camera;
 }
 
-void Window::refresh()
+void
+gl::Window::refresh()
 {
     glfwSwapBuffers(this->p_window);
 }
 
-Status Window::should_close()
+Status
+gl::Window::should_close()
 {
     if (glfwWindowShouldClose(this->p_window))
         return STATUS_OK;
@@ -107,7 +112,8 @@ Status Window::should_close()
         return STATUS_ERR;
 }
 
-void Window::update()
+void
+gl::Window::update()
 {
     glfwPollEvents();
 }
