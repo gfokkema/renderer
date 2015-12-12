@@ -20,8 +20,7 @@ gl::Context::~Context()
 }
 
 Status
-gl::Context::create(std::vector<tinyobj::shape_t> shapes,
-                       std::vector<tinyobj::material_t> materials)
+gl::Context::create(util::ObjModel model)
 {
     // Initialize GLEW
     glewExperimental = true;
@@ -44,16 +43,21 @@ gl::Context::create(std::vector<tinyobj::shape_t> shapes,
     vertexshader.destroy();
     fragmentshader.destroy();
 
-    for (auto shape : shapes)
+    for (auto shape : model.m_shapes)
     {
         this->vao_array.push_back(this->create(shape));
     }
 
-    for (auto idx = 0; idx < materials.size(); idx++)
+    for (auto idx = 0; idx < model.m_materials.size(); idx++)
     {
+        auto mat = model.m_materials.begin() + idx;
         glActiveTexture(GL_TEXTURE0 + idx);
 
-        this->textures.push_back(this->create(materials[idx]));
+        Texture* texture = new Texture(GL_TEXTURE_2D);
+        texture->bind();
+        texture->upload(mat->get_buffer(util::IMAGE_MAP::DIFFUSE));
+
+        this->textures.push_back(texture);
     }
 
     return STATUS_OK;
@@ -91,17 +95,6 @@ gl::Context::create(tinyobj::shape_t shape)
     return vao;
 }
 
-gl::Texture*
-gl::Context::create(tinyobj::material_t material)
-{
-    Texture* texture = new Texture(GL_TEXTURE_2D);
-    texture->create();
-    texture->bind();
-    texture->load("../Desmond_Miles/" + material.diffuse_texname);
-
-    return texture;
-}
-
 void
 gl::Context::destroy()
 {
@@ -109,7 +102,7 @@ gl::Context::destroy()
 }
 
 void
-gl::Context::draw(Camera& camera)
+gl::Context::draw(util::Camera& camera)
 {
     glm::mat4 model = glm::mat4(1.0f);
     glm::mat4 mvp = camera.matrix() * model;

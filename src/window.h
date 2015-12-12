@@ -20,14 +20,14 @@ public:
     Status create();
     void destroy();
 
-    Camera& camera();
+    util::Camera& camera();
     void refresh();
     Status should_close();
     void update();
 
 private:
     GLFWwindow* p_window;
-    Camera m_camera;
+    util::Camera m_camera;
 };
 
 }

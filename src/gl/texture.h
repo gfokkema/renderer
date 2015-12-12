@@ -6,6 +6,12 @@
 namespace gl
 {
 
+typedef struct image_buffer
+{
+    int w, h;
+    std::vector<unsigned char> data;
+} image_buffer;
+
 class Texture
 {
 public:
@@ -17,14 +23,12 @@ public:
 
     void bind();
 
-    void load(int, int);
-    void load(std::string);
+    void upload(image_buffer);
     void unbind();
 
     GLuint getId();
 private:
     bool m_created;
-    void upload(int, int, unsigned char*);
     GLuint m_tex;
     GLenum m_type;
 };

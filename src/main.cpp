@@ -1,11 +1,11 @@
-#include "window.h"
 #include "util/objmodel.h"
+#include "window.h"
 
 int main(int argc, char** argv)
 {
     gl::Window window;
     gl::Context ctx;
-    ObjModel model;
+    util::ObjModel model;
 
     if (window.create() != STATUS_OK)
     {
@@ -13,8 +13,8 @@ int main(int argc, char** argv)
         return STATUS_ERR;
     }
 
-    model.load();
-    if (ctx.create(model.m_shapes, model.m_materials) != STATUS_OK)
+    model.load("../Desmond_Miles/", "Desmond_Miles.obj");
+    if (ctx.create(model) != STATUS_OK)
     {
         std::cerr << "Failed to create opengl context." << std::endl;
         return STATUS_ERR;

@@ -91,7 +91,7 @@ gl::Window::destroy()
     glfwTerminate();
 }
 
-Camera&
+util::Camera&
 gl::Window::camera()
 {
     return m_camera;

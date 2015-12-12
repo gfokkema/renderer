@@ -20,11 +20,10 @@ public:
     Context();
     ~Context();
 
-    Status create(std::vector<tinyobj::shape_t>,
-                  std::vector<tinyobj::material_t>);
+    Status create(util::ObjModel);
     void destroy();
 
-    void draw(Camera&);
+    void draw(util::Camera&);
 private:
     VertexArray* create(tinyobj::shape_t);
     Texture* create(tinyobj::material_t);

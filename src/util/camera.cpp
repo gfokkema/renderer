@@ -2,7 +2,7 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 
-Camera::Camera (float aspect_ratio)
+util::Camera::Camera (float aspect_ratio)
 {
     this->m_projection = glm::perspective(glm::radians(45.0f), aspect_ratio, 0.1f, 100.0f);
     this->m_view = glm::lookAt(
@@ -12,11 +12,12 @@ Camera::Camera (float aspect_ratio)
     );
 }
 
-Camera::~Camera ()
+util::Camera::~Camera ()
 {
 }
 
-glm::mat4 Camera::matrix()
+glm::mat4
+util::Camera::matrix()
 {
     return m_projection * m_view;
 }

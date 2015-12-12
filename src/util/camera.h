@@ -3,7 +3,11 @@
 
 #include "common.h"
 
-class Camera {
+namespace util
+{
+
+class Camera
+{
 public:
     Camera(float aspect_ratio);
     ~Camera();
@@ -13,5 +17,7 @@ private:
     glm::mat4 m_projection;
     glm::mat4 m_view;
 };
+
+}
 
 #endif /* CAMERA_H_ */
