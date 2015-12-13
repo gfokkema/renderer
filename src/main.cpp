@@ -22,19 +22,21 @@ int main(int argc, char** argv)
     }
 
     do {
-        double start = glfwGetTime();
-        ctx.draw(window.camera());
-        std::cout << "frame draw took " << glfwGetTime() - start << " seconds.\r";
-        std::flush(std::cout);
-
         if (input[GLFW_KEY_A]) window.camera().left();
         if (input[GLFW_KEY_D]) window.camera().right();
         if (input[GLFW_KEY_W]) window.camera().forward();
         if (input[GLFW_KEY_S]) window.camera().backward();
         if (input[GLFW_KEY_ESCAPE]) window.close();
 
+        double start = glfwGetTime();
+        ctx.draw(window.camera());
+        double end = glfwGetTime();
+
         window.refresh();
         window.update();
+
+        std::cout << "Frame draw took " << end - start << " seconds.\r";
+        std::flush(std::cout);
     } while (window.should_close() != STATUS_OK);
 
     window.destroy();
