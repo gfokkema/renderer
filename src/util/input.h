@@ -18,7 +18,7 @@ public:
     void mouse_pressed(int, int);
     void mouse_released(int, int);
 
-    std::map<int, bool> getkeystate();
+    bool operator[](int);
 private:
     std::map<int, bool> keystate;
     bool lmb = false, rmb = false;

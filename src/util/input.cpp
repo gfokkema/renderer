@@ -11,13 +11,13 @@ util::Input::~Input()
 void
 util::Input::key_pressed(int key, int scancode, int modifiers)
 {
-    this->keystate.insert(std::pair<int, bool>(key, true));
+    this->keystate[key] = true;
 }
 
 void
 util::Input::key_released(int key, int scancode, int modifiers)
 {
-    this->keystate.erase(key);
+    this->keystate[key] = false;
 }
 
 void
@@ -30,8 +30,9 @@ util::Input::mouse_released(int button, int modifiers)
 {
 }
 
-std::map<int, bool>
-util::Input::getkeystate()
+bool
+util::Input::operator[](int key)
 {
-    return this->keystate;
+
+    return this->keystate[key];
 }

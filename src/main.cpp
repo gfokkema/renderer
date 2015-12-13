@@ -27,11 +27,11 @@ int main(int argc, char** argv)
         std::cout << "frame draw took " << glfwGetTime() - start << " seconds.\r";
         std::flush(std::cout);
 
-        if (input.getkeystate()[GLFW_KEY_A]) window.camera().left();
-        if (input.getkeystate()[GLFW_KEY_D]) window.camera().right();
-        if (input.getkeystate()[GLFW_KEY_W]) window.camera().forward();
-        if (input.getkeystate()[GLFW_KEY_S]) window.camera().backward();
-        if (input.getkeystate()[GLFW_KEY_ESCAPE]) window.close();
+        if (input[GLFW_KEY_A]) window.camera().left();
+        if (input[GLFW_KEY_D]) window.camera().right();
+        if (input[GLFW_KEY_W]) window.camera().forward();
+        if (input[GLFW_KEY_S]) window.camera().backward();
+        if (input[GLFW_KEY_ESCAPE]) window.close();
 
         window.refresh();
         window.update();
