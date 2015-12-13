@@ -18,7 +18,7 @@ public:
     void unbind();
 
     template<typename T>
-    void load(std::vector<T>, GLenum usage);
+    void upload(std::vector<T>, GLenum usage);
 
     unsigned size();
 

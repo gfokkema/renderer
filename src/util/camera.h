@@ -13,6 +13,9 @@ public:
     ~Camera();
 
     glm::mat4 matrix();
+
+    void left();
+    void right();
 private:
     glm::mat4 m_projection;
     glm::mat4 m_view;

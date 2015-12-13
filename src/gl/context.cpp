@@ -74,16 +74,18 @@ gl::Context::create(tinyobj::shape_t shape)
     vao->bind();
 
     vbo_index.bind();
-    vbo_index.load<unsigned>(shape.mesh.indices, GL_STATIC_DRAW);
+    vbo_index.upload<unsigned>(shape.mesh.indices, GL_STATIC_DRAW);
 
     vbo.bind();
-    vbo.load<float>(shape.mesh.positions, GL_STATIC_DRAW);
+    vbo.upload<float>(shape.mesh.positions, GL_STATIC_DRAW);
     vao->bindvertexattrib();
 
     uv.bind();
-    uv.load<float>(shape.mesh.texcoords, GL_STATIC_DRAW);
+    uv.upload<float>(shape.mesh.texcoords, GL_STATIC_DRAW);
     vao->binduvattrib();
 
+    // FIXME: These attributes should not be part of the vao.
+    //        Might consider mirroring opengl vbo binding state though.
     vao->m_size = vbo_index.size();
     vao->texture_idx = shape.mesh.material_ids.front();
     vao->unbind();

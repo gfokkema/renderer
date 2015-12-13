@@ -7,6 +7,7 @@
 
 #include "gl/context.h"
 #include "util/camera.h"
+#include "util/input.h"
 
 namespace gl
 {
@@ -17,14 +18,14 @@ public:
     Window();
     ~Window();
 
-    Status create();
+    Status create(util::Input& input);
+    void close();
+    Status should_close();
     void destroy();
 
     util::Camera& camera();
     void refresh();
-    Status should_close();
     void update();
-
 private:
     GLFWwindow* p_window;
     util::Camera m_camera;

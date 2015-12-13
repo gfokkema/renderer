@@ -1,7 +1,7 @@
 #include "vertexbuffer.h"
 
-template void gl::VertexBuffer::load<float>(std::vector<float>, GLenum);
-template void gl::VertexBuffer::load<unsigned>(std::vector<unsigned>, GLenum);
+template void gl::VertexBuffer::upload<float>(std::vector<float>, GLenum);
+template void gl::VertexBuffer::upload<unsigned>(std::vector<unsigned>, GLenum);
 
 gl::VertexBuffer::VertexBuffer(GLenum type)
 : m_vbo(0), m_type(type), m_size(0), m_created(false)
@@ -44,7 +44,7 @@ gl::VertexBuffer::unbind()
 
 template<typename T>
 void
-gl::VertexBuffer::load(std::vector<T> data, GLenum usage)
+gl::VertexBuffer::upload(std::vector<T> data, GLenum usage)
 {
     this->m_size = data.size();
     glBufferData(this->m_type, sizeof(T) * data.size(), &data.front(), usage);

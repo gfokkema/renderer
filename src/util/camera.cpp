@@ -21,3 +21,15 @@ util::Camera::matrix()
 {
     return m_projection * m_view;
 }
+
+void
+util::Camera::left()
+{
+
+}
+
+void
+util::Camera::right()
+{
+
+}

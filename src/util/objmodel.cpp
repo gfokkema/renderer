@@ -18,7 +18,8 @@ util::ObjModel::load(std::string base_path, std::string rel_path)
     std::string err;
 
     if (!tinyobj::LoadObj(shapes, materials, err,
-                          (base_path + rel_path).c_str(), base_path.c_str()))
+                          (base_path + rel_path).c_str(),
+                          base_path.c_str()))
     {
         std::cerr << "Failed to load obj: " << err << std::endl;
         return STATUS_ERR;
@@ -28,12 +29,12 @@ util::ObjModel::load(std::string base_path, std::string rel_path)
     {
         this->load(shape);
     }
+    std::cout << "# shapes   : " << m_shapes.size() << std::endl;
+
     for (auto material : materials)
     {
         this->load(material, base_path);
     }
-
-    std::cout << "# shapes   : " << m_shapes.size() << std::endl;
     std::cout << "# materials: " << m_materials.size() << std::endl;
 
     return STATUS_OK;

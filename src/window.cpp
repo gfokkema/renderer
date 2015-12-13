@@ -6,40 +6,22 @@
 #define HEIGHT 1080
 
 /* Time independent keyboard function */
-void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+void
+key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-    switch (key) {
-    case GLFW_KEY_ESCAPE:
-        glfwSetWindowShouldClose(window, 1);
-        break;
-    }
+    util::Input* input = (util::Input*)glfwGetWindowUserPointer(window);
+    auto fn = action == GLFW_PRESS ? &util::Input::key_pressed : &util::Input::key_released;
+
+    (input->*fn)(key, scancode, mods);
 }
 
-/* Focus callback function */
-void focus_callback(GLFWwindow* window, int focused)
+void
+mouse_callback(GLFWwindow* window, int button, int action, int mods)
 {
-    if (focused) {
-        double middle_x = WIDTH / 2.0;
-        double middle_y = HEIGHT / 2.0;
-        glfwSetCursorPos(window, middle_x, middle_y);
-        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-    }
-}
+    util::Input* input = (util::Input*)glfwGetWindowUserPointer(window);
+    auto fn = action == GLFW_PRESS ? &util::Input::mouse_pressed : &util::Input::mouse_released;
 
-void handle_mouse(GLFWwindow* window)
-{
-    double middle_x = WIDTH / 2.0;
-    double middle_y = HEIGHT / 2.0;
-
-    double x, y;
-    glfwGetCursorPos(window, &x, &y);
-    if (x < WIDTH && y < HEIGHT)
-    {
-        double dx = x - middle_x;
-        double dy = y - middle_y;
-        if (dx == 0.f && dy == 0.f) return;
-    }
-    glfwSetCursorPos(window, middle_x, middle_y);
+    (input->*fn)(button, mods);
 }
 
 gl::Window::Window()
@@ -53,7 +35,7 @@ gl::Window::~Window()
 }
 
 Status
-gl::Window::create()
+gl::Window::create(util::Input& input)
 {
     if (!glfwInit())
     {
@@ -75,14 +57,27 @@ gl::Window::create()
         return STATUS_ERR;
     }
 
+    glfwSetWindowUserPointer(this->p_window, &input);
     glfwMakeContextCurrent(this->p_window);
     glfwSetInputMode(this->p_window, GLFW_STICKY_KEYS, GL_TRUE);
     glfwSetKeyCallback(this->p_window, &key_callback);
-    glfwSetWindowFocusCallback(this->p_window, &focus_callback);
+    glfwSetMouseButtonCallback(this->p_window, &mouse_callback);
 
     glfwSetTime(0.0);
 
     return STATUS_OK;
+}
+
+void
+gl::Window::close()
+{
+    glfwSetWindowShouldClose(this->p_window, 1);
+}
+
+Status
+gl::Window::should_close()
+{
+    return glfwWindowShouldClose(this->p_window) == 0 ? STATUS_ERR : STATUS_OK;
 }
 
 void
@@ -101,15 +96,6 @@ void
 gl::Window::refresh()
 {
     glfwSwapBuffers(this->p_window);
-}
-
-Status
-gl::Window::should_close()
-{
-    if (glfwWindowShouldClose(this->p_window))
-        return STATUS_OK;
-    else
-        return STATUS_ERR;
 }
 
 void
