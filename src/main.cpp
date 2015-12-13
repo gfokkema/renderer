@@ -29,6 +29,8 @@ int main(int argc, char** argv)
 
         if (input.getkeystate()[GLFW_KEY_A]) window.camera().left();
         if (input.getkeystate()[GLFW_KEY_D]) window.camera().right();
+        if (input.getkeystate()[GLFW_KEY_W]) window.camera().forward();
+        if (input.getkeystate()[GLFW_KEY_S]) window.camera().backward();
         if (input.getkeystate()[GLFW_KEY_ESCAPE]) window.close();
 
         window.refresh();

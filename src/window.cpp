@@ -5,14 +5,18 @@
 #define WIDTH 1920
 #define HEIGHT 1080
 
-/* Time independent keyboard function */
 void
 key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
+    static std::map<int, void (util::Input::*)(int, int, int)> cbmap
+    {
+        std::make_pair(GLFW_PRESS, &util::Input::key_pressed),
+        std::make_pair(GLFW_REPEAT, &util::Input::key_pressed),
+        std::make_pair(GLFW_RELEASE, &util::Input::key_released),
+    };
     util::Input* input = (util::Input*)glfwGetWindowUserPointer(window);
-    auto fn = action == GLFW_PRESS ? &util::Input::key_pressed : &util::Input::key_released;
 
-    (input->*fn)(key, scancode, mods);
+    (input->*cbmap[action])(key, scancode, mods);
 }
 
 void
