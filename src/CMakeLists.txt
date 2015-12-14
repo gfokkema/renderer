@@ -7,6 +7,10 @@ find_package (OpenGL REQUIRED)
 find_package (PkgConfig REQUIRED)
 pkg_search_module (GLFW REQUIRED glfw3)
 
+# Please note the following implicit dependencies:
+# - epoxy (src/gl/CMakeLists.txt)
+# - freeimage (src/gl/CMakeLists.txt)
+
 include_directories (external/tinyobjloader)
 add_subdirectory (external/tinyobjloader)
 
@@ -17,4 +21,4 @@ add_subdirectory (util)
 
 file (GLOB SOURCES *.cpp)
 add_executable (renderer ${SOURCES})
-target_link_libraries (renderer gl util tinyobjloader ${GLFW_LIBRARIES} epoxy)
+target_link_libraries (renderer gl util tinyobjloader ${GLFW_LIBRARIES})

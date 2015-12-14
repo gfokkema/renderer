@@ -30,8 +30,8 @@ int main(int argc, char** argv)
         std::cout << "Frame draw took " << end - start << " seconds.\r";
         std::flush(std::cout);
 
-        std::chrono::nanoseconds duration((unsigned)((frame_end - glfwGetTime()) * 1e9));
-        std::this_thread::sleep_for(duration);
+        unsigned ns = std::max(0., (frame_end - glfwGetTime()) * 1e9);
+        std::this_thread::sleep_for(std::chrono::nanoseconds(ns));
     } while (!window.should_close());
 
     return EXIT_SUCCESS;
