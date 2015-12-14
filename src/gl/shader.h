@@ -11,13 +11,10 @@ public:
     Shader(GLenum type);
     ~Shader();
 
-    void create();
-    void destroy();
+    void load(std::string path);
 
-    Status load(std::string path);
-
-    Status read(std::string path);
-    Status compile();
+    void read(std::string path);
+    void compile();
 
     GLuint getId();
 private:

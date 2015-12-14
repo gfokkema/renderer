@@ -16,14 +16,11 @@ public:
     Program();
     ~Program();
 
-    void create();
-    void destroy();
+    void load(Shader&, Shader&);
 
-    Status load(Shader, Shader);
-
-    void attach(Shader);
-    void detach(Shader);
-    Status link();
+    void attach(Shader&);
+    void detach(Shader&);
+    void link();
     void resolve();
 
     void use();

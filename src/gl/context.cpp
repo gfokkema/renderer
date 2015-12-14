@@ -1,47 +1,16 @@
 #include "context.h"
 
-gl::Context::Context()
+gl::Context::Context(util::ObjModel model)
 {
-}
-
-gl::Context::~Context()
-{
-    this->destroy();
-    for (auto vao : vao_array)
-    {
-        vao->destroy();
-        delete vao;
-    }
-    for (auto texture : textures)
-    {
-        texture->destroy();
-        delete texture;
-    }
-}
-
-Status
-gl::Context::create(util::ObjModel model)
-{
-    // Initialize GLEW
-    glewExperimental = true;
-    if (glewInit() != STATUS_OK)
-    {
-        std::cerr << "Failed to initialize GLEW" << std::endl;
-        return STATUS_ERR;
-    }
-
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
 
     gl::Shader vertexshader(GL_VERTEX_SHADER);
     gl::Shader fragmentshader(GL_FRAGMENT_SHADER);
 
-    if (vertexshader.load("../src/shaders/shader.vertex.c")) return STATUS_ERR;
-    if (fragmentshader.load("../src/shaders/shader.fragment.c")) return STATUS_ERR;
-    if (this->program.load(vertexshader, fragmentshader)) return STATUS_ERR;
-
-    vertexshader.destroy();
-    fragmentshader.destroy();
+    vertexshader.load("../src/shaders/shader.vertex.c");
+    fragmentshader.load("../src/shaders/shader.fragment.c");
+    this->program.load(vertexshader, fragmentshader);
 
     for (auto shape : model.m_shapes)
     {
@@ -59,8 +28,6 @@ gl::Context::create(util::ObjModel model)
 
         this->textures.push_back(texture);
     }
-
-    return STATUS_OK;
 }
 
 gl::VertexArray*
@@ -97,10 +64,16 @@ gl::Context::create(tinyobj::shape_t shape)
     return vao;
 }
 
-void
-gl::Context::destroy()
+gl::Context::~Context()
 {
-    this->program.destroy();
+    for (auto vao : vao_array)
+    {
+        delete vao;
+    }
+    for (auto texture : textures)
+    {
+        delete texture;
+    }
 }
 
 void

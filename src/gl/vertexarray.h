@@ -11,9 +11,6 @@ public:
     VertexArray();
     ~VertexArray();
 
-    void create();
-    void destroy();
-
     void bind();
     void unbind();
 
@@ -26,7 +23,6 @@ public:
     unsigned m_size;
     GLuint texture_idx;
 private:
-    bool m_created;
     GLuint m_vao;
 };
 

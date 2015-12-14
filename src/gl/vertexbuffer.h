@@ -11,9 +11,6 @@ public:
     VertexBuffer(GLenum type);
     ~VertexBuffer();
 
-    void create();
-    void destroy();
-
     void bind();
     void unbind();
 
@@ -24,7 +21,6 @@ public:
 
     GLuint getId();
 private:
-    bool m_created;
     GLuint m_vbo;
     GLenum m_type;
     unsigned m_size;

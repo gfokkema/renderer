@@ -1,42 +1,31 @@
 #include "vertexarray.h"
 
 gl::VertexArray::VertexArray()
-: m_vao(0), m_size(0), texture_idx(0), m_created(false)
+: m_size(0), texture_idx(0)
 {
+    glGenVertexArrays(1, &this->m_vao);
+    check("Error creating vertexarray.");
 }
 
 gl::VertexArray::~VertexArray()
 {
-//    this->destroy();
-}
-
-void
-gl::VertexArray::create()
-{
-    this->m_created = true;
-
-    glGenVertexArrays(1, &this->m_vao);
-}
-
-void
-gl::VertexArray::destroy()
-{
     std::cout << "Destroying vao." << std::endl;
     glDeleteVertexArrays(1, &this->m_vao);
+    check("Error deleting vertexarray.");
 }
 
 void
 gl::VertexArray::bind()
 {
-    if (!this->m_created) create();
-
     glBindVertexArray(this->m_vao);
+    check("Error binding vertexarray.");
 }
 
 void
 gl::VertexArray::unbind()
 {
     glBindVertexArray(0);
+    check("Error unbinding vertexarrays.");
 }
 
 void
@@ -52,6 +41,7 @@ gl::VertexArray::bindvertexattrib()
        0,                  // stride
        (void*)0            // array buffer offset
     );
+    check("Error binding vertexarray attrib.");
 }
 
 void
@@ -67,6 +57,7 @@ gl::VertexArray::binduvattrib()
        0,                  // stride
        (void*)0            // array buffer offset
     );
+    check("Error binding vertexarray attrib.");
 }
 
 void
@@ -74,6 +65,7 @@ gl::VertexArray::unbindattrib()
 {
     glDisableVertexAttribArray(0);
     glDisableVertexAttribArray(1);
+    check("Error unbinding vertexarray attribs.");
 }
 
 GLuint

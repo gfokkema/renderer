@@ -18,9 +18,6 @@ public:
     Texture(GLenum type);
     ~Texture();
 
-    void create();
-    void destroy();
-
     void bind();
 
     void upload(image_buffer);
@@ -28,7 +25,6 @@ public:
 
     GLuint getId();
 private:
-    bool m_created;
     GLuint m_tex;
     GLenum m_type;
 };

@@ -17,16 +17,12 @@ namespace gl
 class Context
 {
 public:
-    Context();
+    Context(util::ObjModel);
     ~Context();
-
-    Status create(util::ObjModel);
-    void destroy();
 
     void draw(util::Camera&);
 private:
     VertexArray* create(tinyobj::shape_t);
-    Texture* create(tinyobj::material_t);
 
     gl::Program program;
     std::vector<gl::Texture*> textures;

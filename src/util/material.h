@@ -21,7 +21,6 @@ enum IMAGE_MAP
 };
 
 typedef std::pair<IMAGE_MAP, std::string> image_path_entry;
-typedef std::pair<IMAGE_MAP, gl::image_buffer> image_buffer_entry;
 
 class Material {
 public:

@@ -67,7 +67,7 @@ util::Material::load()
         if (load_img(buf, path) != STATUS_OK)
             return STATUS_ERR;
 
-        this->m_buffers.insert(image_buffer_entry(image_path.first, buf));
+        this->m_buffers[image_path.first] = buf;
 
         std::cout << " mat path: " << path << std::endl;
         std::cout << " mat size: (" << buf.w << "," << buf.w << std::endl;

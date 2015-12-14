@@ -2,27 +2,14 @@
 
 #include <unistd.h>
 
-#define WIDTH 1024
-#define HEIGHT 768
+#define WIDTH 1920
+#define HEIGHT 1080
 
-gl::Window::Window()
-: p_window(nullptr), m_camera((float)WIDTH / (float)HEIGHT)
-{
-}
-
-gl::Window::~Window()
-{
-    this->destroy();
-}
-
-Status
-gl::Window::create(util::Input& input)
+gl::Window::Window(util::Input& input)
+: m_camera((float)WIDTH / (float)HEIGHT)
 {
     if (!glfwInit())
-    {
-        std::cerr << "Failed to initialize GLFW" << std::endl;
-        return STATUS_ERR;
-    }
+        throw BaseException("Failed to initialize GLFW");
 
     glfwWindowHint(GLFW_SAMPLES, 4);                               // 4x antialiasing
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);                 // We want OpenGL 3.3
@@ -33,9 +20,8 @@ gl::Window::create(util::Input& input)
     this->p_window = glfwCreateWindow(WIDTH, HEIGHT, "Renderer", NULL, NULL);
     if (!this->p_window)
     {
-        std::cerr << "Failed to open GLFW window." << std::endl;
         glfwTerminate();
-        return STATUS_ERR;
+        throw BaseException("Failed to open GLFW window.");
     }
 
     glfwSetWindowUserPointer(this->p_window, &input);
@@ -44,9 +30,19 @@ gl::Window::create(util::Input& input)
     glfwSetKeyCallback(this->p_window, &key_callback);
     glfwSetMouseButtonCallback(this->p_window, &mouse_callback);
 
-    glfwSetTime(0.0);
+    // Initialize GLEW
+    glewExperimental = true;
+    if (glewInit() != STATUS_OK)
+        throw BaseException("Failed to initialize GLEW");
+    // Pop GLEW errors off the opengl stack, might switch to libepoxy..
+    glGetError();
 
-    return STATUS_OK;
+    glfwSetTime(0.0);
+}
+
+gl::Window::~Window()
+{
+    glfwTerminate();
 }
 
 void
@@ -55,16 +51,10 @@ gl::Window::close()
     glfwSetWindowShouldClose(this->p_window, 1);
 }
 
-Status
+bool
 gl::Window::should_close()
 {
-    return glfwWindowShouldClose(this->p_window) == 0 ? STATUS_ERR : STATUS_OK;
-}
-
-void
-gl::Window::destroy()
-{
-    glfwTerminate();
+    return glfwWindowShouldClose(this->p_window) != 0;
 }
 
 util::Camera&

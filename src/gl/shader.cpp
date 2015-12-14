@@ -1,53 +1,34 @@
 #include "shader.h"
 
 gl::Shader::Shader (GLenum type)
-: m_shader(0), m_type(type)
+: m_type(type)
 {
+    this->m_shader = glCreateShader(type);
+    check("Error creating shader.");
 }
 
 gl::Shader::~Shader ()
 {
-    this->destroy();
-}
-
-void
-gl::Shader::create()
-{
-    this->m_shader = glCreateShader(this->m_type);
-}
-
-void
-gl::Shader::destroy()
-{
     glDeleteShader(this->m_shader);
+    check("Error deleting shader.");
 }
 
-Status
+void
 gl::Shader::load(std::string path)
 {
-    this->create();
-
-    if (this->read(path) != STATUS_OK)
-        return STATUS_ERR;
-
-    if (this->compile() != STATUS_OK)
-        return STATUS_ERR;
-
-    return STATUS_OK;
+    this->read(path);
+    this->compile();
 }
 
 
-Status
+void
 gl::Shader::read(std::string path)
 {
     // Read the Vertex Shader code from the file
     std::string shaderCode;
     std::ifstream shaderStream(path, std::ios::in);
     if(!shaderStream.is_open())
-    {
-        std::cerr << "Failed to open file: " << path << std::endl;
-        return STATUS_ERR;
-    }
+        throw BaseException("Failed to open file: " + path);
 
     std::string line = "";
     while(getline(shaderStream, line))
@@ -59,10 +40,10 @@ gl::Shader::read(std::string path)
     char const* shaderPointer = shaderCode.c_str();
     glShaderSource(this->m_shader, 1, &shaderPointer, NULL);
 
-    return STATUS_OK;
+    check("Failed to upload file: " + path);
 }
 
-Status
+void
 gl::Shader::compile()
 {
     int result = 0;
@@ -80,7 +61,8 @@ gl::Shader::compile()
         printf("Shader log: %s\n", &shader_log.front());
     }
 
-    return result == GL_TRUE ? STATUS_OK : STATUS_ERR;
+    if (result == GL_FALSE)
+        throw BaseException("Failed to compile shader.");
 }
 
 GLuint

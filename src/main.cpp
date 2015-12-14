@@ -6,23 +6,11 @@
 
 int main(int argc, char** argv)
 {
-    gl::Window window;
-    gl::Context ctx;
     util::Input input;
-    util::ObjModel model;
+    gl::Window window(input);
 
-    if (window.create(input) != STATUS_OK)
-    {
-        std::cerr << "Failed to create window." << std::endl;
-        return STATUS_ERR;
-    }
-
-    model.load("../Desmond_Miles/", "Desmond_Miles.obj");
-    if (ctx.create(model) != STATUS_OK)
-    {
-        std::cerr << "Failed to create opengl context." << std::endl;
-        return STATUS_ERR;
-    }
+    util::ObjModel model("../Ciri/", "ciri.obj");
+    gl::Context ctx(model);
 
     do {
         double frame_end = glfwGetTime() + 1.0 / 60.0;
@@ -44,10 +32,7 @@ int main(int argc, char** argv)
 
         std::chrono::nanoseconds duration((unsigned)((frame_end - glfwGetTime()) * 1e9));
         std::this_thread::sleep_for(duration);
-    } while (window.should_close() != STATUS_OK);
-
-    window.destroy();
-    ctx.destroy();
+    } while (window.should_close() == false);
 
     return STATUS_OK;
 }

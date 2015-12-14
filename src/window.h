@@ -15,13 +15,11 @@ namespace gl
 class Window
 {
 public:
-    Window();
+    Window(util::Input&);
     ~Window();
 
-    Status create(util::Input& input);
     void close();
-    Status should_close();
-    void destroy();
+    bool should_close();
 
     util::Camera& camera();
     void refresh();

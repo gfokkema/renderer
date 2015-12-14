@@ -10,62 +10,46 @@ std::ostream& operator<<(std::ostream& os, const gl::Uniform& uniform)
 }
 
 gl::Program::Program()
-: m_program(0)
 {
+    this->m_program = glCreateProgram();
+    check("Error creating program.");
 }
 
 gl::Program::~Program()
 {
-    this->destroy();
-}
-
-void
-gl::Program::create()
-{
-    this->m_program = glCreateProgram();
-}
-
-void
-gl::Program::destroy()
-{
     glDeleteProgram(this->m_program);
+    check("Error deleting program.");
 }
 
-Status
-gl::Program::load(Shader vertex, Shader fragment)
+void
+gl::Program::load(Shader& vertex, Shader& fragment)
 {
-    Status result;
-
-    this->create();
-
     this->attach(vertex);
     this->attach(fragment);
 
-    result = this->link();
+    this->link();
 
     this->detach(vertex);
     this->detach(fragment);
 
-    if (result != STATUS_OK)
-        return STATUS_ERR;
-
     this->resolve();
-    return STATUS_OK;
 }
 
 void
-gl::Program::attach(Shader shader)
+gl::Program::attach(Shader& shader)
 {
     glAttachShader(this->m_program, shader.getId());
+    check("Error attaching shader to program.");
 }
 
 void
-gl::Program::detach(Shader shader)
+gl::Program::detach(Shader& shader)
 {
     glDetachShader(this->m_program, shader.getId());
+    check("Error detaching shader from program.");
 }
 
-Status
+void
 gl::Program::link()
 {
     int result = 0;
@@ -84,7 +68,8 @@ gl::Program::link()
         std::cout << program_log[0] << std::endl;
     }
 
-    return result == GL_TRUE ? STATUS_OK : STATUS_ERR;
+    if (result == GL_FALSE)
+        throw BaseException("Error linking program.");
 }
 
 void
@@ -120,6 +105,7 @@ void
 gl::Program::use()
 {
     glUseProgram(this->m_program);
+    check("Error using program.");
 }
 
 gl::Uniform
