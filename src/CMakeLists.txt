@@ -6,7 +6,6 @@ add_definitions(-std=c++11 -g)
 find_package (OpenGL REQUIRED)
 find_package (PkgConfig REQUIRED)
 pkg_search_module (GLFW REQUIRED glfw3)
-pkg_search_module (GLEW REQUIRED glew)
 
 include_directories (external/tinyobjloader)
 add_subdirectory (external/tinyobjloader)
@@ -18,4 +17,4 @@ add_subdirectory (util)
 
 file (GLOB SOURCES *.cpp)
 add_executable (renderer ${SOURCES})
-target_link_libraries (renderer gl util tinyobjloader ${GLFW_LIBRARIES})
+target_link_libraries (renderer gl util tinyobjloader ${GLFW_LIBRARIES} epoxy)

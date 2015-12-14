@@ -1,7 +1,8 @@
 #ifndef __COMMON_H__
 #define __COMMON_H__
 
-#include <GL/glew.h>
+#include <epoxy/gl.h>
+#include <epoxy/glx.h>
 #include <glm/glm.hpp>
 
 #include <cstdio>
@@ -12,8 +13,6 @@
 #include <memory>
 #include <string>
 #include <vector>
-
-#include "status.h"
 
 class BaseException : public std::exception
 {

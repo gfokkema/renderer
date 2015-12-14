@@ -27,13 +27,12 @@ public:
     Material(tinyobj::material_t, std::string = "");
     ~Material();
 
-    Status load();
-    gl::image_buffer get_buffer(IMAGE_MAP);
+    void load();
+    std::shared_ptr<gl::image_buffer> get_buffer(IMAGE_MAP);
 private:
-    std::string m_base_path;
     tinyobj::material_t m_material;
 
-    std::map<IMAGE_MAP, gl::image_buffer> m_buffers;
+    std::map<IMAGE_MAP, std::shared_ptr<gl::image_buffer>> m_buffers;
 };
 
 }

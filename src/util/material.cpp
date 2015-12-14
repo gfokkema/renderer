@@ -18,42 +18,28 @@ image_paths(tinyobj::material_t material)
     });
 }
 
-Status
-load_img(gl::image_buffer& buf, std::string path)
+std::shared_ptr<gl::image_buffer>
+load_img(std::string path)
 {
-    FREE_IMAGE_FORMAT format;
-    FIBITMAP* img;
+    FREE_IMAGE_FORMAT format = FreeImage_GetFileType(path.c_str());
+    FIBITMAP* img = FreeImage_Load(format, path.c_str());
+    if (!img || format == FIF_UNKNOWN)
+        throw BaseException("Error loading material file: " + path);
 
-    format = FreeImage_GetFileType(path.c_str());
-    if (format == FIF_UNKNOWN)
-        return STATUS_ERR;
+    std::shared_ptr<gl::image_buffer> buf(new gl::image_buffer);
+    buf->w = FreeImage_GetWidth(img);
+    buf->h = FreeImage_GetHeight(img);
+    buf->data = std::vector<unsigned char>(buf->size());
 
-    img = FreeImage_Load(format, path.c_str());
-    if (!img)
-        return STATUS_ERR;
-
-    buf.w = FreeImage_GetWidth(img);
-    buf.h = FreeImage_GetHeight(img);
-
-    unsigned size = buf.w * buf.h * 3;
-    buf.data = std::vector<unsigned char>(size);
-    FreeImage_ConvertToRawBits(buf.data.data(), img, buf.w * 3, 24, 0, 0, 0);
+    FreeImage_ConvertToRawBits(buf->data.data(), img, buf->w * 3, 24, 0, 0, 0);
     FreeImage_Unload(img);
 
-    return STATUS_OK;
+    return buf;
 }
 
-util::Material::Material(tinyobj::material_t material, std::string base_path)
-: m_material(material), m_base_path(base_path)
-{
-}
-
-util::Material::~Material()
-{
-}
-
-Status
-util::Material::load()
+util::Material::Material(tinyobj::material_t material,
+                         std::string base_path)
+: m_material(material)
 {
     std::cout << " mat name: " << this->m_material.name << std::endl;
 
@@ -61,22 +47,18 @@ util::Material::load()
     {
         if (image_path.second.size() == 0) continue;
 
-        gl::image_buffer buf;
-        std::string path = this->m_base_path + image_path.second;
-
-        if (load_img(buf, path) != STATUS_OK)
-            return STATUS_ERR;
-
-        this->m_buffers[image_path.first] = buf;
+        std::string path = base_path + image_path.second;
+        this->m_buffers[image_path.first] = load_img(path);
 
         std::cout << " mat path: " << path << std::endl;
-        std::cout << " mat size: (" << buf.w << "," << buf.w << std::endl;
     }
-
-    return STATUS_OK;
 }
 
-gl::image_buffer
+util::Material::~Material()
+{
+}
+
+std::shared_ptr<gl::image_buffer>
 util::Material::get_buffer(IMAGE_MAP tex)
 {
     return this->m_buffers[tex];

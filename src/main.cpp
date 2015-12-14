@@ -32,7 +32,7 @@ int main(int argc, char** argv)
 
         std::chrono::nanoseconds duration((unsigned)((frame_end - glfwGetTime()) * 1e9));
         std::this_thread::sleep_for(duration);
-    } while (window.should_close() == false);
+    } while (!window.should_close());
 
-    return STATUS_OK;
+    return EXIT_SUCCESS;
 }

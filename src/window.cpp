@@ -30,13 +30,6 @@ gl::Window::Window(util::Input& input)
     glfwSetKeyCallback(this->p_window, &key_callback);
     glfwSetMouseButtonCallback(this->p_window, &mouse_callback);
 
-    // Initialize GLEW
-    glewExperimental = true;
-    if (glewInit() != STATUS_OK)
-        throw BaseException("Failed to initialize GLEW");
-    // Pop GLEW errors off the opengl stack, might switch to libepoxy..
-    glGetError();
-
     glfwSetTime(0.0);
 }
 

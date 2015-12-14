@@ -10,6 +10,7 @@ typedef struct image_buffer
 {
     int w, h;
     std::vector<unsigned char> data;
+    unsigned size() { return w * h * 3; };
 } image_buffer;
 
 class Texture
@@ -20,7 +21,7 @@ public:
 
     void bind();
 
-    void upload(image_buffer);
+    void upload(std::shared_ptr<image_buffer>);
     void unbind();
 
     GLuint getId();
