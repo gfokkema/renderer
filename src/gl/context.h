@@ -22,11 +22,12 @@ public:
 
     void draw(util::Camera&);
 private:
-    VertexArray* create(tinyobj::shape_t);
+    void create(tinyobj::shape_t);
 
     gl::Program program;
-    std::vector<gl::Texture*> textures;
-    std::vector<gl::VertexArray*> vao_array;
+    std::vector<std::shared_ptr<gl::Texture>> textures;
+    std::vector<std::shared_ptr<VertexArray>> vao_array;
+    std::vector<std::shared_ptr<VertexBuffer>> vbo_array;
 };
 
 }

@@ -14,7 +14,7 @@ gl::Context::Context(util::ObjModel model)
 
     for (auto shape : model.m_shapes)
     {
-        this->vao_array.push_back(this->create(shape));
+        this->create(shape);
     }
 
     for (auto idx = 0; idx < model.m_materials.size(); idx++)
@@ -22,7 +22,7 @@ gl::Context::Context(util::ObjModel model)
         auto mat = model.m_materials.begin() + idx;
         glActiveTexture(GL_TEXTURE0 + idx);
 
-        Texture* texture = new Texture(GL_TEXTURE_2D);
+        std::shared_ptr<Texture> texture(new Texture(GL_TEXTURE_2D));
         texture->bind();
         texture->upload(mat->get_buffer(util::IMAGE_MAP::DIFFUSE));
 
@@ -30,50 +30,44 @@ gl::Context::Context(util::ObjModel model)
     }
 }
 
-gl::VertexArray*
+void
 gl::Context::create(tinyobj::shape_t shape)
 {
-    VertexArray* vao = new VertexArray;
-    VertexBuffer vbo_index(GL_ELEMENT_ARRAY_BUFFER);
-    VertexBuffer vbo(GL_ARRAY_BUFFER);
-    VertexBuffer uv(GL_ARRAY_BUFFER);
+    std::shared_ptr<VertexArray> vao(new VertexArray);
+    std::shared_ptr<VertexBuffer> vbo_index(new VertexBuffer(GL_ELEMENT_ARRAY_BUFFER));
+    std::shared_ptr<VertexBuffer> vbo(new VertexBuffer(GL_ARRAY_BUFFER));
+    std::shared_ptr<VertexBuffer> uv(new VertexBuffer(GL_ARRAY_BUFFER));
 
     vao->bind();
 
-    vbo_index.bind();
-    vbo_index.upload<unsigned>(shape.mesh.indices, GL_STATIC_DRAW);
+    vbo_index->bind();
+    vbo_index->upload<unsigned>(shape.mesh.indices, GL_STATIC_DRAW);
+    this->vbo_array.push_back(vbo_index);
 
-    vbo.bind();
-    vbo.upload<float>(shape.mesh.positions, GL_STATIC_DRAW);
+    vbo->bind();
+    vbo->upload<float>(shape.mesh.positions, GL_STATIC_DRAW);
     vao->bindvertexattrib();
+    this->vbo_array.push_back(vbo);
 
-    uv.bind();
-    uv.upload<float>(shape.mesh.texcoords, GL_STATIC_DRAW);
+    uv->bind();
+    uv->upload<float>(shape.mesh.texcoords, GL_STATIC_DRAW);
     vao->binduvattrib();
+    this->vbo_array.push_back(uv);
 
     // FIXME: These attributes should not be part of the vao.
     //        Might consider mirroring opengl vbo binding state though.
-    vao->m_size = vbo_index.size();
+    vao->m_size = vbo_index->size();
     vao->texture_idx = shape.mesh.material_ids.front();
     vao->unbind();
+    this->vao_array.push_back(vao);
 
-    vbo_index.unbind();
-    vbo.unbind();
-    uv.unbind();
-
-    return vao;
+    vbo_index->unbind();
+    vbo->unbind();
+    uv->unbind();
 }
 
 gl::Context::~Context()
 {
-    for (auto vao : vao_array)
-    {
-        delete vao;
-    }
-    for (auto texture : textures)
-    {
-        delete texture;
-    }
 }
 
 void
