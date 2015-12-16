@@ -26,13 +26,7 @@ util::Camera::matrix()
 }
 
 void
-util::Camera::move(glm::vec3 movement)
+util::Camera::apply(const Movement * movement)
 {
-    m_pos += movement;
-}
-
-void
-util::Camera::send(const Movement * movement)
-{
-    movement->apply(this);
+    m_pos += movement->m_movement;
 }

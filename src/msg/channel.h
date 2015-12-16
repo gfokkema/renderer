@@ -7,7 +7,7 @@ template<class T>
 class Sink {
 public:
     virtual ~Sink() {};
-    virtual void send(const T*) = 0;
+    virtual void apply(const T*) = 0;
 };
 
 template <class T>

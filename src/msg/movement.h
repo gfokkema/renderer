@@ -1,21 +1,16 @@
 #ifndef MOVEMENT_H_
 #define MOVEMENT_H_
 
-#include "message.h"
+#include "common.h"
 
-namespace util
-{
-    class Camera;
-}
-
-class Movement : public Message<util::Camera>
+class Movement
 {
 public:
-    Movement(glm::vec3);
-    virtual ~Movement();
+    Movement(glm::vec3 movement)
+    : m_movement(movement) {};
 
-    virtual void apply(util::Camera*) const;
-private:
+    ~Movement() {};
+
     glm::vec3 m_movement;
 };
 

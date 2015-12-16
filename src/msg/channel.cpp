@@ -22,7 +22,7 @@ Channel<T>::emit(const T * msg)
 {
     for (auto sink : this->sinks)
     {
-        sink->send(msg);
+        sink->apply(msg);
     }
 }
 

@@ -17,9 +17,7 @@ public:
 
     glm::mat4 matrix();
 
-    void move(glm::vec3);
-
-    void send(const Movement *);
+    void apply(const Movement *);
 private:
     glm::vec3 m_pos;
     glm::vec3 m_dir;
