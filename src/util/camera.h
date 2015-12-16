@@ -2,11 +2,14 @@
 #define CAMERA_H_
 
 #include "common.h"
+#include "msg/channel.h"
+
+class Movement;
 
 namespace util
 {
 
-class Camera
+class Camera : public Sink<Movement>
 {
 public:
     Camera(float aspect_ratio);
@@ -14,10 +17,9 @@ public:
 
     glm::mat4 matrix();
 
-    void left();
-    void right();
-    void forward();
-    void backward();
+    void move(glm::vec3);
+
+    void send(const Movement *);
 private:
     glm::vec3 m_pos;
     glm::vec3 m_dir;

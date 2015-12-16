@@ -1,5 +1,7 @@
 #include "camera.h"
 
+#include "msg/movement.h"
+
 #include <glm/gtc/matrix_transform.hpp>
 
 util::Camera::Camera (float aspect_ratio)
@@ -24,25 +26,13 @@ util::Camera::matrix()
 }
 
 void
-util::Camera::left()
+util::Camera::move(glm::vec3 movement)
 {
-    m_pos.x -= .1;
+    m_pos += movement;
 }
 
 void
-util::Camera::right()
+util::Camera::send(const Movement * movement)
 {
-    m_pos.x += .1;
-}
-
-void
-util::Camera::forward()
-{
-    m_pos.z -= .1;
-}
-
-void
-util::Camera::backward()
-{
-    m_pos.z += .1;
+    movement->apply(this);
 }

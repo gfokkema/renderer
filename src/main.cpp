@@ -1,3 +1,6 @@
+#include "msg/channel.h"
+#include "msg/movement.h"
+
 #include "util/objmodel.h"
 #include "window.h"
 
@@ -9,16 +12,18 @@ int main(int argc, char** argv)
     util::Input input;
     gl::Window window(input);
 
-    util::ObjModel model("../Ciri/", "ciri.obj");
+    util::ObjModel model("../Desmond_Miles/", "Desmond_Miles.obj");
     gl::Context ctx(model);
 
+    Channel<Movement> channel;
+    channel.listen(&window.camera());
     do {
         double frame_end = glfwGetTime() + 1.0 / 60.0;
 
-        if (input[GLFW_KEY_A]) window.camera().left();
-        if (input[GLFW_KEY_D]) window.camera().right();
-        if (input[GLFW_KEY_W]) window.camera().forward();
-        if (input[GLFW_KEY_S]) window.camera().backward();
+        if (input[GLFW_KEY_A]) channel.emit(&LEFT);
+        if (input[GLFW_KEY_D]) channel.emit(&RIGHT);
+        if (input[GLFW_KEY_W]) channel.emit(&FORWARD);
+        if (input[GLFW_KEY_S]) channel.emit(&BACKWARD);
         if (input[GLFW_KEY_ESCAPE]) window.close();
 
         double start = glfwGetTime();
