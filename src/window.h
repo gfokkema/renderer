@@ -22,6 +22,7 @@ public:
     bool should_close();
 
     util::Camera& camera();
+    void activate();
     void refresh();
     void update();
 private:

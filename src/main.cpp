@@ -11,9 +11,14 @@ int main(int argc, char** argv)
 {
     util::Input input;
     gl::Window window(input);
+    gl::Window window2(input);
 
     util::ObjModel model("../Desmond_Miles/", "Desmond_Miles.obj");
+    window.activate();
     gl::Context ctx(model);
+
+    window2.activate();
+    gl::Context ctx2(model);
 
     Channel<Movement> channel;
     channel.listen(&window.camera());
@@ -27,9 +32,15 @@ int main(int argc, char** argv)
         if (input[GLFW_KEY_ESCAPE]) window.close();
 
         double start = glfwGetTime();
+        window.activate();
         ctx.draw(window.camera());
         window.refresh();
         window.update();
+
+        window2.activate();
+        ctx2.draw(window2.camera());
+        window2.refresh();
+        window2.update();
         double end = glfwGetTime();
 
         std::cout << "Frame draw took " << end - start << " seconds.\r";

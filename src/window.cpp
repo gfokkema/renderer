@@ -25,7 +25,6 @@ gl::Window::Window(util::Input& input)
     }
 
     glfwSetWindowUserPointer(this->p_window, &input);
-    glfwMakeContextCurrent(this->p_window);
     glfwSetInputMode(this->p_window, GLFW_STICKY_KEYS, GL_TRUE);
     glfwSetKeyCallback(this->p_window, &key_callback);
     glfwSetMouseButtonCallback(this->p_window, &mouse_callback);
@@ -54,6 +53,12 @@ util::Camera&
 gl::Window::camera()
 {
     return m_camera;
+}
+
+void
+gl::Window::activate()
+{
+    glfwMakeContextCurrent(this->p_window);
 }
 
 void
