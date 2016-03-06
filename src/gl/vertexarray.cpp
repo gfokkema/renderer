@@ -15,21 +15,21 @@ gl::VertexArray::~VertexArray()
 }
 
 void
-gl::VertexArray::bind()
+gl::VertexArray::bind() const
 {
     glBindVertexArray(this->m_vao);
     check("Error binding vertexarray.");
 }
 
 void
-gl::VertexArray::unbind()
+gl::VertexArray::unbind() const
 {
     glBindVertexArray(0);
     check("Error unbinding vertexarrays.");
 }
 
 void
-gl::VertexArray::bindvertexattrib()
+gl::VertexArray::bindvertexattrib() const
 {
     // vertex positions
     glEnableVertexAttribArray(0);
@@ -45,7 +45,7 @@ gl::VertexArray::bindvertexattrib()
 }
 
 void
-gl::VertexArray::binduvattrib()
+gl::VertexArray::binduvattrib() const
 {
     // uv mapping for textures
     glEnableVertexAttribArray(1);
@@ -61,7 +61,7 @@ gl::VertexArray::binduvattrib()
 }
 
 void
-gl::VertexArray::unbindattrib()
+gl::VertexArray::unbindattrib() const
 {
     glDisableVertexAttribArray(0);
     glDisableVertexAttribArray(1);
@@ -69,7 +69,7 @@ gl::VertexArray::unbindattrib()
 }
 
 GLuint
-gl::VertexArray::getId()
+gl::VertexArray::getId() const
 {
     return this->m_vao;
 }

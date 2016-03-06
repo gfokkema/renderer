@@ -17,12 +17,12 @@ namespace gl
 class Context
 {
 public:
-    Context(util::ObjModel);
+    Context(const util::ObjModel &);
     ~Context();
 
-    void draw(util::Camera&);
+    void draw(util::Camera &);
 private:
-    void create(tinyobj::shape_t);
+    void create(const tinyobj::shape_t &);
 
     gl::Program program;
     std::vector<std::shared_ptr<gl::Texture>> textures;

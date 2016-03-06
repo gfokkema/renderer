@@ -28,7 +28,7 @@ public:
     ~Material();
 
     void load();
-    std::shared_ptr<gl::image_buffer> get_buffer(IMAGE_MAP);
+    std::shared_ptr<gl::image_buffer> get_buffer(IMAGE_MAP) const;
 private:
     tinyobj::material_t m_material;
 

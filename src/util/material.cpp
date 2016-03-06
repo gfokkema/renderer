@@ -59,7 +59,7 @@ util::Material::~Material()
 }
 
 std::shared_ptr<gl::image_buffer>
-util::Material::get_buffer(IMAGE_MAP tex)
+util::Material::get_buffer(IMAGE_MAP tex) const
 {
-    return this->m_buffers[tex];
+    return this->m_buffers.at(tex);
 }

@@ -11,14 +11,14 @@ public:
     VertexArray();
     ~VertexArray();
 
-    void bind();
-    void unbind();
+    void bind() const;
+    void unbind() const;
 
-    void binduvattrib();
-    void bindvertexattrib();
-    void unbindattrib();
+    void binduvattrib() const;
+    void bindvertexattrib() const;
+    void unbindattrib() const;
 
-    GLuint getId();
+    GLuint getId() const;
 
     unsigned m_size;
     GLuint texture_idx;

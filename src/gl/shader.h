@@ -11,12 +11,11 @@ public:
     Shader(GLenum type);
     ~Shader();
 
-    void load(std::string path);
+    void load(std::string path) const;
+    void read(std::string path) const;
+    void compile() const;
 
-    void read(std::string path);
-    void compile();
-
-    GLuint getId();
+    GLuint getId() const;
 private:
     GLuint m_shader;
     GLenum m_type;

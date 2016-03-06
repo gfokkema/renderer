@@ -1,7 +1,7 @@
 #include "vertexbuffer.h"
 
-template void gl::VertexBuffer::upload<float>(std::vector<float>&, GLenum);
-template void gl::VertexBuffer::upload<unsigned>(std::vector<unsigned>&, GLenum);
+template void gl::VertexBuffer::upload<float>(const std::vector<float>&, GLenum);
+template void gl::VertexBuffer::upload<unsigned>(const std::vector<unsigned>&, GLenum);
 
 gl::VertexBuffer::VertexBuffer(GLenum type)
 : m_type(type), m_size(0)
@@ -18,14 +18,14 @@ gl::VertexBuffer::~VertexBuffer()
 }
 
 void
-gl::VertexBuffer::bind()
+gl::VertexBuffer::bind() const
 {
     glBindBuffer(this->m_type, this->m_vbo);
     check("Error binding vertex buffer.");
 }
 
 void
-gl::VertexBuffer::unbind()
+gl::VertexBuffer::unbind() const
 {
     glBindBuffer(this->m_type, 0);
     check("Error unbinding vertex buffers.");
@@ -33,7 +33,7 @@ gl::VertexBuffer::unbind()
 
 template<typename T>
 void
-gl::VertexBuffer::upload(std::vector<T>& data, GLenum usage)
+gl::VertexBuffer::upload(const std::vector<T>& data, GLenum usage)
 {
     this->m_size = data.size();
     glBufferData(this->m_type, sizeof(T) * data.size(), &data.front(), usage);
@@ -41,13 +41,13 @@ gl::VertexBuffer::upload(std::vector<T>& data, GLenum usage)
 }
 
 unsigned
-gl::VertexBuffer::size()
+gl::VertexBuffer::size() const
 {
     return this->m_size;
 }
 
 GLuint
-gl::VertexBuffer::getId()
+gl::VertexBuffer::getId() const
 {
     return this->m_vbo;
 }

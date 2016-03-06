@@ -16,17 +16,17 @@ public:
     Program();
     ~Program();
 
-    void load(Shader&, Shader&);
+    void load(Shader&, Shader&) const;
+    void attach(Shader&) const;
+    void detach(Shader&) const;
+    void link() const;
 
-    void attach(Shader&);
-    void detach(Shader&);
-    void link();
     void resolve();
 
-    void use();
-    Uniform operator[](std::string);
+    void use() const;
+    Uniform operator[](std::string) const;
 
-    GLuint getId();
+    GLuint getId() const;
 private:
     GLuint m_program;
 

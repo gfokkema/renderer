@@ -11,15 +11,15 @@ public:
     VertexBuffer(GLenum type);
     ~VertexBuffer();
 
-    void bind();
-    void unbind();
+    void bind() const;
+    void unbind() const;
 
     template<typename T>
-    void upload(std::vector<T>&, GLenum usage);
+    void upload(const std::vector<T>&, GLenum usage);
 
-    unsigned size();
+    unsigned size() const;
 
-    GLuint getId();
+    GLuint getId() const;
 private:
     GLuint m_vbo;
     GLenum m_type;

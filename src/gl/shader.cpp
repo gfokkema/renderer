@@ -14,7 +14,7 @@ gl::Shader::~Shader ()
 }
 
 void
-gl::Shader::load(std::string path)
+gl::Shader::load(std::string path) const
 {
     this->read(path);
     this->compile();
@@ -22,7 +22,7 @@ gl::Shader::load(std::string path)
 
 
 void
-gl::Shader::read(std::string path)
+gl::Shader::read(std::string path) const
 {
     // Read the Vertex Shader code from the file
     std::string shaderCode;
@@ -44,7 +44,7 @@ gl::Shader::read(std::string path)
 }
 
 void
-gl::Shader::compile()
+gl::Shader::compile() const
 {
     int result = 0;
     int log_size = 0;
@@ -66,7 +66,7 @@ gl::Shader::compile()
 }
 
 GLuint
-gl::Shader::getId()
+gl::Shader::getId() const
 {
     return this->m_shader;
 }

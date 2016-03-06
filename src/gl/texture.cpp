@@ -16,21 +16,21 @@ gl::Texture::~Texture()
 }
 
 void
-gl::Texture::bind()
+gl::Texture::bind() const
 {
     glBindTexture(this->m_type, this->m_tex);
     check("Error binding texture.");
 }
 
 void
-gl::Texture::unbind()
+gl::Texture::unbind() const
 {
     glBindTexture(this->m_type, 0);
     check("Error unbinding textures.");
 }
 
 void
-gl::Texture::upload(std::shared_ptr<image_buffer> img)
+gl::Texture::upload(std::shared_ptr<image_buffer> img) const
 {
     std::cout << "Loaded texture. Dimensions: (" << img->w << ", " << img->h << ")" << std::endl;
     glTexImage2D(
@@ -48,7 +48,7 @@ gl::Texture::upload(std::shared_ptr<image_buffer> img)
 }
 
 GLuint
-gl::Texture::getId()
+gl::Texture::getId() const
 {
     return this->m_tex;
 }

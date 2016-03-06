@@ -22,7 +22,7 @@ gl::Program::~Program()
 }
 
 void
-gl::Program::load(Shader& vertex, Shader& fragment)
+gl::Program::load(Shader& vertex, Shader& fragment) const
 {
     this->attach(vertex);
     this->attach(fragment);
@@ -31,26 +31,24 @@ gl::Program::load(Shader& vertex, Shader& fragment)
 
     this->detach(vertex);
     this->detach(fragment);
-
-    this->resolve();
 }
 
 void
-gl::Program::attach(Shader& shader)
+gl::Program::attach(Shader& shader) const
 {
     glAttachShader(this->m_program, shader.getId());
     check("Error attaching shader to program.");
 }
 
 void
-gl::Program::detach(Shader& shader)
+gl::Program::detach(Shader& shader) const
 {
     glDetachShader(this->m_program, shader.getId());
     check("Error detaching shader from program.");
 }
 
 void
-gl::Program::link()
+gl::Program::link() const
 {
     int result = 0;
     int log_size = 0;
@@ -102,20 +100,20 @@ gl::Program::resolve()
 }
 
 void
-gl::Program::use()
+gl::Program::use() const
 {
     glUseProgram(this->m_program);
     check("Error using program.");
 }
 
 gl::Uniform
-gl::Program::operator[](std::string uniform)
+gl::Program::operator[](std::string uniform) const
 {
-    return this->m_uniforms[uniform];
+    return this->m_uniforms.at(uniform);
 }
 
 GLuint
-gl::Program::getId()
+gl::Program::getId() const
 {
     return this->m_program;
 }

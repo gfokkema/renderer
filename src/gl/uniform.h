@@ -9,8 +9,8 @@ namespace gl
 
 class Uniform {
 public:
-    void set(glm::mat4&);
-    void set(unsigned texture);
+    void set(glm::mat4&) const;
+    void set(unsigned texture) const;
 
     std::string name;
     GLuint location;

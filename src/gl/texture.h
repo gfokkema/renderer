@@ -19,12 +19,12 @@ public:
     Texture(GLenum type);
     ~Texture();
 
-    void bind();
+    void bind() const;
 
-    void upload(std::shared_ptr<image_buffer>);
-    void unbind();
+    void upload(std::shared_ptr<image_buffer>) const;
+    void unbind() const;
 
-    GLuint getId();
+    GLuint getId() const;
 private:
     GLuint m_tex;
     GLenum m_type;
