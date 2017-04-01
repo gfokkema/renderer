@@ -15,19 +15,21 @@ namespace gl
 class Window
 {
 public:
-    Window(util::Input&);
+    Window();
     ~Window();
 
     void close();
     bool should_close();
 
     util::Camera& camera();
+    util::Input& input();
+
     void activate();
-    void refresh();
     void update();
 private:
     GLFWwindow* p_window;
     util::Camera m_camera;
+    util::Input m_input;
 };
 
 }

@@ -9,38 +9,28 @@
 
 int main(int argc, char** argv)
 {
-    util::Input input;
-    gl::Window window(input);
-    gl::Window window2(input);
+    gl::Window window;
 
     util::ObjModel model("../Desmond_Miles/", "Desmond_Miles.obj");
     window.activate();
     gl::Context ctx(model);
-
-    window2.activate();
-    gl::Context ctx2(model);
 
     Channel<Movement> channel;
     channel.listen(&window.camera());
     do {
         double frame_end = glfwGetTime() + 1.0 / 60.0;
 
-        if (input[GLFW_KEY_A]) channel.emit(&LEFT);
-        if (input[GLFW_KEY_D]) channel.emit(&RIGHT);
-        if (input[GLFW_KEY_W]) channel.emit(&FORWARD);
-        if (input[GLFW_KEY_S]) channel.emit(&BACKWARD);
-        if (input[GLFW_KEY_ESCAPE]) window.close();
+        if (window.input()[GLFW_KEY_A]) channel.emit(&LEFT);
+        if (window.input()[GLFW_KEY_D]) channel.emit(&RIGHT);
+        if (window.input()[GLFW_KEY_W]) channel.emit(&FORWARD);
+        if (window.input()[GLFW_KEY_S]) channel.emit(&BACKWARD);
+        if (window.input()[GLFW_KEY_ESCAPE]) window.close();
 
         double start = glfwGetTime();
         window.activate();
         ctx.draw(window.camera());
-        window.refresh();
         window.update();
 
-        window2.activate();
-        ctx2.draw(window2.camera());
-        window2.refresh();
-        window2.update();
         double end = glfwGetTime();
 
         std::cout << "Frame draw took " << end - start << " seconds.\r";

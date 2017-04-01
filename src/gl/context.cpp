@@ -85,7 +85,7 @@ gl::Context::draw(util::Camera & camera)
     this->program.use();
     this->program["mvp"].set(mvp);
 
-    for (auto vao : vao_array)
+    for (auto vao : this->vao_array)
     {
         this->program["tex"].set(vao->texture_idx);
 
