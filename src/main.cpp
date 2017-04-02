@@ -1,11 +1,10 @@
-#include "msg/channel.h"
-#include "msg/movement.h"
-
-#include "util/objmodel.h"
-#include "window.h"
-
 #include <chrono>
 #include <thread>
+
+#include "msg/channel.h"
+#include "msg/movement.h"
+#include "util/objmodel.h"
+#include "window.h"
 
 int main(int argc, char** argv)
 {
@@ -13,7 +12,7 @@ int main(int argc, char** argv)
 
     gl::Window window;
     window.activate();
-    gl::Context ctx(model);
+    glrenderer::Renderer renderer(model);
 
     Channel<Movement> channel;
     channel.listen(&window.camera());
@@ -28,7 +27,7 @@ int main(int argc, char** argv)
 
         double start = glfwGetTime();
         window.activate();
-        ctx.draw(window.camera());
+        renderer.draw(window.camera());
         window.update();
 
         double end = glfwGetTime();
