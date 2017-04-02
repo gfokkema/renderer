@@ -1,18 +1,53 @@
 #include <chrono>
 #include <thread>
 
+#include "common.h"
+
 #include "msg/channel.h"
 #include "msg/movement.h"
 #include "util/objmodel.h"
 #include "window.h"
 
+using namespace glrenderer;
+
+void
+init_renderer(std::unique_ptr<Renderer>& renderer, std::vector<renderable>& renderables) {
+    util::ObjModel model("../Desmond_Miles/", "Desmond_Miles.obj");
+    gl::Shader vertexshader(GL_VERTEX_SHADER);
+    gl::Shader fragmentshader(GL_FRAGMENT_SHADER);
+    vertexshader.load("../src/shaders/shader.vertex.c");
+    fragmentshader.load("../src/shaders/shader.fragment.c");
+
+    auto program = std::make_shared<gl::Program>();
+    program->load(vertexshader, fragmentshader);
+    program->resolve();
+
+    for (auto shape : model.m_shapes)
+        renderables.push_back(std::make_shared<Renderable3D>(program, shape));
+
+    std::vector<texture> textures;
+    for (auto idx = 0; idx < model.m_materials.size(); idx++)
+    {
+        auto mat = model.m_materials.begin() + idx;
+        glActiveTexture(GL_TEXTURE0 + idx);
+
+        auto texture = new gl::Texture(GL_TEXTURE_2D);
+        texture->bind();
+        texture->upload(mat->get_buffer(util::IMAGE_MAP::DIFFUSE));
+
+        textures.push_back(std::unique_ptr<gl::Texture>(texture));
+    }
+    renderer = std::make_unique<Renderer3D>(std::move(textures));
+}
+
 int main(int argc, char** argv)
 {
-    util::ObjModel model("../Desmond_Miles/", "Desmond_Miles.obj");
-
     gl::Window window;
     window.activate();
-    glrenderer::Renderer renderer(model);
+
+    std::unique_ptr<Renderer> renderer;
+    std::vector<renderable> renderables;
+    init_renderer(renderer, renderables);
 
     Channel<Movement> channel;
     channel.listen(&window.camera());
@@ -27,9 +62,9 @@ int main(int argc, char** argv)
 
         double start = glfwGetTime();
         window.activate();
-        renderer.draw(window.camera());
+        renderer->submit(renderables);
+        renderer->draw(window.camera());
         window.update();
-
         double end = glfwGetTime();
 
         std::cout << "Frame draw took " << end - start << " seconds.\r";

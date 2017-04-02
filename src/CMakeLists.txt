@@ -1,7 +1,7 @@
 cmake_minimum_required (VERSION 2.6)
 project (renderer)
 
-add_definitions(-std=c++11 -g)
+add_definitions(-std=c++14 -g)
 
 find_package (OpenGL REQUIRED)
 find_package (PkgConfig REQUIRED)

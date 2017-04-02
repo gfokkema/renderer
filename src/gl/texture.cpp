@@ -11,6 +11,7 @@ gl::Texture::Texture(GLenum type)
 
 gl::Texture::~Texture()
 {
+    std::cout << "Destroying texture." << std::endl;
     glDeleteTextures(1, &this->getId());
     check("Error deleting texture.");
 }

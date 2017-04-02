@@ -24,8 +24,8 @@ mouse_callback(GLFWwindow* gl_window, int button, int action, int mods)
 {
     static std::map<bool, void (util::Input::*)(int, int)> cbmap
     {
-            std::make_pair(GLFW_PRESS,   &util::Input::mouse_pressed),
-            std::make_pair(GLFW_RELEASE, &util::Input::mouse_released),
+        std::make_pair(GLFW_PRESS,   &util::Input::mouse_pressed),
+        std::make_pair(GLFW_RELEASE, &util::Input::mouse_released),
     };
     gl::Window* window = (gl::Window*)glfwGetWindowUserPointer(gl_window);
 

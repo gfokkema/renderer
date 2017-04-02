@@ -1,28 +1,26 @@
-#ifndef GL_RENDERER_H_
-#define GL_RENDERER_H_
+#ifndef GLRENDERER_RENDERER_H_
+#define GLRENDERER_RENDERER_H_
 
-#include "common.h"
-
-#include "gl/texture.h"
 #include "util/camera.h"
-#include "util/objmodel.h"
 #include "renderable3d.h"
 
-namespace glrenderer
-{
+namespace glrenderer {
+
+typedef std::unique_ptr<gl::Texture> texture;
+typedef std::shared_ptr<Renderable3D> renderable;
 
 class Renderer
 {
 public:
-    Renderer(const util::ObjModel &);
-    ~Renderer();
+    Renderer(std::vector<texture> textures) : m_textures(std::move(textures)) {};
+    virtual ~Renderer() {};
 
-    void draw(util::Camera &);
+    virtual void draw(util::Camera& camera) = 0;
+    virtual void submit(std::vector<renderable>& renderables) = 0;
 private:
-    std::vector<std::shared_ptr<glrenderer::Renderable3D>> renderables;
-    std::vector<std::shared_ptr<gl::Texture>> textures;
+    std::vector<texture> m_textures;
 };
 
 }
 
-#endif /* GL_RENDERER_H_ */
+#endif /* GLRENDERER_RENDERER_H_ */

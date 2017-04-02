@@ -5,7 +5,7 @@
 
 #include <GLFW/glfw3.h>
 
-#include "glrenderer/renderer.h"
+#include "glrenderer/renderer3d.h"
 #include "util/camera.h"
 #include "util/input.h"
 

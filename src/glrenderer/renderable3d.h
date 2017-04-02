@@ -14,7 +14,7 @@ namespace glrenderer
 class Renderable3D
 {
 public:
-    Renderable3D(std::shared_ptr<gl::Program> program, tinyobj::shape_t& shape, glm::vec3 pos);
+    Renderable3D(std::shared_ptr<gl::Program> program, tinyobj::shape_t& shape, glm::vec3 pos = glm::vec3(0, 0, 0));
     virtual ~Renderable3D();
 
     std::shared_ptr<gl::Program>& program();
