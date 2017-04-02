@@ -7,9 +7,9 @@ gl::Context::Context(const util::ObjModel & model)
 
     gl::Shader vertexshader(GL_VERTEX_SHADER);
     gl::Shader fragmentshader(GL_FRAGMENT_SHADER);
-
     vertexshader.load("../src/shaders/shader.vertex.c");
     fragmentshader.load("../src/shaders/shader.fragment.c");
+
     this->program.load(vertexshader, fragmentshader);
     this->program.resolve();
 
@@ -18,6 +18,7 @@ gl::Context::Context(const util::ObjModel & model)
         this->create(shape);
     }
 
+    // load textures
     for (auto idx = 0; idx < model.m_materials.size(); idx++)
     {
         auto mat = model.m_materials.begin() + idx;

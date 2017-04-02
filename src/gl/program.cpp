@@ -11,13 +11,14 @@ std::ostream& operator<<(std::ostream& os, const gl::Uniform& uniform)
 
 gl::Program::Program()
 {
-    this->m_program = glCreateProgram();
+    this->getId() = glCreateProgram();
     check("Error creating program.");
 }
 
 gl::Program::~Program()
 {
-    glDeleteProgram(this->m_program);
+    std::cout << "Destroying program." << std::endl;
+    glDeleteProgram(this->getId());
     check("Error deleting program.");
 }
 
@@ -36,14 +37,14 @@ gl::Program::load(Shader& vertex, Shader& fragment) const
 void
 gl::Program::attach(Shader& shader) const
 {
-    glAttachShader(this->m_program, shader.getId());
+    glAttachShader(this->getId(), shader.getId());
     check("Error attaching shader to program.");
 }
 
 void
 gl::Program::detach(Shader& shader) const
 {
-    glDetachShader(this->m_program, shader.getId());
+    glDetachShader(this->getId(), shader.getId());
     check("Error detaching shader from program.");
 }
 
@@ -55,14 +56,15 @@ gl::Program::link() const
 
     // Link the program
     std::cout << "Linking program." << std::endl;
-    glLinkProgram(this->m_program);
+    glLinkProgram(this->getId());
 
     // Check the program
-    glGetProgramiv(this->m_program, GL_LINK_STATUS, &result);
-    glGetProgramiv(this->m_program, GL_INFO_LOG_LENGTH, &log_size);
+    glGetProgramiv(this->getId(), GL_LINK_STATUS, &result);
+    glGetProgramiv(this->getId(), GL_INFO_LOG_LENGTH, &log_size);
+    glValidateProgram(this->getId());
     if (log_size > 1) {
         std::vector<char> program_log(log_size + 1);
-        glGetProgramInfoLog(this->m_program, log_size, NULL, &program_log.front());
+        glGetProgramInfoLog(this->getId(), log_size, NULL, &program_log.front());
         std::cout << program_log[0] << std::endl;
     }
 
@@ -76,17 +78,17 @@ gl::Program::resolve()
     int no_uniform = 0;
     int max_name_size = 0;
 
-    glGetProgramiv(this->m_program, GL_ACTIVE_UNIFORMS, &no_uniform);
-    glGetProgramiv(this->m_program, GL_ACTIVE_UNIFORM_MAX_LENGTH, &max_name_size);
+    glGetProgramiv(this->getId(), GL_ACTIVE_UNIFORMS, &no_uniform);
+    glGetProgramiv(this->getId(), GL_ACTIVE_UNIFORM_MAX_LENGTH, &max_name_size);
 
     char buf[max_name_size];
     for (auto i = 0; i < no_uniform; i++)
     {
         Uniform uniform;
 
-        glGetActiveUniform(this->m_program, i, max_name_size, NULL, &uniform.size, &uniform.type, buf);
+        glGetActiveUniform(this->getId(), i, max_name_size, NULL, &uniform.size, &uniform.type, buf);
         uniform.name = std::string(buf);
-        uniform.location = glGetUniformLocation(this->m_program, uniform.name.c_str());
+        uniform.location = glGetUniformLocation(this->getId(), uniform.name.c_str());
 
         this->m_uniforms.insert(entry(uniform.name, uniform));
     }
@@ -102,7 +104,7 @@ gl::Program::resolve()
 void
 gl::Program::use() const
 {
-    glUseProgram(this->m_program);
+    glUseProgram(this->getId());
     check("Error using program.");
 }
 
@@ -110,10 +112,4 @@ gl::Uniform
 gl::Program::operator[](std::string uniform) const
 {
     return this->m_uniforms.at(uniform);
-}
-
-GLuint
-gl::Program::getId() const
-{
-    return this->m_program;
 }

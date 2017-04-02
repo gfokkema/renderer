@@ -3,21 +3,21 @@
 gl::VertexArray::VertexArray()
 : m_size(0), texture_idx(0)
 {
-    glGenVertexArrays(1, &this->m_vao);
+    glGenVertexArrays(1, &this->getId());
     check("Error creating vertexarray.");
 }
 
 gl::VertexArray::~VertexArray()
 {
     std::cout << "Destroying vao." << std::endl;
-    glDeleteVertexArrays(1, &this->m_vao);
+    glDeleteVertexArrays(1, &this->getId());
     check("Error deleting vertexarray.");
 }
 
 void
 gl::VertexArray::bind() const
 {
-    glBindVertexArray(this->m_vao);
+    glBindVertexArray(this->getId());
     check("Error binding vertexarray.");
 }
 
@@ -66,10 +66,4 @@ gl::VertexArray::unbindattrib() const
     glDisableVertexAttribArray(0);
     glDisableVertexAttribArray(1);
     check("Error unbinding vertexarray attribs.");
-}
-
-GLuint
-gl::VertexArray::getId() const
-{
-    return this->m_vao;
 }

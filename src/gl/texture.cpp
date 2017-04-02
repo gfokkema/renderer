@@ -5,20 +5,20 @@
 gl::Texture::Texture(GLenum type)
 : m_type(type)
 {
-    glGenTextures(1, &this->m_tex);
+    glGenTextures(1, &this->getId());
     check("Error creating texture.");
 }
 
 gl::Texture::~Texture()
 {
-    glDeleteTextures(1, &this->m_tex);
+    glDeleteTextures(1, &this->getId());
     check("Error deleting texture.");
 }
 
 void
 gl::Texture::bind() const
 {
-    glBindTexture(this->m_type, this->m_tex);
+    glBindTexture(this->m_type, this->getId());
     check("Error binding texture.");
 }
 
@@ -45,10 +45,4 @@ gl::Texture::upload(std::shared_ptr<image_buffer> img) const
     glTexParameteri(this->m_type, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(this->m_type, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     check("Error uploading texture.");
-}
-
-GLuint
-gl::Texture::getId() const
-{
-    return this->m_tex;
 }

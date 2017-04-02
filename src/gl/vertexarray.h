@@ -3,10 +3,12 @@
 
 #include "common.h"
 
+#include "gl.h"
+
 namespace gl
 {
 
-class VertexArray {
+class VertexArray : public Gl {
 public:
     VertexArray();
     ~VertexArray();
@@ -18,12 +20,9 @@ public:
     void bindvertexattrib() const;
     void unbindattrib() const;
 
-    GLuint getId() const;
-
     unsigned m_size;
     GLuint texture_idx;
 private:
-    GLuint m_vao;
 };
 
 }

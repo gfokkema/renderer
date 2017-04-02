@@ -3,6 +3,7 @@
 
 #include "common.h"
 
+#include "gl.h"
 #include "shader.h"
 #include "uniform.h"
 
@@ -11,24 +12,19 @@ namespace gl
 
 typedef std::pair<std::string, Uniform> entry;
 
-class Program {
+class Program : public Gl {
 public:
     Program();
     ~Program();
 
     void load(Shader&, Shader&) const;
+    void resolve();
+    void use() const;
+    Uniform operator[](std::string) const;
+private:
     void attach(Shader&) const;
     void detach(Shader&) const;
     void link() const;
-
-    void resolve();
-
-    void use() const;
-    Uniform operator[](std::string) const;
-
-    GLuint getId() const;
-private:
-    GLuint m_program;
 
     std::map<std::string, Uniform> m_uniforms;
 };

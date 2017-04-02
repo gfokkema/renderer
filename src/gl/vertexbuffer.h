@@ -3,10 +3,12 @@
 
 #include "common.h"
 
+#include "gl.h"
+
 namespace gl
 {
 
-class VertexBuffer {
+class VertexBuffer : public Gl {
 public:
     VertexBuffer(GLenum type);
     ~VertexBuffer();
@@ -18,10 +20,7 @@ public:
     void upload(const std::vector<T>&, GLenum usage);
 
     unsigned size() const;
-
-    GLuint getId() const;
 private:
-    GLuint m_vbo;
     GLenum m_type;
     unsigned m_size;
 };

@@ -6,21 +6,21 @@ template void gl::VertexBuffer::upload<unsigned>(const std::vector<unsigned>&, G
 gl::VertexBuffer::VertexBuffer(GLenum type)
 : m_type(type), m_size(0)
 {
-    glGenBuffers(1, &this->m_vbo);
+    glGenBuffers(1, &this->getId());
     check("Error creating vertex buffer.");
 }
 
 gl::VertexBuffer::~VertexBuffer()
 {
     std::cout << "Destroying vbo." << std::endl;
-    glDeleteBuffers(1, &this->m_vbo);
+    glDeleteBuffers(1, &this->getId());
     check("Error deleting vertex buffer.");
 }
 
 void
 gl::VertexBuffer::bind() const
 {
-    glBindBuffer(this->m_type, this->m_vbo);
+    glBindBuffer(this->m_type, this->getId());
     check("Error binding vertex buffer.");
 }
 
@@ -44,10 +44,4 @@ unsigned
 gl::VertexBuffer::size() const
 {
     return this->m_size;
-}
-
-GLuint
-gl::VertexBuffer::getId() const
-{
-    return this->m_vbo;
 }

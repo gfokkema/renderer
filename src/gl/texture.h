@@ -3,6 +3,8 @@
 
 #include "common.h"
 
+#include "gl.h"
+
 namespace gl
 {
 
@@ -13,7 +15,7 @@ typedef struct image_buffer
     unsigned size() { return w * h * 3; };
 } image_buffer;
 
-class Texture
+class Texture : public Gl
 {
 public:
     Texture(GLenum type);
@@ -23,10 +25,7 @@ public:
 
     void upload(std::shared_ptr<image_buffer>) const;
     void unbind() const;
-
-    GLuint getId() const;
 private:
-    GLuint m_tex;
     GLenum m_type;
 };
 
