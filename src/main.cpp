@@ -3,20 +3,21 @@
 
 #include "common.h"
 
+#include "graphics/window.h"
 #include "msg/channel.h"
 #include "msg/movement.h"
+#include "util/file.h"
 #include "util/objmodel.h"
-#include "window.h"
 
-using namespace glrenderer;
+using namespace graphics;
 
 void
 init_renderer(std::unique_ptr<Renderer>& renderer, std::vector<renderable>& renderables) {
     util::ObjModel model("../Desmond_Miles/", "Desmond_Miles.obj");
     gl::Shader vertexshader(GL_VERTEX_SHADER);
     gl::Shader fragmentshader(GL_FRAGMENT_SHADER);
-    vertexshader.load("../src/shaders/shader.vertex.c");
-    fragmentshader.load("../src/shaders/shader.fragment.c");
+    vertexshader.load(util::File("../src/shaders/shader.vertex.c").read());
+    fragmentshader.load(util::File("../src/shaders/shader.fragment.c").read());
 
     auto program = std::make_shared<gl::Program>();
     program->load(vertexshader, fragmentshader);
@@ -42,7 +43,7 @@ init_renderer(std::unique_ptr<Renderer>& renderer, std::vector<renderable>& rend
 
 int main(int argc, char** argv)
 {
-    gl::Window window;
+    graphics::Window window;
     window.activate();
 
     std::unique_ptr<Renderer> renderer;
@@ -67,7 +68,7 @@ int main(int argc, char** argv)
         window.update();
         double end = glfwGetTime();
 
-        std::cout << "Frame draw took " << end - start << " seconds.\r";
+        printf("Frame draw took %f ms.\r", (end - start) * 1e3);
         std::flush(std::cout);
 
         unsigned ns = std::max(0., (frame_end - glfwGetTime()) * 1e9);

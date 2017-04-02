@@ -18,7 +18,7 @@ image_paths(tinyobj::material_t material)
     });
 }
 
-std::shared_ptr<gl::image_buffer>
+std::shared_ptr<graphics::gl::image_buffer>
 load_img(std::string path)
 {
     FREE_IMAGE_FORMAT format = FreeImage_GetFileType(path.c_str());
@@ -26,7 +26,7 @@ load_img(std::string path)
     if (!img || format == FIF_UNKNOWN)
         throw BaseException("Error loading material file: " + path);
 
-    std::shared_ptr<gl::image_buffer> buf(new gl::image_buffer);
+    std::shared_ptr<graphics::gl::image_buffer> buf(new graphics::gl::image_buffer);
     buf->w = FreeImage_GetWidth(img);
     buf->h = FreeImage_GetHeight(img);
     buf->data = std::vector<unsigned char>(buf->size());
@@ -58,7 +58,7 @@ util::Material::~Material()
 {
 }
 
-std::shared_ptr<gl::image_buffer>
+std::shared_ptr<graphics::gl::image_buffer>
 util::Material::get_buffer(IMAGE_MAP tex) const
 {
     return this->m_buffers.at(tex);

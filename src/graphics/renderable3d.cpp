@@ -1,6 +1,6 @@
 #include "renderable3d.h"
 
-glrenderer::Renderable3D::Renderable3D(std::shared_ptr<gl::Program> program, tinyobj::shape_t& shape, glm::vec3 pos)
+graphics::Renderable3D::Renderable3D(std::shared_ptr<gl::Program> program, tinyobj::shape_t& shape, glm::vec3 pos)
 : m_program(program), m_vao(), m_vbo(GL_ARRAY_BUFFER), m_uv(GL_ARRAY_BUFFER), m_ibo(GL_ELEMENT_ARRAY_BUFFER), m_pos(pos)
 {
     m_vao.bind();
@@ -27,18 +27,18 @@ glrenderer::Renderable3D::Renderable3D(std::shared_ptr<gl::Program> program, tin
     m_ibo.unbind();
 }
 
-glrenderer::Renderable3D::~Renderable3D()
+graphics::Renderable3D::~Renderable3D()
 {
 }
 
-std::shared_ptr<gl::Program>&
-glrenderer::Renderable3D::program()
+std::shared_ptr<graphics::gl::Program>&
+graphics::Renderable3D::program()
 {
     return this->m_program;
 }
 
-gl::VertexArray&
-glrenderer::Renderable3D::vao()
+graphics::gl::VertexArray&
+graphics::Renderable3D::vao()
 {
     return this->m_vao;
 }

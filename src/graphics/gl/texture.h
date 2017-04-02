@@ -5,8 +5,7 @@
 
 #include "gl.h"
 
-namespace gl
-{
+namespace graphics { namespace gl {
 
 typedef struct image_buffer
 {
@@ -29,6 +28,6 @@ private:
     GLenum m_type;
 };
 
-}
+} }
 
 #endif /* GL_TEXTURE_H_ */

@@ -5,8 +5,7 @@
 
 #include "gl.h"
 
-namespace gl
-{
+namespace graphics { namespace gl {
 
 class VertexArray : public Gl {
 public:
@@ -24,6 +23,6 @@ public:
 private:
 };
 
-}
+} }
 
 #endif /* __VERTEXARRAY_H */

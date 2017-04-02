@@ -1,3 +1,5 @@
+# -- CMakeLists.txt
+#
 cmake_minimum_required (VERSION 2.6)
 project (renderer)
 
@@ -16,11 +18,10 @@ add_subdirectory (external/tinyobjloader)
 
 include_directories (${PROJECT_SOURCE_DIR})
 
-add_subdirectory (gl)
 add_subdirectory (msg)
-add_subdirectory (glrenderer)
+add_subdirectory (graphics)
 add_subdirectory (util)
 
 file (GLOB SOURCES *.cpp)
 add_executable (renderer ${SOURCES})
-target_link_libraries (renderer glrenderer gl msg util tinyobjloader ${GLFW_LIBRARIES})
+target_link_libraries (renderer graphics msg util tinyobjloader)

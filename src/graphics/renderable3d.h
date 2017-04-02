@@ -1,5 +1,5 @@
-#ifndef GLRENDERER_RENDERABLE3D_H_
-#define GLRENDERER_RENDERABLE3D_H_
+#ifndef GRAPHICS_RENDERABLE3D_H_
+#define GRAPHICS_RENDERABLE3D_H_
 
 #include "common.h"
 
@@ -8,7 +8,7 @@
 #include "gl/vertexarray.h"
 #include "tiny_obj_loader.h"
 
-namespace glrenderer
+namespace graphics
 {
 
 class Renderable3D
@@ -30,4 +30,4 @@ private:
 
 }
 
-#endif /* GLRENDERER_RENDERABLE3D_H_ */
+#endif /* GRAPHICS_RENDERABLE3D_H_ */

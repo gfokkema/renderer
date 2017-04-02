@@ -1,13 +1,13 @@
 #include "vertexarray.h"
 
-gl::VertexArray::VertexArray()
+graphics::gl::VertexArray::VertexArray()
 : m_size(0), texture_idx(0)
 {
     glGenVertexArrays(1, &this->getId());
     check("Error creating vertexarray.");
 }
 
-gl::VertexArray::~VertexArray()
+graphics::gl::VertexArray::~VertexArray()
 {
     std::cout << "Destroying vao." << std::endl;
     glDeleteVertexArrays(1, &this->getId());
@@ -15,21 +15,21 @@ gl::VertexArray::~VertexArray()
 }
 
 void
-gl::VertexArray::bind() const
+graphics::gl::VertexArray::bind() const
 {
     glBindVertexArray(this->getId());
     check("Error binding vertexarray.");
 }
 
 void
-gl::VertexArray::unbind() const
+graphics::gl::VertexArray::unbind() const
 {
     glBindVertexArray(0);
     check("Error unbinding vertexarrays.");
 }
 
 void
-gl::VertexArray::bindattrib(unsigned pos, unsigned elemcount, GLenum type) const
+graphics::gl::VertexArray::bindattrib(unsigned pos, unsigned elemcount, GLenum type) const
 {
     glEnableVertexAttribArray(pos);
     glVertexAttribPointer(
@@ -44,7 +44,7 @@ gl::VertexArray::bindattrib(unsigned pos, unsigned elemcount, GLenum type) const
 }
 
 void
-gl::VertexArray::unbindattrib(unsigned pos) const
+graphics::gl::VertexArray::unbindattrib(unsigned pos) const
 {
     glDisableVertexAttribArray(pos);
     check("Error unbinding attribs[" + std::to_string(pos) + "].");

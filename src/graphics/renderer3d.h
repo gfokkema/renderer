@@ -6,7 +6,7 @@
 #include "gl/texture.h"
 #include "renderer.h"
 
-namespace glrenderer
+namespace graphics
 {
 
 class Renderer3D : public Renderer
@@ -15,7 +15,7 @@ public:
     Renderer3D(std::vector<texture> textures);
     ~Renderer3D();
 
-    void draw(util::Camera &) override;
+    void draw(Camera &) override;
     void submit(std::vector<renderable>& renderables) override;
 private:
     std::list<renderable> m_renderables;

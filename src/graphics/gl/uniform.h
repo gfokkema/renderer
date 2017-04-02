@@ -2,10 +2,10 @@
 #define GL_UNIFORM_H_
 
 #include "common.h"
+
 #include "texture.h"
 
-namespace gl
-{
+namespace graphics { namespace gl {
 
 class Uniform {
 public:
@@ -18,6 +18,6 @@ public:
     int size;
 };
 
-}
+} }
 
 #endif /* GL_UNIFORM_H_ */

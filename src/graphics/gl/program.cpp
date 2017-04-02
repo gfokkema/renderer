@@ -1,6 +1,6 @@
 #include "program.h"
 
-std::ostream& operator<<(std::ostream& os, const gl::Uniform& uniform)
+std::ostream& operator<<(std::ostream& os, const graphics::gl::Uniform& uniform)
 {
     os << "[name: \"" << uniform.name << "\","
        << " location: \"" << uniform.location << "\","
@@ -9,13 +9,13 @@ std::ostream& operator<<(std::ostream& os, const gl::Uniform& uniform)
     return os;
 }
 
-gl::Program::Program()
+graphics::gl::Program::Program()
 {
     this->getId() = glCreateProgram();
     check("Error creating program.");
 }
 
-gl::Program::~Program()
+graphics::gl::Program::~Program()
 {
     std::cout << "Destroying program." << std::endl;
     glDeleteProgram(this->getId());
@@ -23,7 +23,7 @@ gl::Program::~Program()
 }
 
 void
-gl::Program::load(Shader& vertex, Shader& fragment) const
+graphics::gl::Program::load(Shader& vertex, Shader& fragment) const
 {
     this->attach(vertex);
     this->attach(fragment);
@@ -35,21 +35,21 @@ gl::Program::load(Shader& vertex, Shader& fragment) const
 }
 
 void
-gl::Program::attach(Shader& shader) const
+graphics::gl::Program::attach(Shader& shader) const
 {
     glAttachShader(this->getId(), shader.getId());
     check("Error attaching shader to program.");
 }
 
 void
-gl::Program::detach(Shader& shader) const
+graphics::gl::Program::detach(Shader& shader) const
 {
     glDetachShader(this->getId(), shader.getId());
     check("Error detaching shader from program.");
 }
 
 void
-gl::Program::link() const
+graphics::gl::Program::link() const
 {
     int result = 0;
     int log_size = 0;
@@ -73,7 +73,7 @@ gl::Program::link() const
 }
 
 void
-gl::Program::resolve()
+graphics::gl::Program::resolve()
 {
     int no_uniform = 0;
     int max_name_size = 0;
@@ -102,14 +102,14 @@ gl::Program::resolve()
 }
 
 void
-gl::Program::use() const
+graphics::gl::Program::use() const
 {
     glUseProgram(this->getId());
     check("Error using program.");
 }
 
-gl::Uniform
-gl::Program::operator[](std::string uniform) const
+graphics::gl::Uniform
+graphics::gl::Program::operator[](std::string uniform) const
 {
     return this->m_uniforms.at(uniform);
 }

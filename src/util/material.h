@@ -2,7 +2,7 @@
 #define UTIL_MATERIAL_H_
 
 #include "common.h"
-#include "gl/texture.h"
+#include "graphics/gl/texture.h"
 
 #include "tiny_obj_loader.h"
 
@@ -28,11 +28,11 @@ public:
     ~Material();
 
     void load();
-    std::shared_ptr<gl::image_buffer> get_buffer(IMAGE_MAP) const;
+    std::shared_ptr<graphics::gl::image_buffer> get_buffer(IMAGE_MAP) const;
 private:
     tinyobj::material_t m_material;
 
-    std::map<IMAGE_MAP, std::shared_ptr<gl::image_buffer>> m_buffers;
+    std::map<IMAGE_MAP, std::shared_ptr<graphics::gl::image_buffer>> m_buffers;
 };
 
 }

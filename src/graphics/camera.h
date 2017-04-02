@@ -2,12 +2,12 @@
 #define CAMERA_H_
 
 #include "common.h"
+
 #include "msg/channel.h"
 
 class Movement;
 
-namespace util
-{
+namespace graphics {
 
 class Camera : public Sink<Movement>
 {

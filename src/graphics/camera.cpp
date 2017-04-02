@@ -1,10 +1,10 @@
 #include "camera.h"
 
-#include "msg/movement.h"
-
 #include <glm/gtc/matrix_transform.hpp>
 
-util::Camera::Camera (float aspect_ratio)
+#include "msg/movement.h"
+
+graphics::Camera::Camera (float aspect_ratio)
 : m_pos(0, 2, 5),
   m_dir(0, 0, -1),
   m_up(0, 1, 0)
@@ -13,12 +13,12 @@ util::Camera::Camera (float aspect_ratio)
                                           aspect_ratio, 0.1f, 100.0f);
 }
 
-util::Camera::~Camera ()
+graphics::Camera::~Camera ()
 {
 }
 
 glm::mat4
-util::Camera::matrix()
+graphics::Camera::matrix()
 {
     this->m_view = glm::lookAt(
        this->m_pos,
@@ -29,7 +29,7 @@ util::Camera::matrix()
 }
 
 void
-util::Camera::apply(const Movement * movement)
+graphics::Camera::apply(const Movement * movement)
 {
     m_pos += movement->m_movement;
 }

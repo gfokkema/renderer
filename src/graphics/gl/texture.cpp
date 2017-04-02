@@ -1,15 +1,13 @@
 #include "texture.h"
 
-#include <FreeImage.h>
-
-gl::Texture::Texture(GLenum type)
+graphics::gl::Texture::Texture(GLenum type)
 : m_type(type)
 {
     glGenTextures(1, &this->getId());
     check("Error creating texture.");
 }
 
-gl::Texture::~Texture()
+graphics::gl::Texture::~Texture()
 {
     std::cout << "Destroying texture." << std::endl;
     glDeleteTextures(1, &this->getId());
@@ -17,21 +15,21 @@ gl::Texture::~Texture()
 }
 
 void
-gl::Texture::bind() const
+graphics::gl::Texture::bind() const
 {
     glBindTexture(this->m_type, this->getId());
     check("Error binding texture.");
 }
 
 void
-gl::Texture::unbind() const
+graphics::gl::Texture::unbind() const
 {
     glBindTexture(this->m_type, 0);
     check("Error unbinding textures.");
 }
 
 void
-gl::Texture::upload(std::shared_ptr<image_buffer> img) const
+graphics::gl::Texture::upload(std::shared_ptr<image_buffer> img) const
 {
     std::cout << "Loaded texture. Dimensions: (" << img->w << ", " << img->h << ")" << std::endl;
     glTexImage2D(

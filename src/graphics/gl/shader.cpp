@@ -1,14 +1,13 @@
 #include "shader.h"
-#include "util/file.h"
 
-gl::Shader::Shader(GLenum type)
+graphics::gl::Shader::Shader(GLenum type)
 : m_type(type)
 {
     this->getId() = glCreateShader(type);
     check("Error creating shader.");
 }
 
-gl::Shader::~Shader()
+graphics::gl::Shader::~Shader()
 {
     std::cout << "Destroying shader." << std::endl;
     glDeleteShader(this->getId());
@@ -16,25 +15,24 @@ gl::Shader::~Shader()
 }
 
 void
-gl::Shader::load(std::string path) const
+graphics::gl::Shader::load(std::string text) const
 {
-    this->read(path);
+    this->read(text);
     this->compile();
 }
 
 
 void
-gl::Shader::read(std::string path) const
+graphics::gl::Shader::read(std::string text) const
 {
-    std::string text = util::File(path).read();
     char const* source = text.c_str();
 
     glShaderSource(this->getId(), 1, &source, NULL);
-    check("Failed to upload file: " + path);
+    check("Failed to upload file: " + text);
 }
 
 void
-gl::Shader::compile() const
+graphics::gl::Shader::compile() const
 {
     int result = 0;
     int log_size = 0;

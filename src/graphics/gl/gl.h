@@ -1,8 +1,7 @@
 #ifndef GL_GL_H_
 #define GL_GL_H_
 
-namespace gl
-{
+namespace graphics { namespace gl {
 
 class Gl
 {
@@ -20,6 +19,6 @@ private:
     GLuint m_id;
 };
 
-}
+} }
 
 #endif /* GL_GL_H_ */

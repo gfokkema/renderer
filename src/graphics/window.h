@@ -5,12 +5,11 @@
 
 #include <GLFW/glfw3.h>
 
-#include "glrenderer/renderer3d.h"
-#include "util/camera.h"
 #include "util/input.h"
+#include "camera.h"
+#include "renderer3d.h"
 
-namespace gl
-{
+namespace graphics {
 
 class Window
 {
@@ -21,14 +20,14 @@ public:
     void close();
     bool should_close();
 
-    util::Camera& camera();
+    Camera& camera();
     util::Input& input();
 
     void activate();
     void update();
 private:
     GLFWwindow* p_window;
-    util::Camera m_camera;
+    Camera m_camera;
     util::Input m_input;
 };
 

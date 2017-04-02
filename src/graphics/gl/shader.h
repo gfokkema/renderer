@@ -5,15 +5,14 @@
 
 #include "gl.h"
 
-namespace gl
-{
+namespace graphics { namespace gl {
 
 class Shader : public Gl {
 public:
     Shader(GLenum type);
     ~Shader();
 
-    void load(std::string path) const;
+    void load(std::string text) const;
 private:
     void read(std::string path) const;
     void compile() const;
@@ -21,6 +20,6 @@ private:
     GLenum m_type;
 };
 
-}
+} }
 
 #endif /* GL_SHADER_H_ */

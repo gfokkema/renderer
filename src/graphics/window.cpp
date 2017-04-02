@@ -14,7 +14,7 @@ key_callback(GLFWwindow* gl_window, int key, int scancode, int action, int mods)
         std::make_pair(GLFW_REPEAT, &util::Input::key_pressed),
         std::make_pair(GLFW_RELEASE, &util::Input::key_released),
     };
-    gl::Window* window = (gl::Window*)glfwGetWindowUserPointer(gl_window);
+    graphics::Window* window = (graphics::Window*)glfwGetWindowUserPointer(gl_window);
 
     (window->input().*cbmap[action])(key, scancode, mods);
 }
@@ -27,12 +27,12 @@ mouse_callback(GLFWwindow* gl_window, int button, int action, int mods)
         std::make_pair(GLFW_PRESS,   &util::Input::mouse_pressed),
         std::make_pair(GLFW_RELEASE, &util::Input::mouse_released),
     };
-    gl::Window* window = (gl::Window*)glfwGetWindowUserPointer(gl_window);
+    graphics::Window* window = (graphics::Window*)glfwGetWindowUserPointer(gl_window);
 
     (window->input().*cbmap[action])(button, mods);
 }
 
-gl::Window::Window()
+graphics::Window::Window()
 : m_camera((float)WIDTH / (float)HEIGHT)
 {
     if (!glfwInit())
@@ -60,43 +60,43 @@ gl::Window::Window()
     // glfwSetWindowSizeCallback?
 }
 
-gl::Window::~Window()
+graphics::Window::~Window()
 {
     glfwTerminate();
 }
 
 void
-gl::Window::close()
+graphics::Window::close()
 {
     glfwSetWindowShouldClose(this->p_window, true);
 }
 
 bool
-gl::Window::should_close()
+graphics::Window::should_close()
 {
     return glfwWindowShouldClose(this->p_window);
 }
 
-util::Camera&
-gl::Window::camera()
+graphics::Camera&
+graphics::Window::camera()
 {
     return this->m_camera;
 }
 
 util::Input&
-gl::Window::input()
+graphics::Window::input()
 {
     return this->m_input;
 }
 
 void
-gl::Window::activate()
+graphics::Window::activate()
 {
     glfwMakeContextCurrent(this->p_window);
 }
 
 void
-gl::Window::update()
+graphics::Window::update()
 {
     GLenum error = glGetError();
     if (error != GL_NO_ERROR)

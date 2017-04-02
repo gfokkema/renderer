@@ -5,8 +5,7 @@
 
 #include "gl.h"
 
-namespace gl
-{
+namespace graphics { namespace gl {
 
 class VertexBuffer : public Gl {
 public:
@@ -25,7 +24,7 @@ private:
     unsigned m_size;
 };
 
-}
+} }
 
 #endif /* __VERTEXBUFFER_H */
 
