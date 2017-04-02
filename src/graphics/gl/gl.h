@@ -1,24 +1,17 @@
-#ifndef GL_GL_H_
-#define GL_GL_H_
+#ifndef GRAPHICS_GL_GL_H_
+#define GRAPHICS_GL_GL_H_
 
-namespace graphics { namespace gl {
+#include "common.h"
 
-class Gl
-{
-public:
-    virtual ~Gl() {};
+#include "program.h"
+#include "shader.h"
+#include "texture.h"
+#include "uniform.h"
+#include "vertexarray.h"
+#include "vertexbuffer.h"
 
-    const GLuint getId() const {
-        return this->m_id;
-    }
+typedef std::shared_ptr<graphics::gl::image_buffer> image_buffer_ptr;
+typedef std::shared_ptr<graphics::gl::Program> program_ptr;
+typedef std::unique_ptr<graphics::gl::Texture> texture_ptr;
 
-    GLuint& getId() {
-        return this->m_id;
-    }
-private:
-    GLuint m_id;
-};
-
-} }
-
-#endif /* GL_GL_H_ */
+#endif /* GRAPHICS_GL_GL_H_ */

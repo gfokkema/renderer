@@ -2,9 +2,6 @@
 
 #include <unistd.h>
 
-#define WIDTH 1920
-#define HEIGHT 1080
-
 void
 key_callback(GLFWwindow* gl_window, int key, int scancode, int action, int mods)
 {
@@ -33,7 +30,6 @@ mouse_callback(GLFWwindow* gl_window, int button, int action, int mods)
 }
 
 graphics::Window::Window()
-: m_camera((float)WIDTH / (float)HEIGHT)
 {
     if (!glfwInit())
         throw BaseException("Failed to initialize GLFW");
@@ -75,12 +71,6 @@ bool
 graphics::Window::should_close()
 {
     return glfwWindowShouldClose(this->p_window);
-}
-
-graphics::Camera&
-graphics::Window::camera()
-{
-    return this->m_camera;
 }
 
 util::Input&

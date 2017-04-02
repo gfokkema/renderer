@@ -1,20 +1,26 @@
-#include "renderer3d.h"
+#include "simplerenderer3d.h"
 
-graphics::Renderer3D::Renderer3D(std::vector<texture> textures)
-: Renderer(std::move(textures))
+graphics::SimpleRenderer3D::SimpleRenderer3D()
 {
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
 }
 
-graphics::Renderer3D::~Renderer3D()
+graphics::SimpleRenderer3D::~SimpleRenderer3D()
 {
+}
+
+void
+graphics::SimpleRenderer3D::submit(std::vector<renderable_ptr>& renderables)
+{
+    for (auto& renderable : renderables)
+        this->m_renderables.push_back(std::static_pointer_cast<SimpleRenderable3D>(renderable));
 }
 
 // FIXME: Camera should be const, but camera.matrix() updates stuff.
 //        Might therefore move updating the camera into the main render loop.
 void
-graphics::Renderer3D::draw(graphics::Camera & camera)
+graphics::SimpleRenderer3D::draw(graphics::Camera& camera)
 {
     auto model = glm::mat4(1.0f);
     auto mvp = camera.matrix() * model;
@@ -43,11 +49,4 @@ graphics::Renderer3D::draw(graphics::Camera & camera)
 
         this->m_renderables.pop_front();
     }
-}
-
-void
-graphics::Renderer3D::submit(std::vector<renderable>& renderables)
-{
-    for (auto& renderable : renderables)
-        this->m_renderables.push_back(renderable);
 }

@@ -3,8 +3,6 @@
 
 #include "common.h"
 
-#include "texture.h"
-
 namespace graphics { namespace gl {
 
 class Uniform {

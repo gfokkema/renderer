@@ -3,7 +3,7 @@
 
 #include "common.h"
 
-#include "gl.h"
+#include "gl_base.h"
 #include "shader.h"
 #include "uniform.h"
 

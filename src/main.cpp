@@ -3,6 +3,7 @@
 
 #include "common.h"
 
+#include "graphics/layers/layer.h"
 #include "graphics/window.h"
 #include "msg/channel.h"
 #include "msg/movement.h"
@@ -11,8 +12,12 @@
 
 using namespace graphics;
 
-void
-init_renderer(std::unique_ptr<Renderer>& renderer, std::vector<renderable>& renderables) {
+int main(int argc, char** argv)
+{
+    Channel<Movement> channel;
+    graphics::Window window;
+    window.activate();
+
     util::ObjModel model("../Desmond_Miles/", "Desmond_Miles.obj");
     gl::Shader vertexshader(GL_VERTEX_SHADER);
     gl::Shader fragmentshader(GL_FRAGMENT_SHADER);
@@ -23,35 +28,13 @@ init_renderer(std::unique_ptr<Renderer>& renderer, std::vector<renderable>& rend
     program->load(vertexshader, fragmentshader);
     program->resolve();
 
-    for (auto shape : model.m_shapes)
-        renderables.push_back(std::make_shared<Renderable3D>(program, shape));
+    graphics::layers::Layer layer(std::make_unique<SimpleRenderer3D>(), program);
+    for (auto& material : model.m_materials)
+        layer.add(material.get_buffer(util::IMAGE_MAP::DIFFUSE));
+    for (auto& shape : model.m_shapes)
+        layer.add(std::make_shared<SimpleRenderable3D>(program, shape));
 
-    std::vector<texture> textures;
-    for (auto idx = 0; idx < model.m_materials.size(); idx++)
-    {
-        auto mat = model.m_materials.begin() + idx;
-        glActiveTexture(GL_TEXTURE0 + idx);
-
-        auto texture = new gl::Texture(GL_TEXTURE_2D);
-        texture->bind();
-        texture->upload(mat->get_buffer(util::IMAGE_MAP::DIFFUSE));
-
-        textures.push_back(std::unique_ptr<gl::Texture>(texture));
-    }
-    renderer = std::make_unique<Renderer3D>(std::move(textures));
-}
-
-int main(int argc, char** argv)
-{
-    graphics::Window window;
-    window.activate();
-
-    std::unique_ptr<Renderer> renderer;
-    std::vector<renderable> renderables;
-    init_renderer(renderer, renderables);
-
-    Channel<Movement> channel;
-    channel.listen(&window.camera());
+    channel.listen(&layer.camera());
     do {
         double frame_end = glfwGetTime() + 1.0 / 60.0;
 
@@ -63,8 +46,7 @@ int main(int argc, char** argv)
 
         double start = glfwGetTime();
         window.activate();
-        renderer->submit(renderables);
-        renderer->draw(window.camera());
+        layer.render();
         window.update();
         double end = glfwGetTime();
 

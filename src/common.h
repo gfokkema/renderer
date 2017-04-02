@@ -1,6 +1,9 @@
 #ifndef __COMMON_H__
 #define __COMMON_H__
 
+#define WIDTH 1920
+#define HEIGHT 1080
+
 #include <epoxy/gl.h>
 #include <epoxy/glx.h>
 #include <glm/glm.hpp>

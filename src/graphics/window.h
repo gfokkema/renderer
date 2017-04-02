@@ -7,7 +7,7 @@
 
 #include "util/input.h"
 #include "camera.h"
-#include "renderer3d.h"
+#include "simplerenderer3d.h"
 
 namespace graphics {
 
@@ -20,14 +20,12 @@ public:
     void close();
     bool should_close();
 
-    Camera& camera();
     util::Input& input();
 
     void activate();
     void update();
 private:
     GLFWwindow* p_window;
-    Camera m_camera;
     util::Input m_input;
 };
 
