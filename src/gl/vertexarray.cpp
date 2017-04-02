@@ -29,41 +29,23 @@ gl::VertexArray::unbind() const
 }
 
 void
-gl::VertexArray::bindvertexattrib() const
+gl::VertexArray::bindattrib(unsigned pos, unsigned elemcount, GLenum type) const
 {
-    // vertex positions
-    glEnableVertexAttribArray(0);
+    glEnableVertexAttribArray(pos);
     glVertexAttribPointer(
-       0,                  // attribute 0
-       3,                  // size
-       GL_FLOAT,           // type
-       GL_FALSE,           // normalized?
-       0,                  // stride
-       (void*)0            // array buffer offset
+       pos,       // attribute 0
+       elemcount, // size
+       type,      // type
+       GL_FALSE,  // normalized?
+       0,         // stride
+       (void*)0   // array buffer offset
     );
     check("Error binding vertexarray attrib.");
 }
 
 void
-gl::VertexArray::binduvattrib() const
+gl::VertexArray::unbindattrib(unsigned pos) const
 {
-    // uv mapping for textures
-    glEnableVertexAttribArray(1);
-    glVertexAttribPointer(
-       1,                  // attribute 1
-       2,                  // size
-       GL_FLOAT,           // type
-       GL_FALSE,           // normalized?
-       0,                  // stride
-       (void*)0            // array buffer offset
-    );
-    check("Error binding vertexarray attrib.");
-}
-
-void
-gl::VertexArray::unbindattrib() const
-{
-    glDisableVertexAttribArray(0);
-    glDisableVertexAttribArray(1);
-    check("Error unbinding vertexarray attribs.");
+    glDisableVertexAttribArray(pos);
+    check("Error unbinding attribs[" + std::to_string(pos) + "].");
 }

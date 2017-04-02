@@ -98,6 +98,10 @@ gl::Window::activate()
 void
 gl::Window::update()
 {
+    GLenum error = glGetError();
+    if (error != GL_NO_ERROR)
+        std::cout << "GL error: " << error << std::endl;
+
     glfwPollEvents();
     glfwSwapBuffers(this->p_window);
 }

@@ -36,27 +36,27 @@ void
 gl::Context::create(const tinyobj::shape_t & shape)
 {
     auto vao       = std::make_shared<VertexArray>();
-    auto vbo_index = std::make_shared<VertexBuffer>(GL_ELEMENT_ARRAY_BUFFER);
     auto vbo       = std::make_shared<VertexBuffer>(GL_ARRAY_BUFFER);
     auto uv        = std::make_shared<VertexBuffer>(GL_ARRAY_BUFFER);
+    auto vbo_index = std::make_shared<VertexBuffer>(GL_ELEMENT_ARRAY_BUFFER);
 
     this->vao_array.push_back(vao);
-    this->vbo_array.push_back(vbo_index);
     this->vbo_array.push_back(vbo);
     this->vbo_array.push_back(uv);
+    this->vbo_array.push_back(vbo_index);
 
     vao->bind();
 
-    vbo_index->bind();
-    vbo_index->upload<unsigned>(shape.mesh.indices, GL_STATIC_DRAW);
-
     vbo->bind();
     vbo->upload<float>(shape.mesh.positions, GL_STATIC_DRAW);
-    vao->bindvertexattrib();
+    vao->bindattrib(0, 3, GL_FLOAT);
 
     uv->bind();
     uv->upload<float>(shape.mesh.texcoords, GL_STATIC_DRAW);
-    vao->binduvattrib();
+    vao->bindattrib(1, 2, GL_FLOAT);
+
+    vbo_index->bind();
+    vbo_index->upload<unsigned>(shape.mesh.indices, GL_STATIC_DRAW);
 
     // FIXME: These attributes should not be part of the vao.
     //        Might consider mirroring opengl vbo binding state though.
@@ -64,9 +64,9 @@ gl::Context::create(const tinyobj::shape_t & shape)
     vao->texture_idx = shape.mesh.material_ids.front();
     vao->unbind();
 
-    vbo_index->unbind();
     vbo->unbind();
     uv->unbind();
+    vbo_index->unbind();
 }
 
 gl::Context::~Context()

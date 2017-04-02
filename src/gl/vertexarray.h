@@ -16,9 +16,8 @@ public:
     void bind() const;
     void unbind() const;
 
-    void binduvattrib() const;
-    void bindvertexattrib() const;
-    void unbindattrib() const;
+    void bindattrib(unsigned pos, unsigned elemcount, GLenum type) const;
+    void unbindattrib(unsigned pos) const;
 
     unsigned m_size;
     GLuint texture_idx;
