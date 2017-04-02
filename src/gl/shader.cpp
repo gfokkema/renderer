@@ -1,4 +1,5 @@
 #include "shader.h"
+#include "util/file.h"
 
 gl::Shader::Shader (GLenum type)
 : m_type(type)
@@ -24,22 +25,10 @@ gl::Shader::load(std::string path) const
 void
 gl::Shader::read(std::string path) const
 {
-    // Read the Vertex Shader code from the file
-    std::string shaderCode;
-    std::ifstream shaderStream(path, std::ios::in);
-    if(!shaderStream.is_open())
-        throw BaseException("Failed to open file: " + path);
+    std::string text = util::File(path).read();
+    char const* source = text.c_str();
 
-    std::string line = "";
-    while(getline(shaderStream, line))
-    {
-        shaderCode += "\n" + line;
-    }
-    shaderStream.close();
-
-    char const* shaderPointer = shaderCode.c_str();
-    glShaderSource(this->m_shader, 1, &shaderPointer, NULL);
-
+    glShaderSource(this->m_shader, 1, &source, NULL);
     check("Failed to upload file: " + path);
 }
 

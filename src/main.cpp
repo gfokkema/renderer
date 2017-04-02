@@ -9,9 +9,9 @@
 
 int main(int argc, char** argv)
 {
-    gl::Window window;
-
     util::ObjModel model("../Desmond_Miles/", "Desmond_Miles.obj");
+
+    gl::Window window;
     window.activate();
     gl::Context ctx(model);
 
