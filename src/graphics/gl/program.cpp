@@ -76,19 +76,21 @@ graphics::gl::Program::resolve()
     char buf[max_name_size];
     for (auto i = 0; i < no_uniform; i++)
     {
-        Uniform uniform;
+        int size;
+        GLenum type;
 
-        glGetActiveUniform(this->getId(), i, max_name_size, NULL, &uniform.size, &uniform.type, buf);
-        uniform.name = std::string(buf);
-        uniform.location = glGetUniformLocation(this->getId(), uniform.name.c_str());
+        glGetActiveUniform(this->getId(), i, max_name_size, NULL, &size, &type, buf);
+        auto name = std::string(buf);
 
+        Uniform uniform(this->getId(), name, type, size);
         this->m_uniforms.insert(entry(uniform.name, uniform));
     }
 
     // FIXME: DEBUG CODE
     fmt::print("Program uniforms:\n");
     for (auto uniform : this->m_uniforms)
-        fmt::print("  ({}, {})\n", uniform.first, uniform.second);
+        for (auto entry : uniform.second.uniforms)
+            fmt::print("  ({}, {})\n", uniform.first, entry);
 }
 
 void

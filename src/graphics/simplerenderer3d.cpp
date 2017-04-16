@@ -36,7 +36,7 @@ graphics::SimpleRenderer3D::draw(graphics::Camera& camera)
 
         program.use();
         program["mvp"].set(mvp);
-        program["tex"].set(vao.texture_idx);
+        program["tex"][15].set(vao.texture_idx);
 
         vao.bind();
         glDrawElements(
