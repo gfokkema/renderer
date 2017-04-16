@@ -1,14 +1,5 @@
 #include "program.h"
 
-std::ostream& operator<<(std::ostream& os, const graphics::gl::Uniform& uniform)
-{
-    os << "[name: \"" << uniform.name << "\","
-       << " location: \"" << uniform.location << "\","
-       << " type: \"" << std::hex << uniform.type << "\","
-       << " size: \"" << std::dec << uniform.size << "\"]";
-    return os;
-}
-
 graphics::gl::Program::Program()
 {
     this->getId() = glCreateProgram();
@@ -17,7 +8,7 @@ graphics::gl::Program::Program()
 
 graphics::gl::Program::~Program()
 {
-    std::cout << "Destroying program." << std::endl;
+    fmt::print("Destroying program.\n");
     glDeleteProgram(this->getId());
     check("Error deleting program.");
 }
@@ -55,7 +46,7 @@ graphics::gl::Program::link() const
     int log_size = 0;
 
     // Link the program
-    std::cout << "Linking program." << std::endl;
+    fmt::print("Linking program.\n");
     glLinkProgram(this->getId());
 
     // Check the program
@@ -65,7 +56,7 @@ graphics::gl::Program::link() const
     if (log_size > 1) {
         std::vector<char> program_log(log_size + 1);
         glGetProgramInfoLog(this->getId(), log_size, NULL, &program_log.front());
-        std::cout << program_log[0] << std::endl;
+        fmt::print("{}\n", program_log[0]);
     }
 
     if (result == GL_FALSE)
@@ -80,6 +71,7 @@ graphics::gl::Program::resolve()
 
     glGetProgramiv(this->getId(), GL_ACTIVE_UNIFORMS, &no_uniform);
     glGetProgramiv(this->getId(), GL_ACTIVE_UNIFORM_MAX_LENGTH, &max_name_size);
+    fmt::print("Found {} uniforms.\n", no_uniform);
 
     char buf[max_name_size];
     for (auto i = 0; i < no_uniform; i++)
@@ -94,11 +86,9 @@ graphics::gl::Program::resolve()
     }
 
     // FIXME: DEBUG CODE
-    std::cout << "Program uniforms:" << std::endl;
+    fmt::print("Program uniforms:\n");
     for (auto uniform : this->m_uniforms)
-    {
-        std::cout << "  (" << uniform.first << ", " << uniform.second << ")" << std::endl;
-    }
+        fmt::print("  ({}, {})\n", uniform.first, uniform.second);
 }
 
 void

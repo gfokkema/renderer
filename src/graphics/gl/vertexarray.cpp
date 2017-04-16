@@ -9,7 +9,7 @@ graphics::gl::VertexArray::VertexArray()
 
 graphics::gl::VertexArray::~VertexArray()
 {
-    std::cout << "Destroying vao." << std::endl;
+    fmt::print("Destroying vao.\n");
     glDeleteVertexArrays(1, &this->getId());
     check("Error deleting vertexarray.");
 }

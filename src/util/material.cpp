@@ -41,7 +41,7 @@ util::Material::Material(tinyobj::material_t material,
                          std::string base_path)
 : m_material(material)
 {
-    std::cout << " mat name: " << this->m_material.name << std::endl;
+    fmt::print(" mat name: {}\n", this->m_material.name);
 
     for (auto image_path : image_paths(this->m_material))
     {
@@ -50,7 +50,7 @@ util::Material::Material(tinyobj::material_t material,
         std::string path = base_path + image_path.second;
         this->m_buffers[image_path.first] = load_img(path);
 
-        std::cout << " mat path: " << path << std::endl;
+        fmt::print(" mat path: {}\n", path);
     }
 }
 

@@ -12,7 +12,7 @@ graphics::gl::VertexBuffer::VertexBuffer(GLenum type)
 
 graphics::gl::VertexBuffer::~VertexBuffer()
 {
-    std::cout << "Destroying vbo." << std::endl;
+    fmt::print("Destroying vbo.\n");
     glDeleteBuffers(1, &this->getId());
     check("Error deleting vertex buffer.");
 }

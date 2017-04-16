@@ -9,7 +9,7 @@ graphics::gl::Shader::Shader(GLenum type)
 
 graphics::gl::Shader::~Shader()
 {
-    std::cout << "Destroying shader." << std::endl;
+    fmt::print("Destroying shader.\n");
     glDeleteShader(this->getId());
     check("Error deleting shader.");
 }
@@ -37,7 +37,7 @@ graphics::gl::Shader::compile() const
     int result = 0;
     int log_size = 0;
 
-    std::cout << "Compiling shader." << std::endl;
+    fmt::print("Compiling shader.\n");
     glCompileShader(this->getId());
     glGetShaderiv(this->getId(), GL_COMPILE_STATUS, &result);
     glGetShaderiv(this->getId(), GL_INFO_LOG_LENGTH, &log_size);
@@ -46,7 +46,7 @@ graphics::gl::Shader::compile() const
         std::vector<char> shader_log(log_size + 1);
 
         glGetShaderInfoLog(this->getId(), log_size, NULL, &shader_log.front());
-        printf("Shader log: %s\n", &shader_log.front());
+        fmt::print("Shader log: {}\n", &shader_log.front());
     }
 
     if (result == GL_FALSE)

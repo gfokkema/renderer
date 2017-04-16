@@ -9,7 +9,7 @@ graphics::gl::Texture::Texture(GLenum type)
 
 graphics::gl::Texture::~Texture()
 {
-    std::cout << "Destroying texture." << std::endl;
+    fmt::print("Destroying texture.\n");
     glDeleteTextures(1, &this->getId());
     check("Error deleting texture.");
 }
@@ -31,7 +31,7 @@ graphics::gl::Texture::unbind() const
 void
 graphics::gl::Texture::upload(std::shared_ptr<image_buffer> img) const
 {
-    std::cout << "Loaded texture. Dimensions: (" << img->w << ", " << img->h << ")" << std::endl;
+    fmt::print("Loaded texture. Dimensions: ({}, {})\n", img->w, img->h);
     glTexImage2D(
         this->m_type,     // GL_TEXTURE_2D
         0,                // mipmap level

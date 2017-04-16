@@ -6,12 +6,13 @@
 
 #include <epoxy/gl.h>
 #include <epoxy/glx.h>
+#include <fmt/format.h>
+#include <fmt/printf.h>
+#include <fmt/ostream.h>
 #include <glm/glm.hpp>
 
-#include <cstdio>
 #include <exception>
 #include <fstream>
-#include <iostream>
 #include <list>
 #include <map>
 #include <memory>

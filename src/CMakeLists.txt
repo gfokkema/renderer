@@ -13,6 +13,8 @@ pkg_search_module (GLFW REQUIRED glfw3)
 # - epoxy (src/gl/CMakeLists.txt)
 # - freeimage (src/gl/CMakeLists.txt)
 
+include_directories (external/format)
+add_subdirectory (external/format)
 include_directories (external/tinyobjloader)
 add_subdirectory (external/tinyobjloader)
 

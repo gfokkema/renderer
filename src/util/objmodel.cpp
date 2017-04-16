@@ -15,17 +15,17 @@ util::ObjModel::ObjModel(std::string base_path, std::string rel_path)
     {
         this->m_shapes.push_back(shape);
 
-        std::cout << " shape name: " << shape.name << std::endl;
-        std::cout << " shape size: " << shape.mesh.positions.size() << std::endl;
+        fmt::print(" shape name: {}\n", shape.name);
+        fmt::print(" shape size: {}\n", shape.mesh.positions.size());
     }
-    std::cout << "# shapes   : " << m_shapes.size() << std::endl;
+    fmt::print("# shapes   : {}\n", m_shapes.size());
 
     for (auto material : materials)
     {
         Material mat(material, base_path);
         this->m_materials.push_back(mat);
     }
-    std::cout << "# materials: " << m_materials.size() << std::endl;
+    fmt::print("# materials: {}\n", m_materials.size());
 }
 
 util::ObjModel::~ObjModel()

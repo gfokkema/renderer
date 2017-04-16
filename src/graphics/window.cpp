@@ -90,7 +90,7 @@ graphics::Window::update()
 {
     GLenum error = glGetError();
     if (error != GL_NO_ERROR)
-        std::cout << "GL error: " << error << std::endl;
+        fmt::print("GL error: {}\n", error);
 
     glfwPollEvents();
     glfwSwapBuffers(this->p_window);
