@@ -1,7 +1,7 @@
 #include "layer.h"
 
-graphics::layers::Layer::Layer(renderer_ptr renderer, program_ptr program)
-: m_renderer(std::move(renderer)), m_program(program), m_camera((float)WIDTH / (float)HEIGHT)
+graphics::layers::Layer::Layer(renderer_ptr renderer)
+: m_renderer(std::move(renderer)), m_camera((float)WIDTH / (float)HEIGHT)
 {
 }
 
@@ -30,7 +30,6 @@ graphics::layers::Layer::add(renderable_ptr renderable)
 void
 graphics::layers::Layer::render()
 {
-    this->m_program->use();
     this->m_renderer->submit(this->m_renderables);
     this->m_renderer->draw(this->m_camera);
 }

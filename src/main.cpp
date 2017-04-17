@@ -5,6 +5,7 @@
 #include "common.h"
 
 #include "graphics/layers/layer.h"
+#include "graphics/simplerenderer3d.h"
 #include "graphics/window.h"
 #include "msg/channel.h"
 #include "msg/movement.h"
@@ -29,7 +30,7 @@ int main(int argc, char** argv)
     program->load(vertexshader, fragmentshader);
     program->resolve();
 
-    graphics::layers::Layer layer(std::make_unique<SimpleRenderer3D>(), program);
+    graphics::layers::Layer layer(std::make_unique<SimpleRenderer3D>());
     for (auto& material : model.m_materials)
         layer.add(material.get_buffer(util::IMAGE_MAP::DIFFUSE));
     for (auto& shape : model.m_shapes)

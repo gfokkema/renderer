@@ -2,7 +2,7 @@
 #define GRAPHICS_RENDERER_H_
 
 #include "gl/gl.h"
-#include "camera.h"
+#include "util/camera.h"
 
 namespace graphics {
 

@@ -15,7 +15,8 @@ public:
     void bind() const;
     void unbind() const;
 
-    void bindattrib(unsigned pos, unsigned elemcount, GLenum type) const;
+    void bindattrib(unsigned pos, unsigned elemcount, GLenum type,
+                    size_t stride = 0, size_t offset = 0) const;
     void unbindattrib(unsigned pos) const;
 
     unsigned m_size;

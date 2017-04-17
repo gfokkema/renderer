@@ -2,15 +2,15 @@
 #define GRAPHICS_LAYER_H_
 
 #include "graphics/gl/gl.h"
-#include "graphics/camera.h"
 #include "graphics/renderer.h"
+#include "graphics/util/camera.h"
 
 namespace graphics { namespace layers {
 
 class Layer
 {
 public:
-    Layer(renderer_ptr renderer, program_ptr program);
+    Layer(renderer_ptr renderer);
     virtual ~Layer();
 
     void add(image_buffer_ptr buffer);
@@ -23,7 +23,6 @@ private:
     std::vector<texture_ptr> m_textures;
 
     renderer_ptr m_renderer;
-    program_ptr m_program;
     Camera m_camera;
 };
 

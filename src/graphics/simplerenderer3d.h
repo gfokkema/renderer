@@ -4,7 +4,6 @@
 #include "gl/gl.h"
 #include "renderer.h"
 #include "simplerenderable3d.h"
-#include "simplerenderer3d.h"
 
 namespace graphics
 {
