@@ -19,7 +19,8 @@ typedef std::unique_ptr<Renderer> renderer_ptr;
 class Renderer
 {
 public:
-    virtual ~Renderer() {};
+    Renderer();
+    virtual ~Renderer();
 
     virtual void draw(Camera& camera) = 0;
     virtual void submit(std::vector<renderable_ptr>& renderables) = 0;

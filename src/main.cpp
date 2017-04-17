@@ -5,7 +5,7 @@
 #include "common.h"
 
 #include "graphics/layers/layer.h"
-#include "graphics/simplerenderer3d.h"
+#include "graphics/renderer3d.h"
 #include "graphics/window.h"
 #include "msg/channel.h"
 #include "msg/movement.h"
@@ -20,21 +20,14 @@ int main(int argc, char** argv)
     graphics::Window window;
     window.activate();
 
+//    util::ObjModel model("../", "cubes.obj");
     util::ObjModel model("../Desmond_Miles/", "Desmond_Miles.obj");
-    gl::Shader vertexshader(GL_VERTEX_SHADER);
-    gl::Shader fragmentshader(GL_FRAGMENT_SHADER);
-    vertexshader.load(util::File("../src/shaders/shader.vertex.c").read());
-    fragmentshader.load(util::File("../src/shaders/shader.fragment.c").read());
+    graphics::layers::Layer layer(std::make_unique<Renderer3D>());
 
-    auto program = std::make_shared<gl::Program>();
-    program->load(vertexshader, fragmentshader);
-    program->resolve();
-
-    graphics::layers::Layer layer(std::make_unique<SimpleRenderer3D>());
     for (auto& material : model.m_materials)
         layer.add(material.get_buffer(util::IMAGE_MAP::DIFFUSE));
     for (auto& shape : model.m_shapes)
-        layer.add(std::make_shared<SimpleRenderable3D>(program, shape));
+        layer.add(std::make_shared<AdvRenderable3D>(shape)); // model.m_shapes[3]));
 
     channel.listen(&layer.camera());
     do {

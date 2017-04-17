@@ -2,8 +2,6 @@
 
 graphics::SimpleRenderer3D::SimpleRenderer3D()
 {
-    glEnable(GL_DEPTH_TEST);
-    glDepthFunc(GL_LESS);
 }
 
 graphics::SimpleRenderer3D::~SimpleRenderer3D()
