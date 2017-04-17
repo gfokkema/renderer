@@ -21,6 +21,8 @@ public:
 
     virtual void draw(Camera& camera) = 0;
     virtual void submit(std::vector<renderable_ptr>& renderables) = 0;
+
+    virtual void submit(image_buffer_ptr& buffer);
 private:
     std::vector<texture_ptr> m_textures;
 };

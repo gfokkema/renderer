@@ -12,13 +12,7 @@ graphics::layers::Layer::~Layer()
 void
 graphics::layers::Layer::add(image_buffer_ptr buffer)
 {
-    glActiveTexture(GL_TEXTURE0 + this->m_textures.size());
-
-    auto texture = std::make_unique<gl::Texture>(GL_TEXTURE_2D);
-    texture->bind();
-    texture->upload(buffer);
-
-    this->m_textures.push_back(std::move(texture));
+    this->m_renderer->submit(buffer);
 }
 
 void
