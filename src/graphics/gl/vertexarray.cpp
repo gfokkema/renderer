@@ -1,7 +1,7 @@
 #include "vertexarray.h"
 
 graphics::gl::VertexArray::VertexArray()
-: m_size(0), texture_idx(0)
+: m_size(0)
 {
     glGenVertexArrays(1, &this->getId());
     check("Error creating vertexarray.");

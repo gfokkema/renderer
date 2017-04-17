@@ -20,7 +20,6 @@ public:
     void unbindattrib(unsigned pos) const;
 
     unsigned m_size;
-    GLuint texture_idx;
 private:
 };
 

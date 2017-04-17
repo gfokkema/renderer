@@ -32,11 +32,12 @@ graphics::SimpleRenderer3D::draw(graphics::Camera& camera)
     {
         auto& renderable = *it++;
         auto& program = *(renderable->program());
+        auto  texid = renderable->texid();
         auto& vao = renderable->vao();
 
         program.use();
         program["mvp"].set(mvp);
-        program["tex"][15].set(vao.texture_idx);
+        program["tex"][15].set(texid);
 
         vao.bind();
         glDrawElements(

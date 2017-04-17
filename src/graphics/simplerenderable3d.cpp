@@ -1,7 +1,12 @@
 #include "simplerenderable3d.h"
 
 graphics::SimpleRenderable3D::SimpleRenderable3D(program_ptr& program, tinyobj::shape_t& shape, glm::vec3 pos)
-: Renderable3D(pos), m_program(program), m_vao(), m_vbo(GL_ARRAY_BUFFER), m_uv(GL_ARRAY_BUFFER), m_ibo(GL_ELEMENT_ARRAY_BUFFER)
+: Renderable3D(pos, shape.mesh.material_ids.front()),
+  m_program(program),
+  m_vao(),
+  m_vbo(GL_ARRAY_BUFFER),
+  m_uv(GL_ARRAY_BUFFER),
+  m_ibo(GL_ELEMENT_ARRAY_BUFFER)
 {
     m_vao.bind();
 
@@ -19,7 +24,6 @@ graphics::SimpleRenderable3D::SimpleRenderable3D(program_ptr& program, tinyobj::
     // FIXME: These attributes should not be part of the vao.
     //        Might consider mirroring opengl vbo binding state though.
     m_vao.m_size = m_ibo.size();
-    m_vao.texture_idx = shape.mesh.material_ids.front();
     m_vao.unbind();
 
     m_vbo.unbind();
