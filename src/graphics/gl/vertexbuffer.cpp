@@ -2,6 +2,7 @@
 
 template void graphics::gl::VertexBuffer::upload<float>(const std::vector<float>&, GLenum);
 template void graphics::gl::VertexBuffer::upload<unsigned>(const std::vector<unsigned>&, GLenum);
+template void graphics::gl::VertexBuffer::upload<graphics::gl::VertexData>(const std::vector<VertexData>&, GLenum);
 
 graphics::gl::VertexBuffer::VertexBuffer(GLenum type)
 : m_type(type), m_size(0)

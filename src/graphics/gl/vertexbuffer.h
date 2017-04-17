@@ -7,6 +7,12 @@
 
 namespace graphics { namespace gl {
 
+typedef struct {
+    glm::vec3 pos;
+    glm::vec2 uv;
+    unsigned short tex;
+} VertexData;
+
 class VertexBuffer : public Gl {
 public:
     VertexBuffer(GLenum type);

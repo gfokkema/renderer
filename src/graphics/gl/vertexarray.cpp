@@ -34,12 +34,27 @@ graphics::gl::VertexArray::bindattrib(unsigned pos, unsigned elemcount, GLenum t
 {
     glEnableVertexAttribArray(pos);
     glVertexAttribPointer(
-       pos,       // attribute 0
-       elemcount, // size
-       type,      // type
-       GL_FALSE,  // normalized?
-       stride,    // stride
-       (void*)offset     // array buffer offset
+       pos,          // attribute 0
+       elemcount,    // size
+       type,         // type
+       GL_FALSE,     // normalized?
+       stride,       // stride
+       (void*)offset // array buffer offset
+    );
+    check("Error binding vertexarray attrib.");
+}
+
+void
+graphics::gl::VertexArray::bindiattrib(unsigned pos, unsigned elemcount, GLenum type,
+                                       size_t stride, size_t offset) const
+{
+    glEnableVertexAttribArray(pos);
+    glVertexAttribIPointer(
+       pos,          // attribute 0
+       elemcount,    // size
+       type,         // type
+       stride,       // stride
+       (void*)offset // array buffer offset
     );
     check("Error binding vertexarray attrib.");
 }

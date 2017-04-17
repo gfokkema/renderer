@@ -37,6 +37,8 @@ graphics::gl::Uniform::set(unsigned texture) const
 {
     glUniform1i(this->location, texture);
     check("Error setting texture uniform.");
+
+    fmt::print("{} is now bound to {}.\n", name, texture);
 }
 
 const graphics::gl::Uniform&

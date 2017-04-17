@@ -12,7 +12,7 @@ uniform sampler2D tex[16];
 
 void main() {
     frag_texcoord = vert_texcoord;
-    frag_texid = 15;
+    frag_texid = vert_texid;
 
     gl_Position = mvp * vec4(vert_pos, 1);
 }
