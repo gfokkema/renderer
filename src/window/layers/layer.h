@@ -5,7 +5,7 @@
 #include <graphics/gl/texture.h>
 #include <graphics/util/camera.h>
 
-#include "graphics/renderer.h"
+#include "window/renderer.h"
 
 namespace graphics { namespace layers {
 

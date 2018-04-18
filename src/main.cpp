@@ -4,8 +4,8 @@
 
 #include "common.h"
 
-#include "graphics/layers/layer.h"
-#include "graphics/window.h"
+#include "window/layers/layer.h"
+#include "window/window.h"
 #include "msg/channel.h"
 #include "msg/movement.h"
 #include "util/file.h"

@@ -22,7 +22,7 @@ include_directories (${PROJECT_SOURCE_DIR})
 
 add_subdirectory (msg)
 add_subdirectory (util)
-add_subdirectory (graphics)
+add_subdirectory (window)
 
 file (GLOB SOURCES *.cpp)
 add_executable (renderer ${SOURCES})
