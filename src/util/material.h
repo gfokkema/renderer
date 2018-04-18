@@ -2,9 +2,9 @@
 #define UTIL_MATERIAL_H_
 
 #include "common.h"
-#include "graphics/gl/gl.h"
-
 #include "tiny_obj_loader.h"
+
+#include <graphics/gl/texture.h>
 
 namespace util
 {

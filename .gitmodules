@@ -1,6 +1,3 @@
 [submodule "src/external/tinyobjloader"]
 	path = src/external/tinyobjloader
 	url = git@github.com:syoyo/tinyobjloader.git
-[submodule "src/external/format"]
-	path = src/external/format
-	url = https://github.com/fmtlib/fmt

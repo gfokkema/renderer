@@ -1,8 +1,10 @@
 #ifndef GRAPHICS_LAYER_H_
 #define GRAPHICS_LAYER_H_
 
-#include "graphics/gl/gl.h"
-#include "graphics/camera.h"
+#include <graphics/gl/program.h>
+#include <graphics/gl/texture.h>
+#include <graphics/util/camera.h>
+
 #include "graphics/renderer.h"
 
 namespace graphics { namespace layers {

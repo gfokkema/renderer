@@ -1,8 +1,8 @@
 #ifndef GRAPHICS_RENDERER_H_
 #define GRAPHICS_RENDERER_H_
 
-#include "gl/gl.h"
-#include "camera.h"
+#include <graphics/gl/texture.h>
+#include <graphics/util/camera.h>
 
 namespace graphics {
 

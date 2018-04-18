@@ -1,7 +1,6 @@
 #ifndef GL_RENDERER_H_
 #define GL_RENDERER_H_
 
-#include "gl/gl.h"
 #include "renderer.h"
 #include "simplerenderable3d.h"
 #include "simplerenderer3d.h"

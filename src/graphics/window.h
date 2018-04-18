@@ -4,9 +4,9 @@
 #include "common.h"
 
 #include <GLFW/glfw3.h>
+#include <graphics/util/camera.h>
 
 #include "util/input.h"
-#include "camera.h"
 #include "simplerenderer3d.h"
 
 namespace graphics {

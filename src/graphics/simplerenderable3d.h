@@ -1,7 +1,10 @@
 #ifndef GRAPHICS_SIMPLERENDERABLE3D_H_
 #define GRAPHICS_SIMPLERENDERABLE3D_H_
 
-#include "gl/gl.h"
+#include <graphics/gl/program.h>
+#include <graphics/gl/vertexarray.h>
+#include <graphics/gl/vertexbuffer.h>
+
 #include "renderable3d.h"
 #include "tiny_obj_loader.h"
 

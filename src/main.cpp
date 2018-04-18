@@ -35,7 +35,7 @@ int main(int argc, char** argv)
     for (auto& shape : model.m_shapes)
         layer.add(std::make_shared<SimpleRenderable3D>(program, shape));
 
-    channel.listen(&layer.camera());
+//    channel.listen(&layer.camera());
     do {
         double frame_end = glfwGetTime() + 1.0 / 60.0;
 

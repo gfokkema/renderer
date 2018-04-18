@@ -1,7 +1,7 @@
 #ifndef GRAPHICS_RENDERABLE3D_H_
 #define GRAPHICS_RENDERABLE3D_H_
 
-#include "gl/gl.h"
+#include <glm/glm.hpp>
 
 namespace graphics
 {
